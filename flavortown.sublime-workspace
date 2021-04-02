@@ -8,10 +8,39 @@
 	"buffers":
 	[
 		{
-			"file": "package.json",
+			"file": "views/pages/index.ejs",
 			"settings":
 			{
-				"buffer_size": 547,
+				"buffer_size": 557,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "  <div class=\"container is-fluid\">\n  <div class=\"field\">\n  <label class=\"label\">Name</label>\n  <div class=\"control\">\n    <input class=\"input\" type=\"text\" placeholder=\"Text input\">\n  </div>\n</div>\n\n<div class=\"field\">\n  <label class=\"label\">Username</label>\n  <div class=\"control has-icons-left has-icons-right\">\n    <input class=\"input is-success\" type=\"text\" placeholder=\"Text input\" value=\"bulma\">\n    <span class=\"icon is-small is-left\">\n      <i class=\"fas fa-user\"></i>\n    </span>\n    <span class=\"icon is-small is-right\">\n      <i class=\"fas fa-check\"></i>\n    </span>\n  </div>\n  <p class=\"help is-success\">This username is available</p>\n</div>\n\n<div class=\"field\">\n  <label class=\"label\">Email</label>\n  <div class=\"control has-icons-left has-icons-right\">\n    <input class=\"input is-danger\" type=\"email\" placeholder=\"Email input\" value=\"hello@\">\n    <span class=\"icon is-small is-left\">\n      <i class=\"fas fa-envelope\"></i>\n    </span>\n    <span class=\"icon is-small is-right\">\n      <i class=\"fas fa-exclamation-triangle\"></i>\n    </span>\n  </div>\n  <p class=\"help is-danger\">This email is invalid</p>\n</div>\n\n<div class=\"field\">\n  <label class=\"label\">Subject</label>\n  <div class=\"control\">\n    <div class=\"select\">\n      <select>\n        <option>Select dropdown</option>\n        <option>With options</option>\n      </select>\n    </div>\n  </div>\n</div>\n\n<div class=\"field\">\n  <label class=\"label\">Message</label>\n  <div class=\"control\">\n    <textarea class=\"textarea\" placeholder=\"Textarea\"></textarea>\n  </div>\n</div>\n\n<div class=\"field\">\n  <div class=\"control\">\n    <label class=\"checkbox\">\n      <input type=\"checkbox\">\n      I agree to the <a href=\"#\">terms and conditions</a>\n    </label>\n  </div>\n</div>\n\n<div class=\"field\">\n  <div class=\"control\">\n    <label class=\"radio\">\n      <input type=\"radio\" name=\"question\">\n      Yes\n    </label>\n    <label class=\"radio\">\n      <input type=\"radio\" name=\"question\">\n      No\n    </label>\n  </div>\n</div>\n\n<div class=\"field is-grouped\">\n  <div class=\"control\">\n    <button class=\"button is-link\">Submit</button>\n  </div>\n  <div class=\"control\">\n    <button class=\"button is-link is-light\">Cancel</button>\n  </div>\n</div>\n</div>",
+			"file": "views/partials/bulma-form.ejs",
+			"file_size": 0,
+			"file_write_time": 132616040510000000,
+			"settings":
+			{
+				"buffer_size": 2189,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "views/pages/index.ejs.old",
+			"settings":
+			{
+				"buffer_size": 4142,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "views/partials/bulma-buttons.ejs",
+			"settings":
+			{
+				"buffer_size": 1146,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		}
@@ -101,11 +130,23 @@
 	},
 	"expanded_folders":
 	[
-		"/Users/terry/myProjects/flavortown"
 	],
 	"file_history":
 	[
+		"/Users/terry/myProjects/flavortown/views/partials/puregrid.ejs",
+		"/Users/terry/myProjects/flavortown/views/partials/header.ejs",
+		"/Users/terry/myProjects/flavortown/views/partials/sidemenu.ejs",
+		"/Users/terry/myProjects/flavortown/views/pages/index.ejs",
 		"/Users/terry/myProjects/flavortown/app.js",
+		"/Users/terry/myProjects/flavortown/config.js",
+		"/Users/terry/myProjects/flavortown/index.html",
+		"/Users/terry/myProjects/flavortown/.env",
+		"/Users/terry/myProjects/flavortown/package.json",
+		"/Users/terry/myProjects/flavortown/index.js",
+		"/Users/terry/myProjects/flavortown/.gitignore",
+		"/Users/terry/myProjects/flavortown/package-lock.json",
+		"/Users/terry/myProjects/flavortown/views/pages/db.ejs",
+		"/Users/terry/myProjects/flavortown/views/partials/nav.ejs",
 		"/Users/terry/myProjects/flavortown/Procfile",
 		"/Users/terry/myProjects/flavortown/node-js-getting-started/.env",
 		"/Users/terry/myProjects/flavortown/node-js-getting-started/index.js",
@@ -149,34 +190,128 @@
 			[
 				{
 					"buffer": 0,
-					"file": "package.json",
+					"file": "views/pages/index.ejs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 547,
+						"buffer_size": 557,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								480,
-								480
+								557,
+								557
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "views/partials/bulma-form.ejs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2189,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2189,
+								2189
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
 							"open_with_edit": true,
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 183.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "views/pages/index.ejs.old",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 4142,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "views/partials/bulma-buttons.ejs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1146,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1111,
+								1111
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"open_with_edit": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -188,7 +323,7 @@
 	},
 	"input":
 	{
-		"height": 36.0
+		"height": 38.0
 	},
 	"layout":
 	{
@@ -215,7 +350,7 @@
 	"menu_visible": true,
 	"output.Terminus":
 	{
-		"height": 162.0
+		"height": 155.0
 	},
 	"output.find_results":
 	{
