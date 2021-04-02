@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require("cors");
 const app = express();
-const pool = require("./config.js");
+const pool = require("./db.js");
 
 //middleware
 app.use(express.static("client"));
