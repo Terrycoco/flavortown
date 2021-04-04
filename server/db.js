@@ -1,24 +1,15 @@
+const fs = require('fs');
 const promise = require('bluebird');
 const initOptions = {
   promiseLib: promise
 };
 const pgp = require('pg-promise')(initOptions);
 
-const readConfig = () => {
-  fs = require('fs');
-  fs.readFile('.env', 'utf8', function (err,data) {
-    if (err) {
-      return console.log(err);
-    }
-    //console.log(data);
-    return data;
-  });
-};
-
-
 let ssl = null;
+let cn = null;
 if (process.env.NODE_ENV === 'development') {
-   cn = readConfig();
+  console.log('environment is development');
+   cn = fs.readFileSync('.env', 'utf-8'); //pause til loads
    ssl = {rejectUnauthorized: false};
 }
 const config = {
