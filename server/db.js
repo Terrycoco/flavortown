@@ -4,13 +4,25 @@ const initOptions = {
 };
 const pgp = require('pg-promise')(initOptions);
 
+const readConfig = () => {
+  fs = require('fs');
+  fs.readFile('.env', 'utf8', function (err,data) {
+    if (err) {
+      return console.log(err);
+    }
+    //console.log(data);
+    return data;
+  });
+};
+
 
 let ssl = null;
 if (process.env.NODE_ENV === 'development') {
+   cn = readConfig();
    ssl = {rejectUnauthorized: false};
 }
 const config = {
-  connectionString: "postgres://gizxldqoiambqu:33a04573b87c66cd754357b27ca64e321a0681be9bcb8fbf73fe246cce79b9bd@ec2-54-145-102-149.compute-1.amazonaws.com:5432/d4p6g2vlprinnr",
+  connectionString: cn,
   max:30,
   ssl:ssl
 };

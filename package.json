@@ -8,7 +8,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./server/index.js",
-    "test": "nodemon ./server/index.js"
+    "test": "nodemon ./server/index.js",
+    "pretest": "heroku config:get DATABASE_URL -a flavorworld > .env"
   },
   "dependencies": {
     "bluebird": "^3.7.2",
