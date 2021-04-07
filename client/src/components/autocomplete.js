@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-
-
+import NewItemModal from './newItemModal';
 
 const Autocomplete = () => {
   const [items, setItems] = useState([]);
@@ -22,7 +21,7 @@ const Autocomplete = () => {
   };
 
   useEffect(() => {
-    getData();  //inidialize data
+    getData();  //initialize data
   }, []);
 
 
@@ -88,13 +87,19 @@ const handleKeyDown = (e) => {
         setSelectedText(filteredItems[0].item);
         setSelectedId(filteredItems[0].item_id);
       }
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      //open modal if not there
+      if (filteredItems[0] === undefined) {
+
+      }
     }
 };
 
-const handleItemClick = (idx) => {
-  setSelectedId(filteredItems[idx].item_id);
-  setSelectedText(filteredItems[idx].item);
-};
+// const handleItemClick = (idx) => {
+//   setSelectedId(filteredItems[idx].item_id);
+//   setSelectedText(filteredItems[idx].item);
+// };
 
 const renderItems = () => {
   if (filteredItems.length > 0) {
@@ -118,19 +123,22 @@ return (
     <Fragment>
            {`selected id: ${selectedId} selectedText: ${selectedText}`}
       <div className="container" style={styles.container}>
-       <input
-         style={styles.input}
-         type="text"
-         value={selectedText}
-         onChange={handleInputChange}
-         onKeyDown={handleKeyDown}
-       />
-       <ul
-         style={styles.list}
-       >
-       {renderItems()}
-       </ul>
+         <input
+           style={styles.input}
+           type="text"
+           value={selectedText}
+           onChange={handleInputChange}
+           onKeyDown={handleKeyDown}
+         />
+         <ul
+           style={styles.list}
+         >
+         {renderItems()}
+         </ul>
+
       </div>
+     <NewItemModal value={selectedText} />
+
   </Fragment>
   );
 }
