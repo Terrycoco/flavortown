@@ -27,6 +27,7 @@ const styles = {
 function EnterPairing() {
   const mainRef = useRef(null);
   const friendRef = useRef(null);
+  const affinityRef = useRef(null);
   const [items, setItems] = useState([]);
   const [mainId, setMainId] = useState();
   const [item, setItem] = useState("");
@@ -82,7 +83,19 @@ function EnterPairing() {
   const handleFriendChange = async(val, name) => {
     await setFriendId(val);
     await setItem(name);
-    await handleAddPairing();
+    //is this an edit? if so pop in affinity level too
+    if (friends) {
+      const result = friends.find(f => {
+        return f.friend_id === friendId });
+        if (result) {
+          setAffinityId(result.affinity_level);
+        }
+    } else {
+      setAffinityId(1); //defalt
+    }
+
+    //go to button
+    document.getElementById("addpairingbtn").focus();
   };
 
   const handleAffinityChange = (val) => {
@@ -102,7 +115,7 @@ function EnterPairing() {
 
         getFriends(mainId); //update friends list
        //set focus back on friendId
-       friendRef.current.focus();
+        friendRef.current.focus();
 
       } catch(err) {
         console.error(err.message);
@@ -129,6 +142,12 @@ function EnterPairing() {
       console.error(err.message);
     }
   };
+
+  const selectFriend = (e) => {
+    setFriendId(Number(e.target.attributes["data-friend-id"].value));
+    setAffinityId(Number(e.target.attributes["data-affinity"].value));
+    console.log("FID:", friendId, "AID", affinityId);
+  }
   
 
   return (
@@ -157,6 +176,7 @@ function EnterPairing() {
 
               <div className="col-sm-3">
                 <AffinitySelect 
+                    thisRef={affinityRef}
                     value={affinityId}
                     onChange={handleAffinityChange}
                     label="Affinity Level"
@@ -176,7 +196,8 @@ function EnterPairing() {
          
                />
               </div>
-            <div className="btn-row d-flex align-items-start">
+        
+                <div className="btn-row d-flex align-items-start">
                   <button 
                       type="submit"
                       className="btn btn-success"
@@ -184,11 +205,11 @@ function EnterPairing() {
                       onClick={handleAddPairing}
                   >
                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="16" fill="currentColor" style={styles.button} className="bi bi-arrow-down" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+  <path fillRule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
 </svg></button>
             
             </div>
-
+  
       </div> 
 
       </div> 
@@ -201,7 +222,7 @@ function EnterPairing() {
           <div className="row align-items-start">
              <ul style={styles.friends} d="friendslist">
              {friends && friends.map(f => (
-              <li key={f.friend_id}>{f.friend}</li>))}
+              <li onClick={selectFriend} data-affinity={f.affinity_level} data-friend-id={f.friend_id} key={f.friend_id}>{f.friend} ({f.affinity_level})</li>))}
              </ul>
          </div>
       </div>

@@ -2,7 +2,7 @@ import React, {Fragment, useState, useEffect} from 'react';
 import Select from 'react-select';
 
 
-const AffinitySelect = ({value, onChange, label}) => {
+const AffinitySelect = ({value, onChange, label, thisRef}) => {
   const [options, setOptions] = useState([]);
 
 
@@ -19,6 +19,12 @@ const AffinitySelect = ({value, onChange, label}) => {
     setOptions(optionsList);
   }, []);
 
+  // useEffect(() => {
+  //   const op = options.find(o => o.value === value);
+  //   thisRef.current.value = op;
+  // }, [value, options, thisRef]); //update if value is resent in
+
+
 
   function handleChange(op) {
      onChange(op.value);
@@ -30,6 +36,7 @@ const AffinitySelect = ({value, onChange, label}) => {
     <div className="select-control-group">
      <label htmlFor="AffinitySelect" className="control-label">{label}</label>
      <Select
+         thisRef={thisRef}
          value={options.find(op => {
            return op.value === value
         })}

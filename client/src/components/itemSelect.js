@@ -14,9 +14,9 @@ const ItemSelect = ({thisRef,  data, value, onChange, onNoMatch, onMatch, label}
   }, [data]);
 
   //try to update value when it changes?
-  // useEffect(() => {
-  //   setInputValue(value);
-  // }, [value]);
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   function handleChange(it) {
     if (it) {
@@ -29,9 +29,9 @@ const ItemSelect = ({thisRef,  data, value, onChange, onNoMatch, onMatch, label}
 
   function filterOption(option, inputText)  {
     setInputValue(inputText);
-    if (option.label.toLowerCase().includes(inputText.toLowerCase())) {
+    if (option.label.toLowerCase().startsWith(inputText.toLowerCase())) {
         setNoMatch(false);
-        return option.label.toLowerCase().includes(inputText.toLowerCase());
+        return option.label.toLowerCase().startsWith(inputText.toLowerCase());
     } else {
       setNoMatch(true);
       setInputValue(inputText);
