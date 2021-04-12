@@ -1,11 +1,13 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import NewItemModal from './newItemModal';
 
-const Autocomplete = () => {
+
+const Autocomplete = ({id, text, setValueFunc}) => {
   const [items, setItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [selectedId, setSelectedId] = useState(-1);
   const [selectedText, setSelectedText] = useState("");
+  const inputId = `input-${id}`;
+  const btnId = `btn-${id}`;
 
   const getData = async () => {
     try {
@@ -25,18 +27,21 @@ const Autocomplete = () => {
   }, []);
 
 
+
+
 const styles = {
     container: {
       position: "relative",
-      padding: 0
+      padding: 0,
+      width: "100%"
     },
 
     input: {
       position: "absolute",
       top: 0,
-      left: "1em",
+      left: "3px",
       paddingLeft: "1em",
-      width: "100%",
+      width: "85%",
       backgroundColor: "transparent",
       color: "black",
       zIndex: 7
@@ -46,7 +51,7 @@ const styles = {
       width: "100%",
       position: "absolute",
       top: 0,
-      left: "1em",
+      left: "3px",
       paddingLeft: "1em",
       zIndex: 1
     },
@@ -61,7 +66,9 @@ const styles = {
       color: "darkgray",
       listStyleType: "none",
       textAlign: "left",
-    }
+    },
+
+
 };
 
 function filterList(inputText)  {
@@ -91,15 +98,14 @@ const handleKeyDown = (e) => {
       e.preventDefault();
       //open modal if not there
       if (filteredItems[0] === undefined) {
-
+        //open modal
+        console.log('new item detected!' & document.getElementById(inputId).value);
+        setValueFunc(document.getElementById(inputId).value);
+        document.getElementById(btnId).click();
       }
     }
 };
 
-// const handleItemClick = (idx) => {
-//   setSelectedId(filteredItems[idx].item_id);
-//   setSelectedText(filteredItems[idx].item);
-// };
 
 const renderItems = () => {
   if (filteredItems.length > 0) {
@@ -118,26 +124,26 @@ const renderItems = () => {
   return true
 };
 
-
+              // 
 return (
     <Fragment>
-           {`selected id: ${selectedId} selectedText: ${selectedText}`}
-      <div className="container" style={styles.container}>
-         <input
-           style={styles.input}
-           type="text"
-           value={selectedText}
-           onChange={handleInputChange}
-           onKeyDown={handleKeyDown}
-         />
+      <label htmlFor={inputId} className="control-label">{`${id} id: ${selectedId} ${selectedText}`}</label>
+      <div id={`autocomplete${id}`} style={styles.container}>
+            <input
+               id={inputId}
+               style={styles.input}
+               type="text"
+               value={selectedText}
+               onChange={handleInputChange}
+               onKeyDown={handleKeyDown}
+             />
          <ul
            style={styles.list}
          >
          {renderItems()}
          </ul>
-
       </div>
-     <NewItemModal value={selectedText} />
+
 
   </Fragment>
   );

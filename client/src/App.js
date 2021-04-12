@@ -6,9 +6,13 @@ import './App.css';
 //components
 import ErrorBoundary from "./components/errorBoundary";
 
+
+//pages
+import EnterPairing from "./pages/enterPairing";
+
 //import ItemsList from './components/itemsList';
 //import ItemInput from "./components/itemInput";
-import Autocomplete from "./components/autocomplete";
+//import Autocomplete from "./components/autocomplete";
 
 
 
@@ -21,14 +25,11 @@ const App = () => {
      <ErrorBoundary>
       <div className="App">
 
-        <h1>FlavorWorld!</h1>
+        <h1>FlavorWorld</h1>
 
 
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal">
-  Launch demo modal
-</button>
   
-     <Autocomplete />
+     <EnterPairing />
 
       </div>
       </ErrorBoundary>

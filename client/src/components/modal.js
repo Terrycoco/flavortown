@@ -1,28 +1,9 @@
 import React from 'react';
-// import {createPortal} from 'react-dom';
-
-// //create a portal outside the DOM hierarchy
-// function Portal({children}) {
-//   const modalRoot = document.getElementById("modal-root");
-//   const element = document.createElement("div");
-
-//   useEffect(() => {
-//     modalRoot.appendChild(element);
-
-//     //cleanup method to remove the appendd child
-//     return function cleanup() {
-//       modalRoot.removeChild(element);
-//     };
-//   }, [modalRoot, element]);
-
-//   return  createPortal(children, element);
-// };
-
 
 //a modal component which will be used by other components & pages
-function Modal({ children, title }) {
+function Modal({ children, title}) {
   return (
-      <div className="modal" id="modal" tabIndex="-1">
+      <div className="modal fade" id="modal" tabIndex="-1">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">

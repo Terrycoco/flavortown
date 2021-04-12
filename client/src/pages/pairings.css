@@ -1,0 +1,8 @@
+#friendslist {
+  column-count: 4;
+  max-height:  1000px;
+}
+
+.btn-row {
+  padding-top: 10px;
+}
