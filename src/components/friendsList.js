@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import config from '../config';
 
 const FriendsList = () => {
   const [friends, setFriends] = useState([]);
@@ -7,7 +8,7 @@ const FriendsList = () => {
   //fetch all
   const getItems = async () => {
     try {
-      const response = await fetch("http://localhost:5000/friends");
+      const response = await fetch(config.API.concat("/friends"));
       const jsonData = await response.json();
      //put into store
       setItems(jsonData);

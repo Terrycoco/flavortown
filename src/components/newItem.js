@@ -1,5 +1,7 @@
 import React, {Fragment, useEffect, useState} from 'react';
-//import axios from 'axios';
+import config from '../config';
+
+const API = config.API;
 
 const styles = {
   form: {
@@ -21,7 +23,7 @@ const NewItem = ({text, onAdd, onClose}) => {
 
   const getData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/cats");
+      const response = await fetch(API.concat("/cats"));
       const jsonData = await response.json();
 
       setCats(jsonData);
@@ -45,7 +47,7 @@ const NewItem = ({text, onAdd, onClose}) => {
       try {
         const body = {item: newText, cat_id: catId};
        // console.log(body);
-        const response = await fetch("http://localhost:5000/items/new", {
+        const response = await fetch(API.concat("/items/new"), {
           method: "POST",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(body)

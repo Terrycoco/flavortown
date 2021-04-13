@@ -8,38 +8,82 @@
 	"buffers":
 	[
 		{
-			"file": "views/pages/index.ejs",
+			"file": "client/src/pages/enterPairing.js",
 			"settings":
 			{
-				"buffer_size": 557,
+				"buffer_size": 6660,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "  <div class=\"container is-fluid\">\n  <div class=\"field\">\n  <label class=\"label\">Name</label>\n  <div class=\"control\">\n    <input class=\"input\" type=\"text\" placeholder=\"Text input\">\n  </div>\n</div>\n\n<div class=\"field\">\n  <label class=\"label\">Username</label>\n  <div class=\"control has-icons-left has-icons-right\">\n    <input class=\"input is-success\" type=\"text\" placeholder=\"Text input\" value=\"bulma\">\n    <span class=\"icon is-small is-left\">\n      <i class=\"fas fa-user\"></i>\n    </span>\n    <span class=\"icon is-small is-right\">\n      <i class=\"fas fa-check\"></i>\n    </span>\n  </div>\n  <p class=\"help is-success\">This username is available</p>\n</div>\n\n<div class=\"field\">\n  <label class=\"label\">Email</label>\n  <div class=\"control has-icons-left has-icons-right\">\n    <input class=\"input is-danger\" type=\"email\" placeholder=\"Email input\" value=\"hello@\">\n    <span class=\"icon is-small is-left\">\n      <i class=\"fas fa-envelope\"></i>\n    </span>\n    <span class=\"icon is-small is-right\">\n      <i class=\"fas fa-exclamation-triangle\"></i>\n    </span>\n  </div>\n  <p class=\"help is-danger\">This email is invalid</p>\n</div>\n\n<div class=\"field\">\n  <label class=\"label\">Subject</label>\n  <div class=\"control\">\n    <div class=\"select\">\n      <select>\n        <option>Select dropdown</option>\n        <option>With options</option>\n      </select>\n    </div>\n  </div>\n</div>\n\n<div class=\"field\">\n  <label class=\"label\">Message</label>\n  <div class=\"control\">\n    <textarea class=\"textarea\" placeholder=\"Textarea\"></textarea>\n  </div>\n</div>\n\n<div class=\"field\">\n  <div class=\"control\">\n    <label class=\"checkbox\">\n      <input type=\"checkbox\">\n      I agree to the <a href=\"#\">terms and conditions</a>\n    </label>\n  </div>\n</div>\n\n<div class=\"field\">\n  <div class=\"control\">\n    <label class=\"radio\">\n      <input type=\"radio\" name=\"question\">\n      Yes\n    </label>\n    <label class=\"radio\">\n      <input type=\"radio\" name=\"question\">\n      No\n    </label>\n  </div>\n</div>\n\n<div class=\"field is-grouped\">\n  <div class=\"control\">\n    <button class=\"button is-link\">Submit</button>\n  </div>\n  <div class=\"control\">\n    <button class=\"button is-link is-light\">Cancel</button>\n  </div>\n</div>\n</div>",
-			"file": "views/partials/bulma-form.ejs",
-			"file_size": 0,
-			"file_write_time": 132616040510000000,
+			"file": "server/index.js",
 			"settings":
 			{
-				"buffer_size": 2189,
+				"buffer_size": 2884,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "views/pages/index.ejs.old",
+			"file": "client/src/index.js",
 			"settings":
 			{
-				"buffer_size": 4142,
+				"buffer_size": 504,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "views/partials/bulma-buttons.ejs",
+			"file": "Procfile",
 			"settings":
 			{
-				"buffer_size": 1146,
+				"buffer_size": 26,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 972,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "server/db.js",
+			"settings":
+			{
+				"buffer_size": 622,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "client/src/components/itemSelect.js",
+			"settings":
+			{
+				"buffer_size": 1900,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "client/src/components/newItem.js",
+			"settings":
+			{
+				"buffer_size": 2976,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "client/src/pages/pairings.css",
+			"settings":
+			{
+				"buffer_size": 93,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -130,13 +174,23 @@
 	},
 	"expanded_folders":
 	[
+		"/Users/terry/myProjects/flavortown",
+		"/Users/terry/myProjects/flavortown/client",
+		"/Users/terry/myProjects/flavortown/client/src",
+		"/Users/terry/myProjects/flavortown/client/src/components",
+		"/Users/terry/myProjects/flavortown/client/src/pages",
+		"/Users/terry/myProjects/flavortown/server"
 	],
 	"file_history":
 	[
+		"/Users/terry/myProjects/flavortown/client/src/components/affinitySelect.js",
+		"/Users/terry/myProjects/flavortown/server/index.js",
+		"/Users/terry/myProjects/flavortown/views/partials/bulma-form.ejs",
+		"/Users/terry/myProjects/flavortown/views/partials/bulma-buttons.ejs",
+		"/Users/terry/myProjects/flavortown/views/pages/index.ejs",
 		"/Users/terry/myProjects/flavortown/views/partials/puregrid.ejs",
 		"/Users/terry/myProjects/flavortown/views/partials/header.ejs",
 		"/Users/terry/myProjects/flavortown/views/partials/sidemenu.ejs",
-		"/Users/terry/myProjects/flavortown/views/pages/index.ejs",
 		"/Users/terry/myProjects/flavortown/app.js",
 		"/Users/terry/myProjects/flavortown/config.js",
 		"/Users/terry/myProjects/flavortown/index.html",
@@ -185,62 +239,61 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "views/pages/index.ejs",
+					"file": "client/src/pages/enterPairing.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 557,
+						"buffer_size": 6660,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								557,
-								557
+								5851,
+								5851
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3297.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "views/partials/bulma-form.ejs",
+					"file": "server/index.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2189,
+						"buffer_size": 2884,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2189,
-								2189
+								288,
+								288
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"open_with_edit": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -253,25 +306,83 @@
 				},
 				{
 					"buffer": 2,
-					"file": "views/pages/index.ejs.old",
-					"semi_transient": true,
+					"file": "client/src/index.js",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4142,
+						"buffer_size": 504,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								269,
+								269
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Procfile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 26,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								26,
+								26
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 972,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								743,
+								743
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -283,35 +394,123 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "views/partials/bulma-buttons.ejs",
+					"buffer": 5,
+					"file": "server/db.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1146,
+						"buffer_size": 622,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1111,
-								1111
+								594,
+								594
 							]
 						],
 						"settings":
 						{
 							"git_gutter_is_enabled": true,
-							"open_with_edit": true,
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "client/src/components/itemSelect.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1900,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1036,
+								1036
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 345.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "client/src/components/newItem.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2976,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2922,
+								2922
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1697.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "client/src/pages/pairings.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 93,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								93,
+								93
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/CSS/CSS.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
 					"type": "text"
 				}
 			]
@@ -350,7 +549,7 @@
 	"menu_visible": true,
 	"output.Terminus":
 	{
-		"height": 155.0
+		"height": 184.0
 	},
 	"output.find_results":
 	{

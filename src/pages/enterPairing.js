@@ -5,7 +5,9 @@ import NewItem from '../components/newItem';
 import ItemSelect from '../components/itemSelect';
 import AffinitySelect from '../components/affinitySelect';
 import "./pairings.css";
-// import useKeyPress from '../useKeyPress';
+import config from '../config';
+
+const API = config.API;
 
 const styles = {
   friends: {
@@ -40,7 +42,7 @@ function EnterPairing() {
 //load lists of items
   const getData = async () => {
     try {
-      const response = await fetch("http://localhost:5000/items");
+      const response = await fetch(API.concat("/items"));
       const jsonData = await response.json();
 
       setItems(jsonData);
@@ -107,7 +109,7 @@ function EnterPairing() {
     try {
       const body = {item1_id: mainId, item2_id: friendId, level: affinityId};
        // console.log(body);
-        await fetch("http://localhost:5000/pairing/new", {
+        await fetch(API.concat("/pairing/new"), {
           method: "POST",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(body)
@@ -133,7 +135,7 @@ function EnterPairing() {
   const getFriends = async(itemId) => {
      try {
       console.log('fetching friends of ', itemId);
-      const response = await fetch("http://localhost:5000/friends/".concat(itemId));
+      const response = await fetch(API + "/" + itemId);
       const jsonData = await response.json();
       setFriends(jsonData);
   
