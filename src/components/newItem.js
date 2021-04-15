@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect, useState} from 'react';
+import APICalls from '../apiCalls';
 
 
-const API = process.env.REACT_APP_API;
 
 const styles = {
   form: {
@@ -21,21 +21,17 @@ const NewItem = ({text, onAdd, onClose}) => {
   const [newText, setNewText] = useState("");
   const [catId, setCatId] = useState(1);
 
-  const getData = async () => {
-    try {
-      const response = await fetch(API.concat("/cats"));
-      const jsonData = await response.json();
 
-      setCats(jsonData);
-
-    } catch(err) {
-      console.error(err.message);
-    }
-  };
 
   useEffect(() => {
-    getData();  //initialize cats
-  }, []);
+   const getCats = async() => {
+     const data = await APICalls.getCats();
+     setCats(data);
+   };
+   getCats();
+  }, []);  //only on load
+
+
 
   useEffect(() => {
     setNewText(text);
@@ -45,19 +41,9 @@ const NewItem = ({text, onAdd, onClose}) => {
   const onSubmitForm = async(e) => {
       e.preventDefault();
       try {
-        const body = {item: newText, cat_id: catId};
-       // console.log(body);
-        const response = await fetch(API.concat("/items/new"), {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(body)
-        });
-
-        const jsonData = await response.json();
-
-        console.log('response: ', jsonData); //returned id?
-
-         onAdd(jsonData);
+         const data = await APICalls.addNewItem(newText, catId);
+         console.log('returned item add?', data);
+         onAdd(data);  //give back to calling form
        // onClose();
 
       } catch(err) {
@@ -83,7 +69,11 @@ const handleOnClose = () => {
 
   return (
 <Fragment >
-<form id="newItemForm" style={styles.form} onSubmit={onSubmitForm} className="container-fluid">
+<form id="newItemForm" 
+      style={styles.form} 
+      onSubmit={onSubmitForm} 
+      className="container-fluid"
+>
   <div className="d-flex flex-column">
     <h4>Enter New Item</h4>
     <label className="control-label" htmlFor="inputBox">New Item</label>

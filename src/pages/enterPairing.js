@@ -42,27 +42,35 @@ function EnterPairing() {
   const [fieldName, setFieldName] = useState("");
 
 
-
-   useEffect(() => {
-    async function fetchAPI() {
-      let api = APICalls.API;
-      return api;
-    }
-    setAPI(fetchAPI());
-   }, []);
-
 //side effects - in order
   useEffect(() => {
-    setItems(APICalls.getAllItems());
+    const fetchAPI = async () => {
+      let api = await APICalls.API;
+      setAPI(api);
+    };
+    fetchAPI();
+   }, []); //on load only
+
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      const data = await APICalls.getAllItems();
+      setItems(data);
+    };
+    fetchItems();
     closeNewItem();
   }, []);  //on load only
 
 
   useEffect(() => {
   if (mainId) {
-    setFriends(APICalls.getFriends(mainId));
+    const fetchFriends = async() => {
+      const data = await APICalls.getFriends(mainId);
+      setFriends(data);
+    };
+    fetchFriends();
   }
-  }, [mainId]);
+  }, [mainId]); //whever mainId changes refetch friends
 
 
 
@@ -108,7 +116,7 @@ function EnterPairing() {
   };
 
   const handleAddPairing = async () => {
-    //do some validation
+    //do some validation?
     try {
       const body = {item1_id: mainId, item2_id: friendId, level: affinityId};
        // console.log(body);
@@ -118,8 +126,9 @@ function EnterPairing() {
           body: JSON.stringify(body)
         });
 
-        setFriends(APICalls.getFriends(mainId)); //update friends list
-
+        //refresh friends
+        const data = await APICalls.getFriends(mainId);
+        setFriends(data);
        
        //set focus back on friendId
         friendRef.current.focus();
@@ -129,9 +138,10 @@ function EnterPairing() {
       }
   };
 
-  const handleItemAdd = (addedItem) => {
-     console.log('item added: ', addedItem);
-     setItems(APICalls.getAllItems());
+  const handleItemAdd = async (addedItem) => {
+     console.log('adding item: ', addedItem);
+     const data = await APICalls.getAllItems();
+     setItems(data);
 
      fieldName === "main" ? handleMainChange(addedItem.item_id, addedItem.item) : handleFriendChange(addedItem.item_id, addedItem.item);
      closeNewItem();

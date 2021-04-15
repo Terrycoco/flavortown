@@ -1,26 +1,19 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import APICalls from '../APICalls';
 
 
 const ItemsList = () => {
   const [items, setItems] = useState([]);
 
-  //fetch all
-  const getItems = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/items");
-      const jsonData = await response.json();
-     //put into store
-      setItems(jsonData);
-    } catch(err){
-      console.error(err.message);
-    }
-  };
-
 
   //reset store after every render?
   useEffect(() => {
+    const getItems = async () => {
+      const data = await APICalls.getItems();
+      setItems(data);
+    }
     getItems();
-  }, []);
+  }, []);  //on load only
 
 
    return (<Fragment>
