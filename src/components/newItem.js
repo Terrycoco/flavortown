@@ -1,7 +1,7 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import config from '../config';
 
-const API = config.API;
+
+const API = process.env.REACT_APP_API;
 
 const styles = {
   form: {
