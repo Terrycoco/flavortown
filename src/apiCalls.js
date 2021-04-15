@@ -5,7 +5,7 @@ const getAllItems = async () => {
     try {
       const response = await fetch(API + "/items");
       const jsonData = await response.json();
-      console.log("data: ", jsonData);
+    //  console.log("data: ", jsonData);
       return jsonData;
 
     } catch(err) {
@@ -17,7 +17,7 @@ const getCats = async () => {
     try {
       const response = await fetch(API + "/cats");
       const jsonData = await response.json();
-      console.log("data: ", jsonData);
+     // console.log("data: ", jsonData);
       return jsonData;
 
     } catch(err) {

@@ -35,7 +35,7 @@ const NewItem = ({text, onAdd, onClose}) => {
 
   useEffect(() => {
     setNewText(text);
-  }, [text]);
+  }, [text]);  //on load and whenever text (from calling form) changes
 
 
   const onSubmitForm = async(e) => {
