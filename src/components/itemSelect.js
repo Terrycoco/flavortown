@@ -2,7 +2,7 @@ import React, {Fragment, useState, useEffect} from 'react';
 import Select from 'react-select';
 import './selectStyles.css';
 
-const ItemSelect = ({thisRef,  data, value, onChange, onNoMatch, onMatch, label}) => {
+const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, label}) => {
   const [items, setItems] = useState([]);
   const [noMatch, setNoMatch] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -10,7 +10,7 @@ const ItemSelect = ({thisRef,  data, value, onChange, onNoMatch, onMatch, label}
 
 
   useEffect(() => {
-      setItems(data);
+    setItems(data);
   }, [data]);
 
   //try to update value when it changes?

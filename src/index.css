@@ -26,4 +26,8 @@ li {
   text-align: left;
 }
 
+.dark-mode {
+  color: white;
+  background-color: black;
+}
 

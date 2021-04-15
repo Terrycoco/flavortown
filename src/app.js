@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import './App.css';
-//import useToggle from './useToggle';
 
 
 //components
@@ -9,12 +8,7 @@ import ErrorBoundary from "./components/errorBoundary";
 
 //pages
 import EnterPairing from "./pages/enterPairing";
-
-//import ItemsList from './components/itemsList';
-//import ItemInput from "./components/itemInput";
-//import Autocomplete from "./components/autocomplete";
-
-
+//import EffectDemo from './pages/learnUseEffect';
 
 const App = () => {
  // const [open, setOpen] = useToggle(true);
@@ -28,12 +22,12 @@ const App = () => {
         <h1>FlavorWorld</h1>
 
 
-  
-     <EnterPairing />
-
+      
+           <EnterPairing />
+   
       </div>
       </ErrorBoundary>
-   
+
     </Fragment>
   );
 }

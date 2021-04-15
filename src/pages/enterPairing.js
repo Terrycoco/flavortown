@@ -5,9 +5,9 @@ import NewItem from '../components/newItem';
 import ItemSelect from '../components/itemSelect';
 import AffinitySelect from '../components/affinitySelect';
 import "./pairings.css";
-import config from '../config';
+import APICalls from '../apiCalls';
 
-const API = config.API;
+
 
 const styles = {
   friends: {
@@ -30,35 +30,46 @@ function EnterPairing() {
   const mainRef = useRef(null);
   const friendRef = useRef(null);
   const affinityRef = useRef(null);
+
   const [items, setItems] = useState([]);
+  const [friends, setFriends] = useState([]);
+  const [API, setAPI] = useState("");
   const [mainId, setMainId] = useState();
-  const [item, setItem] = useState("");
+  const [inputText, setInputText] = useState("");
   const [friendId, setFriendId] = useState();
   const [affinityId, setAffinityId] = useState(1);
-  const [friends, setFriends] = useState([]);
+ 
   const [fieldName, setFieldName] = useState("");
 
 
-//load lists of items
-  const getData = async () => {
-    try {
-      const response = await fetch(API.concat("/items"));
-      const jsonData = await response.json();
 
-      setItems(jsonData);
-
-    } catch(err) {
-      console.error(err.message);
+   useEffect(() => {
+    async function fetchAPI() {
+      let api = APICalls.API;
+      return api;
     }
-  };
+    setAPI(fetchAPI());
+   }, []);
+
+//side effects - in order
+  useEffect(() => {
+    setItems(APICalls.getAllItems());
+    closeNewItem();
+  }, []);  //on load only
+
 
   useEffect(() => {
-    getData();
-    closeNewItem();
-  }, []); 
+  if (mainId) {
+    setFriends(APICalls.getFriends(mainId));
+  }
+  }, [mainId]);
+
+
+
+
 
   const openNewItem = (newText) => {
-   setItem(newText);
+   setInputText(newText);
    document.getElementById("newItemForm").style.display = "block";
  };
 
@@ -68,23 +79,15 @@ function EnterPairing() {
  }
 
 
-  useEffect(() => {
-  if (mainId) {
-    getFriends(mainId);
-  }
-  }, [mainId]);
-
-
   
   const handleMainChange = (val, name) => {
-    setMainId(val);
-    setItem(name);
-    getFriends(val); //latent 
+    setMainId(val);  //triggers friends change
+    setInputText(name);
   };
 
   const handleFriendChange = async(val, name) => {
     await setFriendId(val);
-    await setItem(name);
+    await setInputText(name);
     //is this an edit? if so pop in affinity level too
     if (friends) {
       const result = friends.find(f => {
@@ -109,13 +112,15 @@ function EnterPairing() {
     try {
       const body = {item1_id: mainId, item2_id: friendId, level: affinityId};
        // console.log(body);
-        await fetch(API.concat("/pairing/new"), {
+        await fetch(API + "/pairing/new", {
           method: "POST",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(body)
         });
 
-        getFriends(mainId); //update friends list
+        setFriends(APICalls.getFriends(mainId)); //update friends list
+
+       
        //set focus back on friendId
         friendRef.current.focus();
 
@@ -126,24 +131,13 @@ function EnterPairing() {
 
   const handleItemAdd = (addedItem) => {
      console.log('item added: ', addedItem);
-     getData();
-     setItem(addedItem.item);
+     setItems(APICalls.getAllItems());
+
      fieldName === "main" ? handleMainChange(addedItem.item_id, addedItem.item) : handleFriendChange(addedItem.item_id, addedItem.item);
      closeNewItem();
   };
 
-  const getFriends = async(itemId) => {
-     try {
-      console.log('fetching friends of ', itemId);
-      const response = await fetch(API + "/" + itemId);
-      const jsonData = await response.json();
-      setFriends(jsonData);
-  
 
-    } catch(err) {
-      console.error(err.message);
-    }
-  };
 
   const selectFriend = (e) => {
     setFriendId(Number(e.target.attributes["data-friend-id"].value));
@@ -154,8 +148,8 @@ function EnterPairing() {
 
   return (
     <Fragment>
-    
-        <div className="container">
+
+         <div className="container">
  
            <div className="row align-items-start">
   
@@ -232,13 +226,14 @@ function EnterPairing() {
 
       <div className="container">
         <NewItem 
-          text={item} 
+          text={inputText} 
           onAdd={handleItemAdd} 
           onClose={closeNewItem}
         />
       </div>
  
-   </Fragment>
+  
+     </Fragment>
   );
 }
 
