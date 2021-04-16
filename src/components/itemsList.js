@@ -1,15 +1,15 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import APICalls from '../APICalls';
+import APICalls from '../apiCalls';
 
 
 const ItemsList = () => {
   const [items, setItems] = useState([]);
 
 
-  //reset store after every render?
+
   useEffect(() => {
     const getItems = async () => {
-      const data = await APICalls.getItems();
+      const data = await APICalls.getAllItems();
       setItems(data);
     }
     getItems();
@@ -24,7 +24,7 @@ const ItemsList = () => {
           </tr>
        </thead>
         <tbody>
-          {items.map(item => (
+          {items && items.map(item => (
             <tr key={item.item_id}>
               <td >{item.item}</td>
              </tr>

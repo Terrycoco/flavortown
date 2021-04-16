@@ -1,8 +1,22 @@
-#friendslist {
-  column-count: 4;
-  max-height:  1000px;
-}
+
 
 .btn-row {
   padding-top: 10px;
+}
+
+.catheader {
+  font-weight: bold;
+  text-align: left;
+}
+
+.friendslist {
+  column-count: 4;
+  max-height:  1000px;
+  font-size: smaller;
+  column-width: 100px;
+  font-weight: normal;
+}
+
+.friend {
+
 }

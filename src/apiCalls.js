@@ -1,5 +1,5 @@
 
-const API = process.env.REACT_APP_API;
+const API = (process.env.NODE_ENV === 'development') ? 'http://localhost:5000' : process.env.REACT_APP_API;
 
 const getAllItems = async () => {
     try {
@@ -36,6 +36,21 @@ const getFriends = async(mainId) => {
     }
 };
 
+
+
+const getMutualFriends = async(mainArray) => {
+  try {
+      console.log('fetching mutual friends ', mainArray);
+      const response = await fetch(API + "/mutual/" + JSON.stringify(mainArray));
+      const jsonData = await response.json();
+      return jsonData;
+    } catch(err) {
+      console.error(err.message);
+    }
+};
+
+
+
 const addNewItem = async(newItemText, catId) => {
     const body = {item: newItemText, cat_id: catId};
     console.log('trying to add: ', body);
@@ -56,12 +71,16 @@ const addNewItem = async(newItemText, catId) => {
       }
 };
 
+
+
+
 const APICalls = {
   API: API,
   getAllItems: getAllItems,
   getCats: getCats,
   getFriends: getFriends,
-  addNewItem: addNewItem
+  addNewItem: addNewItem,
+  getMutualFriends: getMutualFriends
 };
 
 export default APICalls;

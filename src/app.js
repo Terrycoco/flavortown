@@ -7,8 +7,8 @@ import ErrorBoundary from "./components/errorBoundary";
 
 
 //pages
-import EnterPairing from "./pages/enterPairing";
-//import EffectDemo from './pages/learnUseEffect';
+//import EnterPairing from "./pages/enterPairing";
+import CreateDish from './pages/createDish';
 
 const App = () => {
  // const [open, setOpen] = useToggle(true);
@@ -23,7 +23,7 @@ const App = () => {
 
 
       
-           <EnterPairing />
+           <CreateDish />
    
       </div>
       </ErrorBoundary>

@@ -8,19 +8,37 @@
 	"buffers":
 	[
 		{
-			"file": "src/pages/enterPairing.js",
+			"file": "src/pages/createDish.js",
 			"settings":
 			{
-				"buffer_size": 6690,
+				"buffer_size": 244,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/components/itemSelect.js",
+			"file": "src/components/tagsInput.js",
 			"settings":
 			{
-				"buffer_size": 1897,
+				"buffer_size": 2920,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/components/itemsList.js",
+			"settings":
+			{
+				"buffer_size": 776,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/app.js",
+			"settings":
+			{
+				"buffer_size": 531,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
@@ -144,6 +162,7 @@
 	],
 	"file_history":
 	[
+		"/Users/terry/myProjects/flavortown/src/pages/enterPairing.js",
 		"/Users/terry/myProjects/flavortown/src/components/itemsList.js",
 		"/Users/terry/myProjects/flavortown/src/apiCalls.js",
 		"/Users/terry/myProjects/flavortown/package.json",
@@ -155,7 +174,6 @@
 		"/Users/terry/myProjects/flavortown/src/index.css",
 		"/Users/terry/myProjects/flavortown/src/config.js",
 		"/Users/terry/myProjects/flavortown/src/APIContext.js",
-		"/Users/terry/myProjects/flavortown/src/pages/enterPairing.js",
 		"/Users/terry/myProjects/flavortown/src/pages/pairings.css",
 		"/Users/terry/myProjects/flavortown/src/components/newItem.js",
 		"/Users/terry/myProjects/flavortown/.gitignore",
@@ -224,19 +242,79 @@
 			[
 				{
 					"buffer": 0,
-					"file": "src/pages/enterPairing.js",
+					"file": "src/pages/createDish.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6690,
+						"buffer_size": 244,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3597,
-								3597
+								244,
+								244
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"open_with_edit": true,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/components/tagsInput.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2920,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1173,
+								1173
+							]
+						],
+						"settings":
+						{
+							"git_gutter_is_enabled": true,
+							"open_with_edit": true,
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/components/itemsList.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 776,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								422,
+								422
 							]
 						],
 						"settings":
@@ -247,27 +325,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2192.0,
+						"translation.y": 2.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 1,
-					"file": "src/components/itemSelect.js",
-					"semi_transient": true,
+					"buffer": 3,
+					"file": "src/app.js",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1897,
+						"buffer_size": 531,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								411,
+								411
 							]
 						],
 						"settings":
@@ -285,7 +363,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "src/apiCalls.js",
 					"semi_transient": false,
 					"settings":
@@ -312,11 +390,11 @@
 						"translation.y": 565.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 5,
 					"file": "src/components/newItem.js",
 					"semi_transient": false,
 					"settings":
@@ -340,14 +418,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 405.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 6,
 					"file": "src/useFetch.js",
 					"semi_transient": false,
 					"settings":
@@ -374,7 +452,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -413,7 +491,7 @@
 	"menu_visible": true,
 	"output.Terminus":
 	{
-		"height": 72.0
+		"height": 273.0
 	},
 	"output.find_results":
 	{

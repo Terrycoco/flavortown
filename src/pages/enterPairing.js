@@ -180,14 +180,7 @@ function EnterPairing() {
               </div>
 
 
-              <div className="col-sm-3">
-                <AffinitySelect 
-                    thisRef={affinityRef}
-                    value={affinityId}
-                    onChange={handleAffinityChange}
-                    label="Affinity Level"
-                />
-              </div>
+  
 
              <div className="col-sm-4" >
               <ItemSelect
@@ -201,6 +194,15 @@ function EnterPairing() {
                     onMatch={handleFriendChange}
          
                />
+              </div>
+
+              <div className="col-sm-3">
+                <AffinitySelect 
+                    thisRef={affinityRef}
+                    value={affinityId}
+                    onChange={handleAffinityChange}
+                    label="Affinity Level"
+                />
               </div>
         
                 <div className="btn-row d-flex align-items-start">
@@ -226,7 +228,7 @@ function EnterPairing() {
              <label htmlFor="friendslist" className="control-label">Existing Friends</label>
           </div>
           <div className="row align-items-start">
-             <ul style={styles.friends} d="friendslist">
+             <ul style={styles.friends} id="friendslist">
              {friends && friends.map(f => (
               <li onClick={selectFriend} data-affinity={f.affinity_level} data-friend-id={f.friend_id} key={f.friend_id}>{f.friend} ({f.affinity_level})</li>))}
              </ul>
