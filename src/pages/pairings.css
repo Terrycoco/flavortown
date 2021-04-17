@@ -4,6 +4,10 @@
   padding-top: 10px;
 }
 
+.list-container {
+  margin-left: 2em;
+}
+
 .catheader {
   font-weight: bold;
   text-align: left;
@@ -15,6 +19,7 @@
   font-size: smaller;
   column-width: 100px;
   font-weight: normal;
+  padding-left: 0;
 }
 
 .friend {

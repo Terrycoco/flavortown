@@ -38,15 +38,27 @@ const getFriends = async(mainId) => {
 
 
 
-const getMutualFriends = async(mainArray) => {
-  try {
-      console.log('fetching mutual friends ', mainArray);
-      const response = await fetch(API + "/mutual/" + JSON.stringify(mainArray));
+const getMutual = async(idArray) => {
+  if (idArray && idArray.length > 0) {
+    try {
+      console.log('fetching mutual friends ', idArray);
+      const response = await fetch(API + "/mutual/" + JSON.stringify(idArray));
       const jsonData = await response.json();
       return jsonData;
     } catch(err) {
       console.error(err.message);
+    } 
+  } else {
+    try {
+      const response = await fetch(API + "/mutual/[]");
+      const jsonData = await response.json();
+      //console.log("jsondata: ", jsonData);
+      return jsonData;
+
+    } catch(err) {
+      console.error(err.message);
     }
+  }
 };
 
 
@@ -80,7 +92,7 @@ const APICalls = {
   getCats: getCats,
   getFriends: getFriends,
   addNewItem: addNewItem,
-  getMutualFriends: getMutualFriends
+  getMutual: getMutual
 };
 
 export default APICalls;

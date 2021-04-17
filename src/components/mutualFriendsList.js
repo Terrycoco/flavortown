@@ -1,37 +1,42 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useCallback } from 'react';
 import APICalls from '../apiCalls';
-import {groupDataByFieldname} from '../utilities/dataFunctions';
+import {groupDataByFieldname} from '../utilities/data';
 
 const ItemsList = ({selected, onSelect}) => {
-  const [friends, setFriends] = useState([]);
-  const [groupedItems, setGroupedItems] = useState([]);
+  const [groupedItems, setGroupedItems] = useState({});
+
+ 
+  const loadItems = useCallback(async() => {
+    let selectedIds;
+     if (!selected || selected.length === 0) {
+      //return all
+       selectedIds = [];
+     } 
+     selectedIds = selected.map(i => {
+       return parseInt(i.id);
+     });
+      console.log('selectedIds:', selectedIds);
+      const data = await APICalls.getMutual(selectedIds);
+      const grouped = groupDataByFieldname(data, "friend_cat", true);
+      return grouped;
+    }, [selected]); //every time ids change reload friends
 
 
   useEffect(() => {
-    const getItems = async () => {
-      const data = await APICalls.getMutualFriends(selected);
-      console.log('friends', data);
-      setFriends(data);
-    };
-    getItems();
-  }, [selected]); //whenever selected changes
+    loadItems().then(grouped => {
+      setGroupedItems(oldArr => grouped);
+    //  console.log('currentgroupdItems: ', grouped);
+    });
+   },[ loadItems]); //run once and when selectedIds change
 
 
-  useEffect(() => {
-      const groupItems = () => {
-      const grouped = groupDataByFieldname(friends, "friend_cat", true);
-      console.log('groupeddata: ', grouped);
-      setGroupedItems(grouped);
-    };
-    groupItems();
-  }, [friends]);
 
 
 
   const selectItem = (e) => {
-   const newItem = e.target.attributes["data-friend-id"].value;
-   console.log('item clicked:', newItem);
-   onSelect(newItem);
+   const id = e.target.attributes["data-friend-id"].value;
+   const name = e.target.attributes["data-label"].value;
+   onSelect({value: name, id: id});
   };
 
 
@@ -45,6 +50,7 @@ const ItemsList = ({selected, onSelect}) => {
                onClick={selectItem} 
                key={i.friend_id}
                data-friend-id={i.friend_id}
+               data-label={i.friend}
             >
                {i.friend}
 
@@ -59,26 +65,28 @@ const ItemsList = ({selected, onSelect}) => {
 
 
   const renderCats = () => {
-    return groupedItems.map(c => {
-        return (
-        <Fragment>
-        <div className="row align-items-start catheader">
-        {c.friend_cat}
-        <ul className="friendslist">
-          {renderItems(c.items)}
-       </ul>
-        </div>
-        </Fragment>
-        )
-    });
-  };
+    // const entries = Object.entries(groupedItems);
+     const keys = Object.keys(groupedItems);
+     //console.log('keys:', keys);
 
+     const result = keys.map((k, idx) => {
+        return (
+           <div className="row align-items-start catheader" key={idx}>
+              {k}
+              <ul className="friendslist">
+                {renderItems(groupedItems[k])}
+             </ul>
+            </div>
+        )
+     });
+    return result;
+ };
 
 
 
    return (
     <Fragment>
-      <div className="container">
+      <div className="list-container">
           {renderCats()}
       </div>
     </Fragment>

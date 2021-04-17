@@ -7,6 +7,7 @@ import ErrorBoundary from "./components/errorBoundary";
 
 
 //pages
+//import TestPage from './pages/testPage';
 //import EnterPairing from "./pages/enterPairing";
 import CreateDish from './pages/createDish';
 
