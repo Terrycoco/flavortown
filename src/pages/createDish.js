@@ -1,14 +1,47 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useCallback, useEffect} from 'react';
 import MutualFriendsList from '../components/mutualFriendsList';
 import "./pairings.css";
 import TagsInput from '../components/tagsInput';
-
-//import {arrayFindObjectByProp} from '../utilities/dataFunctions';
+import {groupDataByFieldname} from '../utilities/data';
+import APICalls from '../apiCalls';
+//import {arrayFindObjectByProp} from '../utilities/data';
 
 const CreateDish = () => {
   //for tag
   const [selectedObjs, setSelectedObjs] = useState([]);
- 
+  
+  //data for items
+  const [data, setData] = useState([]);
+  const [groupedItems, setGroupedItems] = useState({});
+
+ 
+  const loadItems = useCallback(async() => {
+    let selectedIds;
+     if (!selectedObjs || selectedObjs.length === 0) {
+      //return all
+       selectedIds = [];
+     } 
+     selectedIds = selectedObjs.map(i => {
+       return parseInt(i.id);
+     });
+      console.log('selectedIds:', selectedIds);
+      const ungrouped = await APICalls.getMutual(selectedIds);
+      const grouped = groupDataByFieldname(ungrouped, "friend_cat", true);
+      return {data, grouped};
+    }, [selectedObjs]); //every time ids change reload friends
+
+
+  useEffect(() => {
+    loadItems().then(results => {
+      setGroupedItems(oldArr => results.grouped);
+      setData(oldArr => results.data);
+    //  console.log('currentgroupdItems: ', grouped);
+    });
+   },[loadItems]); //run once and when selectedIds change
+
+
+
+
   //from list
   const addSelected = (newobj) => {
     let json = newobj;
@@ -29,12 +62,10 @@ const CreateDish = () => {
     console.log('afterTags called:', newarr);
    if (newarr.length > 0) {
     //convert to object
-    let json = JSON.parse(newarr);
-   // console.log('json', json);
-   // console.log('old selectedObjs', selectedObjs);
-    //is the length the same?
-     setSelectedObjs(oldArr => json);
-   //   console.log('new selectedObjs', selectedObjs);
+     let json = JSON.parse(newarr);
+    
+    setSelectedObjs(oldArr => json);
+
    } else {
     //is cleared
     setSelectedObjs(oldArr => []);
@@ -51,7 +82,8 @@ const CreateDish = () => {
        value={selectedObjs}
        afterChange={afterTagsChange}
     />
-    <MutualFriendsList 
+    <MutualFriendsList
+      data={groupedItems} 
       selected={selectedObjs} 
       onSelect={addSelected}
     />
