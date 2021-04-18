@@ -159,7 +159,7 @@ function EnterPairing() {
   return (
     <Fragment>
 
-         <div className="container">
+         <div className="page">
  
            <div className="row align-items-start">
   

@@ -18,8 +18,9 @@ const App = () => {
     <Fragment>
 
      <ErrorBoundary>
-      <div className="App">
-      <Navbar />
+        <div className="App">
+        <Navbar />
+
         <Router>
            <Switch>
             <Route exact path="/" component={CreateDish} />

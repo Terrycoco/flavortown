@@ -13,9 +13,8 @@ const CreateDish = () => {
   //data for items
   const [data, setData] = useState([]);
   const [groupedItems, setGroupedItems] = useState({});
- // const env = process.env.NODE_ENV;
-  //const api = process.env.REACT_APP_API;
- 
+
+ // eslint-disable-next-line
   const loadItems = useCallback(async() => {
     let selectedIds;
      if (!selectedObjs || selectedObjs.length === 0) {
@@ -29,15 +28,17 @@ const CreateDish = () => {
       const ungrouped = await APICalls.getMutual(selectedIds);
       const grouped = groupDataByFieldname(ungrouped, "friend_cat", true);
       return {data, grouped};
+ // eslint-disable-next-line     
     }, [selectedObjs]); //every time ids change reload friends
 
 
   useEffect(() => {
     loadItems().then(results => {
       setGroupedItems(oldArr => results.grouped);
-      setData(oldArr => results.data);
+      setData(oldArr => results.ungrouped);
     //  console.log('currentgroupdItems: ', grouped);
     });
+     // eslint-disable-next-line
    },[loadItems]); //run once and when selectedIds change
 
 
@@ -77,17 +78,17 @@ const CreateDish = () => {
 
   return (
    <Fragment>
-   <div className="container">
-    <h3>Flavor Finder</h3>
-    <TagsInput
-       value={selectedObjs}
-       afterChange={afterTagsChange}
-    />
-    <MutualFriendsList
-      data={groupedItems} 
-      selected={selectedObjs} 
-      onSelect={addSelected}
-    />
+   <div className="page">
+        <h3>Flavor Finder</h3>
+        <TagsInput
+           value={selectedObjs}
+           afterChange={afterTagsChange}
+        />
+        <MutualFriendsList
+          data={groupedItems} 
+          selected={selectedObjs} 
+          onSelect={addSelected}
+        />
     </div>
    </Fragment>
   );

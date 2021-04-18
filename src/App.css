@@ -1,8 +1,15 @@
 .App {
+
+}
+
+.page {
+  margin-top: 64px;
   text-align: left;
+  padding: 3em
 }
 
 .logo-header {
+  min-height: 30px;
   margin-bottom: 1em;
   background-color: #c1ff80;
 }
