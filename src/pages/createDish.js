@@ -79,7 +79,7 @@ const CreateDish = () => {
    <Fragment>
    <div className="container">
     <h3>Create Your Dish</h3>
-    <p>{env} {api}</p>
+    <p>{env} </p>
     <TagsInput
        value={selectedObjs}
        afterChange={afterTagsChange}
