@@ -65,7 +65,6 @@ const ItemsList = ({selected, onSelect}) => {
 
 
   const renderCats = () => {
-    // const entries = Object.entries(groupedItems);
      const keys = Object.keys(groupedItems);
      //console.log('keys:', keys);
 
