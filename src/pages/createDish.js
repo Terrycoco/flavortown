@@ -13,7 +13,8 @@ const CreateDish = () => {
   //data for items
   const [data, setData] = useState([]);
   const [groupedItems, setGroupedItems] = useState({});
-
+  const env = process.env.NODE_ENV;
+  const api = process.env.REACT_APP_API;
  
   const loadItems = useCallback(async() => {
     let selectedIds;
@@ -78,6 +79,7 @@ const CreateDish = () => {
    <Fragment>
    <div className="container">
     <h3>Create Your Dish</h3>
+    <p>{env} {api}</p>
     <TagsInput
        value={selectedObjs}
        afterChange={afterTagsChange}
