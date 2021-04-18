@@ -1,5 +1,5 @@
 
-const API = (process.env.NODE_ENV === 'development') ? 'http://localhost:5000' : process.env.REACT_APP_API;
+const API = (process.env.NODE_ENV === 'production') ?  process.env.REACT_APP_API : "http://localhost:5000";
 
 const getAllItems = async () => {
     try {
