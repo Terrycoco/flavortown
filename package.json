@@ -7,8 +7,8 @@
   },
   "main": "node ./server/index.js",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "NODE_ENV=production react-scripts start",
+    "build": "NODE_ENV=production react-scripts build",
     "dev": "react-scripts start",
     "eject": "react-scripts eject"
   },

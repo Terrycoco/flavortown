@@ -3,6 +3,10 @@
 	{
 		"selected_items":
 		[
+			[
+				"gr",
+				"groupclause"
+			]
 		]
 	},
 	"buffers":
@@ -11,16 +15,16 @@
 			"file": "/Users/terry/myProjects/flavortown-api/index.js",
 			"settings":
 			{
-				"buffer_size": 2979,
+				"buffer_size": 4165,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/Users/terry/myProjects/flavortown-api/package-lock.json",
+			"file": "/Users/terry/myProjects/flavortown-api/package.json",
 			"settings":
 			{
-				"buffer_size": 22399,
+				"buffer_size": 712,
 				"line_ending": "Unix"
 			}
 		}
@@ -189,7 +193,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -198,15 +202,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2979,
+						"buffer_size": 4165,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1538,
-								1538
+								3879,
+								3879
 							]
 						],
 						"settings":
@@ -217,19 +221,19 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 779.0,
+						"translation.y": 1918.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "/Users/terry/myProjects/flavortown-api/package-lock.json",
+					"file": "/Users/terry/myProjects/flavortown-api/package.json",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 22399,
+						"buffer_size": 712,
 						"regions":
 						{
 						},
@@ -242,15 +246,16 @@
 						],
 						"settings":
 						{
+							"git_gutter_is_enabled": true,
 							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 49.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -289,7 +294,7 @@
 	"menu_visible": true,
 	"output.Terminus":
 	{
-		"height": 325.0
+		"height": 205.0
 	},
 	"output.find_results":
 	{
