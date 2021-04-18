@@ -14,7 +14,7 @@ const CreateDish = () => {
   const [data, setData] = useState([]);
   const [groupedItems, setGroupedItems] = useState({});
   const env = process.env.NODE_ENV;
-  const api = process.env.REACT_APP_API;
+  //const api = process.env.REACT_APP_API;
  
   const loadItems = useCallback(async() => {
     let selectedIds;
