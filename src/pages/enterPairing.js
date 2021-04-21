@@ -4,7 +4,7 @@ import 'reactjs-popup/dist/index.css';
 import NewItem from '../components/newItem';
 import ItemSelect from '../components/itemSelect';
 import AffinitySelect from '../components/affinitySelect';
-import "./pairings.css";
+import "../styles/friends.css";
 import APICalls from '../apiCalls';
 
 
@@ -25,6 +25,16 @@ const styles = {
 
 
 
+  const itemClasses = {
+    "1": "friend",
+    "2": "goodfriend",
+    "3": "bestfriend",
+    "4": "bff",
+    "-1": "enemy"
+  };
+
+
+
 
 function EnterPairing() {
   const mainRef = useRef(null);
@@ -38,7 +48,7 @@ function EnterPairing() {
   const [inputText, setInputText] = useState("");
   const [friendId, setFriendId] = useState();
   const [affinityId, setAffinityId] = useState(1);
- 
+  const [itemFormIsOpen, setItemFormIsOpen] = useState(true);
   const [fieldName, setFieldName] = useState("");
 
 
@@ -58,7 +68,8 @@ function EnterPairing() {
       setItems(data);
     };
     fetchItems();
-    closeNewItem();
+    mainRef.current.focus();
+    setFieldName("main");
   }, []);  //on load only
 
 
@@ -78,13 +89,18 @@ function EnterPairing() {
 
   const openNewItem = (newText) => {
    setInputText(newText);
-   document.getElementById("newItemForm").style.display = "block";
+   setItemFormIsOpen(true);
  };
 
  const closeNewItem = () => {
-   document.getElementById("addpairingbtn").focus();
-   document.getElementById("newItemForm").style.display = "none";
- }
+  if (fieldName === "main") {
+    friendRef.current.focus();
+  } else {
+    document.getElementById("addpairingbtn").focus();
+  }
+   
+   setItemFormIsOpen(false);
+ };
 
 
   
@@ -107,12 +123,16 @@ function EnterPairing() {
       setAffinityId(1); //defalt
     }
 
-    //go to button
-    document.getElementById("addpairingbtn").focus();
+    if (fieldName === "main") {
+      friendRef.current.focus();
+    } else {
+      document.getElementById("addpairingbtn").focus();
+    }
   };
 
   const handleAffinityChange = (val) => {
     setAffinityId(val);
+    document.getElementById("addpairingbtn").focus();
   };
 
   const handleAddPairing = async () => {
@@ -139,35 +159,38 @@ function EnterPairing() {
   };
 
   const handleItemAdd = async (addedItem) => {
-     console.log('adding item: ', addedItem);
+
      const data = await APICalls.getAllItems();
      setItems(data);
 
-     fieldName === "main" ? handleMainChange(addedItem.item_id, addedItem.item) : handleFriendChange(addedItem.item_id, addedItem.item);
+     if( fieldName === "main") {
+       handleMainChange(addedItem.item_id, addedItem.item);
+    } else {
+       handleFriendChange(addedItem.item_id, addedItem.item);
+    }
+
      closeNewItem();
   };
 
-
+  const onClick = (field) => {
+    setFieldName(field);
+  };
 
   const selectFriend = (e) => {
     setFriendId(Number(e.target.attributes["data-friend-id"].value));
     setAffinityId(Number(e.target.attributes["data-affinity"].value));
-    console.log("FID:", friendId, "AID", affinityId);
   }
   
 
   return (
-    <Fragment>
+<Fragment>
 
-         <div className="page">
- 
-           <div className="row align-items-start">
-  
-             
 
+  <div className="pairings-container">
+           <div className="row align-items-start ">
              <div className="col-sm-4" >
               <ItemSelect
-                    onClick={()=>setFieldName("main")}
+                    onClick={() => onClick("main")}
                     thisRef={mainRef} 
                     data={items}
                     value={mainId}
@@ -175,26 +198,22 @@ function EnterPairing() {
                     label="Main Item"
                     onNoMatch={openNewItem}
                     onMatch={closeNewItem}
-          
                />
               </div>
 
 
-  
-
              <div className="col-sm-4" >
               <ItemSelect
                     thisRef={friendRef}
-                    onClick={()=>setFieldName("friend")}
+                    onClick={() => onClick("friend")}
                     data={items} 
                     value={friendId}
                     onChange={handleFriendChange}
                     label="Pairs With"
                     onNoMatch={openNewItem}
                     onMatch={handleFriendChange}
-         
                />
-              </div>
+            </div>
 
               <div className="col-sm-3">
                 <AffinitySelect 
@@ -205,46 +224,50 @@ function EnterPairing() {
                 />
               </div>
         
-                <div className="btn-row d-flex align-items-start">
-                  <button 
-                      type="submit"
-                      className="btn btn-success"
-                      id="addpairingbtn"
-                      onClick={handleAddPairing}
-                  >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="16" fill="currentColor" style={styles.button} className="bi bi-arrow-down" viewBox="0 0 16 16">
-  <path fillRule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
-</svg></button>
-            
+              <div className="btn-row d-flex justify-content-between align-items-middle">
+                <span className="control-label">Existing Friends</span>
+                <button 
+                    type="submit"
+                    className="btn btn-sm btn-success"
+                    id="addpairingbtn"
+                    onClick={handleAddPairing}
+                >
+                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="16" fill="currentColor" style={styles.button} className="bi bi-arrow-down" viewBox="0 0 16 16">
+                      <path fillRule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                   </svg>
+                </button>
+                
             </div>
   
       </div> 
-
-      </div> 
-
-
-      <div className="container">
-          <div className="row align-items-start">
-             <label htmlFor="friendslist" className="control-label">Existing Friends</label>
-          </div>
-          <div className="row align-items-start">
-             <ul style={styles.friends} id="friendslist">
-             {friends && friends.map(f => (
-              <li onClick={selectFriend} data-affinity={f.affinity_level} data-friend-id={f.friend_id} key={f.friend_id}>{f.friend} ({f.affinity_level})</li>))}
-             </ul>
-         </div>
-      </div>
-
-
-      <div className="container">
-        <NewItem 
-          text={inputText} 
-          onAdd={handleItemAdd} 
-          onClose={closeNewItem}
-        />
-      </div>
+        
+</div>
  
-  
+
+
+<div className="friends-container">
+     <div>
+       <ul id="friendslist"  className="friends-group">
+       {friends && friends.map(f => (
+        <li onClick={selectFriend} 
+            data-affinity={f.affinity_level} 
+            data-friend-id={f.friend_id} 
+            key={f.friend_id}
+            className={itemClasses[f.affinity_level].concat(" listitem")}>{f.friend}</li>))}
+       </ul>
+   </div>
+
+
+
+
+
+</div> 
+ <NewItem 
+  text={inputText} 
+  onAdd={handleItemAdd} 
+  onClose={closeNewItem}
+  isOpen={itemFormIsOpen}
+/> 
      </Fragment>
   );
 }

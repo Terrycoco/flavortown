@@ -44,6 +44,7 @@ const getMutual = async(idArray) => {
       console.log('fetching mutual friends ', idArray);
       const response = await fetch(API + "/mutual/" + JSON.stringify(idArray));
       const jsonData = await response.json();
+     // console.log("jsondata: ", jsonData);
       return jsonData;
     } catch(err) {
       console.error(err.message);
@@ -52,7 +53,7 @@ const getMutual = async(idArray) => {
     try {
       const response = await fetch(API + "/mutual/[]");
       const jsonData = await response.json();
-      //console.log("jsondata: ", jsonData);
+     // console.log("jsondata: ", jsonData);
       return jsonData;
 
     } catch(err) {

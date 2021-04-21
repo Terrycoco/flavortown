@@ -1,0 +1,7 @@
+.item-form {
+    border: 2px;
+    position: fixed;
+    top: 10vh;
+    background-color: lightblue;
+    padding:3px;
+}

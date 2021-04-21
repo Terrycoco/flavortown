@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import './App.css';
+
+import './styles/App.css';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 //components
@@ -18,9 +19,9 @@ const App = () => {
     <Fragment>
 
      <ErrorBoundary>
-        <div className="App">
+       <div className="App">
         <Navbar />
-
+        <div className="page">
         <Router>
            <Switch>
             <Route exact path="/" component={CreateDish} />
@@ -29,6 +30,7 @@ const App = () => {
            </Switch>
          </Router>
       </div>
+    </div>
       </ErrorBoundary>
 
     </Fragment>

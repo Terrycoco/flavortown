@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {Fragment} from 'react';
+import React from 'react';
 import logo from '../images/flavorworldNoText.png';
 
 const Navbar = () => {
-  return (
-<Fragment>
+return (
+<div>
    <div className="container-fluid fixed-top logo-header d-flex" 
         type="button" 
         data-bs-toggle="offcanvas" 
@@ -65,13 +65,13 @@ const Navbar = () => {
     <div className="list-group">
       <a className="list-group-item" href="/edit">Editor</a>
       <a className="list-group-item" href="/">Flavor Finder</a>
+       <a className="list-group-item"  href="/test">Test</a>
     </div>
   </div>
 
 
 </div>
-
-     </Fragment>
+</div>
   )
 };
 

@@ -25,7 +25,7 @@ const ItemsList = () => {
        </thead>
         <tbody>
           {items && items.map(item => (
-            <tr key={item.item_id}>
+            <tr key={item.id}>
               <td >{item.item}</td>
              </tr>
             ))}

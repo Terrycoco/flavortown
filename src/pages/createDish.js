@@ -1,18 +1,30 @@
-import React, {Fragment, useState, useCallback, useEffect} from 'react';
+import React, { useState, useCallback, useEffect, useRef} from 'react';
 import MutualFriendsList from '../components/mutualFriendsList';
-import "./pairings.css";
-import TagsInput from '../components/tagsInput';
+import "../styles/friends.css";
+import Autocomplete from '../components/autocomplete';
 import {groupDataByFieldname} from '../utilities/data';
 import APICalls from '../apiCalls';
-//import {arrayFindObjectByProp} from '../utilities/data';
+
 
 const CreateDish = () => {
   //for tag
   const [selectedObjs, setSelectedObjs] = useState([]);
   
-  //data for items
+  //data for autocomplete box
   const [data, setData] = useState([]);
+
+  //data for grouped list
   const [groupedItems, setGroupedItems] = useState({});
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  //ref to Autocomplete
+  const acRef =  useRef();
+  const pageRef = useRef();
+
+
+
+
 
  // eslint-disable-next-line
   const loadItems = useCallback(async() => {
@@ -26,8 +38,8 @@ const CreateDish = () => {
      });
       console.log('selectedIds:', selectedIds);
       const ungrouped = await APICalls.getMutual(selectedIds);
-      const grouped = groupDataByFieldname(ungrouped, "friend_cat", true);
-      return {data, grouped};
+      const grouped = groupDataByFieldname(ungrouped, "cat", true);
+      return {ungrouped, grouped};
  // eslint-disable-next-line     
     }, [selectedObjs]); //every time ids change reload friends
 
@@ -36,7 +48,6 @@ const CreateDish = () => {
     loadItems().then(results => {
       setGroupedItems(oldArr => results.grouped);
       setData(oldArr => results.ungrouped);
-    //  console.log('currentgroupdItems: ', grouped);
     });
      // eslint-disable-next-line
    },[loadItems]); //run once and when selectedIds change
@@ -45,52 +56,44 @@ const CreateDish = () => {
 
 
   //from list
-  const addSelected = (newobj) => {
-    let json = newobj;
-   // console.log('selected:', newobj, typeof newobj);
-     if (typeof newobj === "string") {
-       json = JSON.parse(newobj);
-     }
-    //update tag
+const selectFromList = (newobj) => {
+
     setSelectedObjs(oldArr => {
      // console.log('oldarr:', oldArr);
-      return [...oldArr, json]
+      return [...oldArr, newobj]
    });
   };
 
-
-  //from Tags
-  const afterTagsChange = (newarr) => {
-    console.log('afterTags called:', newarr);
-   if (newarr.length > 0) {
-    //convert to object
-     let json = JSON.parse(newarr);
-    
-    setSelectedObjs(oldArr => json);
-
-   } else {
-    //is cleared
-    setSelectedObjs(oldArr => []);
-   }
- };
+  const removeFromAC = (remainingList) => {
+    setSelectedObjs(oldArr => {
+     // console.log('oldarr:', oldArr);
+      return [...remainingList];
+   });
+   //remove focus?
+   document.activeElement.blur();
+   };
 
 
 
   return (
-   <Fragment>
-   <div className="page">
-        <h3>Flavor Finder</h3>
-        <TagsInput
-           value={selectedObjs}
-           afterChange={afterTagsChange}
+   <div id="finder-page" ref={pageRef} >
+      <div className="finder-container">
+        <div className="control-label">Flavor Finder - See what flavors go together</div>
+        <Autocomplete
+           data={data}
+           thisRef={acRef}
+           selectedArray={selectedObjs}
+           onSelect={selectFromList}
+           onRemove={removeFromAC}
+           loading={isLoading}
         />
+      </div>
         <MutualFriendsList
           data={groupedItems} 
           selected={selectedObjs} 
-          onSelect={addSelected}
+          onSelect={selectFromList}
         />
-    </div>
-   </Fragment>
+   </div>
   );
 }
 

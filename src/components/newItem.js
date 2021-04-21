@@ -1,22 +1,12 @@
 import React, {Fragment, useEffect, useState} from 'react';
 import APICalls from '../apiCalls';
+import "../styles/itemEntry.css";
 
 
 
-const styles = {
-  form: {
-    border: "2px",
-    position: "absolute",
-    bottom: "0",
-    marginLeft: "auto",
-    marginRight: "auto",
-    zIndex: 10,
-    backgroundColor: "lightblue",
-    padding: "3px"
-  }
-};
 
-const NewItem = ({text, onAdd, onClose}) => {
+
+const NewItem = ({text, onAdd, onClose, isOpen}) => {
   const [cats, setCats] = useState([]);
   const [newText, setNewText] = useState("");
   const [catId, setCatId] = useState(1);
@@ -60,19 +50,19 @@ const NewItem = ({text, onAdd, onClose}) => {
 const enterCat = (e) => {
   console.log(e.target.value);
   setCatId(e.target.value);
+  document.getElementById("addItemBtn").focus();
 }
 
 const handleOnClose = () => {
   onClose();
 }
 
-
+if (isOpen) {
   return (
 <Fragment >
 <form id="newItemForm" 
-      style={styles.form} 
+      className="item-form" 
       onSubmit={onSubmitForm} 
-      className="container-fluid"
 >
   <div className="d-flex flex-column">
     <h4>Enter New Item</h4>
@@ -104,13 +94,17 @@ const handleOnClose = () => {
        <br />
        <br />
        <div className="d-grid gap-2 d-flex justify-content-md-start">  
-         <button type="close" onClick={handleOnClose} className="btn btn-secondary">Close</button>           
-         <button type="submit" className="btn btn-success" default>Add</button>
+         <button type="cancel" onClick={handleOnClose} className="btn btn-secondary">Close</button>           
+         <button id="addItemBtn" type="submit" className="btn btn-success" default>Add</button>
          
        </div>
   </form>
 </Fragment>
-  );
+)
+} else {
+  return null
 }
+
+};
 
 export default NewItem;

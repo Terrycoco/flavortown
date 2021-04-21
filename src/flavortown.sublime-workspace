@@ -15,15 +15,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "/home/terry/myProjects/flavortown-api/index.js",
-			"settings":
-			{
-				"buffer_size": 5509,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -36,10 +27,6 @@
 		"last_filter": "",
 		"selected_items":
 		[
-			[
-				"Snippet: ",
-				"Snippet: template for functional component"
-			],
 			[
 				"term",
 				"Preferences: Terminus Settings"
@@ -110,34 +97,11 @@
 	},
 	"expanded_folders":
 	[
-		"/home/terry/myProjects/flavortown-api"
+		"/home/terry/myProjects/flavortown",
+		"/home/terry/myProjects/flavortown/src"
 	],
 	"file_history":
 	[
-		"/home/terry/myProjects/flavortown/src/pages/enterPairing.js",
-		"/home/terry/myProjects/flavortown/src/components/mutualFriendsList.js",
-		"/home/terry/myProjects/flavortown/src/styles/itemEntry.css",
-		"/home/terry/myProjects/flavortown/src/components/newItem.js",
-		"/home/terry/myProjects/flavortown/src/components/navbar.js",
-		"/home/terry/myProjects/flavortown/src/styles/App.css",
-		"/home/terry/myProjects/flavortown/src/pages/createDish.js",
-		"/home/terry/myProjects/flavortown/src/app.js",
-		"/home/terry/myProjects/flavortown/src/styles/index.css",
-		"/home/terry/myProjects/flavortown/src/index.js",
-		"/home/terry/myProjects/flavortown/src/styles/friends.css",
-		"/home/terry/myProjects/flavortown/src/components/itemSelect.js",
-		"/home/terry/myProjects/flavortown/src/pages/../styles/pairings.css",
-		"/home/terry/myProjects/flavortown/src/styles/pairings.css",
-		"/home/terry/myProjects/flavortown/src/styles/autocomplete.css",
-		"/home/terry/myProjects/flavortown/src/pages/testPage.js",
-		"/home/terry/myProjects/flavortown/node_modules/react-bootstrap-autosuggest/src/Autosuggest.scss",
-		"/home/terry/myProjects/flavortown/src/components/itemCard.js",
-		"/home/terry/myProjects/flavortown/src/components/autocomplete.js",
-		"/home/terry/myProjects/flavortown/src/components/autocomplete_basic.js",
-		"/home/terry/myProjects/flavortown/src/styles/reactTags.css",
-		"/home/terry/myProjects/flavortown/src/components/tagsInput_2.js",
-		"/home/terry/myProjects/flavortown/src/components/tagsInput.js",
-		"/home/terry/myProjects/flavortown/src/template.js",
 		"/home/terry/myProjects/flavortown/src/flavortown-api.sublime-project",
 		"/home/terry/myProjects/flavortown-api/.env",
 		"/home/terry/myProjects/flavortown/README.md",
@@ -241,7 +205,31 @@
 		"/home/terry/myProjects/tester/src/math.js",
 		"/home/terry/myProjects/tester/src/App.js",
 		"/home/terry/myProjects/tester/src/js/__tests__/functions.test.js",
-		"/home/terry/myProjects/tester/src/js/functions.test.js"
+		"/home/terry/myProjects/tester/src/js/functions.test.js",
+		"/home/terry/myProjects/tester/jest.config.js",
+		"/home/terry/myProjects/tester/src/js/untitled",
+		"/home/terry/myProjects/tester/src/js/functions.js",
+		"/home/terry/myProjects/tester/src/fragments/WelcomeMessage.js",
+		"/home/terry/myProjects/tester/enzyme.config.js",
+		"/home/terry/myProjects/js-practice/package.json",
+		"/home/terry/myProjects/js-practice/src/components/FunctionTester.stories.js",
+		"/home/terry/myProjects/js-practice/stories/index.stories.js",
+		"/home/terry/myProjects/js-practice/src/components/FunctionTester.js",
+		"/home/terry/myProjects/js-practice/.storybook/config.js",
+		"/home/terry/myProjects/js-practice/javascript/functions.js",
+		"/home/terry/myProjects/js-practice/components/FunctionTester.js",
+		"/home/terry/myProjects/js-practice/stories/index.js",
+		"/home/terry/myProjects/js-practice/javascript/index.js",
+		"/home/terry/myProjects/js-practice/javascript/binarySearch.js",
+		"/home/terry/myProjects/js-practice/.storybook/addons.js",
+		"/home/terry/myProjects/js-practice/components/Console/index.js",
+		"/home/terry/myProjects/PWA/enzyme-tests/src/components/ListItem.js",
+		"/home/terry/myProjects/PWA/enzyme-tests/src/components/List.js",
+		"/home/terry/myProjects/PWA/enzyme-tests/src/components/__tests__/List.test.js",
+		"/home/terry/myProjects/PWA/enzyme-tests/package.json",
+		"/home/terry/myProjects/PWA/enzyme-tests/src/App.js",
+		"/home/terry/myProjects/PWA/enzyme-tests/.env",
+		"/home/terry/myProjects/PWA/enzyme-tests/src/enzyme.js"
 	],
 	"find":
 	{
@@ -276,43 +264,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "/home/terry/myProjects/flavortown-api/index.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5509,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								286,
-								286
-							]
-						],
-						"settings":
-						{
-							"bs_sintax": "javascript (babel)",
-							"buffer_scroll_name": "92ee7b84",
-							"git_gutter_is_enabled": true,
-							"spell_check": false,
-							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -349,7 +302,7 @@
 	"menu_visible": true,
 	"output.Terminus":
 	{
-		"height": 137.0
+		"height": 45.0
 	},
 	"output.find_results":
 	{
@@ -359,12 +312,8 @@
 	{
 		"height": 134.0
 	},
-	"output.mdpopups":
-	{
-		"height": 0.0
-	},
 	"pinned_build_system": "Packages/User/Chrome.sublime-build",
-	"project": "flavortown-api.sublime-workspace",
+	"project": "flavortown.sublime-project",
 	"replace":
 	{
 		"height": 78.0
@@ -405,7 +354,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 305.0,
+	"side_bar_width": 308.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

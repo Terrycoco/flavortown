@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 
 
 
-const TagsInput = () => {
+const NAME = ({...props}) => {
  
 
 
@@ -22,4 +22,4 @@ const TagsInput = () => {
 
 
 
-export default TagsInput;
+export default NAME;

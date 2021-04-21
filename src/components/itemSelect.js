@@ -1,8 +1,8 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import Select from 'react-select';
-import './selectStyles.css';
+import '../styles/selectStyles.css';
 
-const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, label}) => {
+const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, onClick, label}) => {
   const [items, setItems] = useState([]);
   const [noMatch, setNoMatch] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -63,6 +63,7 @@ const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, label})
          getOptionLabel={(option)=>option.item}
          getOptionValue={(option)=>option.item_id}
          onChange={it => handleChange(it)}
+         onFocus={onClick}
          className="react-select-container"
          classNamePrefix="react-select"
       />

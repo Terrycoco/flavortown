@@ -17,5 +17,4 @@ const arrayFindObjectByProp = (arr, propname, value) =>{
 
 
 
-
 export {groupDataByFieldname, arrayFindObjectByProp};
