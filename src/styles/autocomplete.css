@@ -1,4 +1,9 @@
  /* To change search box element look */
+
+.autocomplete {
+
+}
+
 .multiselect-container {
   width: 80%;
 }
@@ -10,9 +15,7 @@
 
 .searchBox {
   border: none;
-  font-size: 10px;
   min-height: 50px;
-  
 }
   /* // To change input field position or margin */
 .inputField { 
@@ -28,6 +31,8 @@
 .optionContainer { 
   border: 2px solid blue;
   background-color: #edffc4;
+  padding-left: 10px !important;
+  font-size: smaller;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -35,6 +40,7 @@
 /*// To change css for dropdown options*/
 .option { 
   color: black;
+  padding: 0 !important;
 }
 
  /* To chanage group heading style */

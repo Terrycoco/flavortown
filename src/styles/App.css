@@ -1,8 +1,6 @@
 .App {
   position: absolute;
-  top: 10vh;
-  height: 100vh;
-  width: 100%;
+  top: 0;
 }
 
 .page {
@@ -14,6 +12,12 @@
   width: 100%;
 }
 
+.navbar {
+  background-color: #edffc4;
+  height: 15%;
+}
+
+
 div.sticky {
   position: -webkit-sticky;
   position: sticky;
@@ -23,9 +27,7 @@ div.sticky {
 }
 
 .logo-header {
-  height: 10vh;
   margin-bottom: 1em;
-  background-color: #edffc4;
 }
 
 .logo {

@@ -76,9 +76,9 @@ const selectFromList = (newobj) => {
 
 
   return (
-   <div id="finder-page" ref={pageRef} >
-      <div className="finder-container">
-        <div className="control-label">Flavor Finder - See what flavors go together</div>
+   <div id="finder-page" ref={pageRef} className="finder-page mw-100" >
+      <div className="finder-container mw-25">
+        <div className="finder-title">Flavor Finder</div>
         <Autocomplete
            data={data}
            thisRef={acRef}

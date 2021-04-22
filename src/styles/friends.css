@@ -1,4 +1,7 @@
-
+ .finder-container {
+   margin-left: auto;
+   margin-right: auto;
+ }
 
 .friends-container {
 
@@ -8,7 +11,7 @@
   padding: 0;
 }
 
-.pairings-container .finder-container{
+.pairings-container{
   position: -webkit-sticky;
   position: sticky;
   top: 10vh;
@@ -25,9 +28,10 @@
 }
 
 .catline {
-  color: green;
+  color: #fa46ee;
+  font-weight: bolder;
   margin-top: 0;
-  border: 3px solid  #c1ff80;
+  border: 3px solid  #fa46ee;
 }
 
 .listitem {

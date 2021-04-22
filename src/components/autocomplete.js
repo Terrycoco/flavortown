@@ -21,7 +21,7 @@ const Autocomplete = ({data, selectedArray, onSelect, onRemove, thisRef}) => {
 
 
     return (
-      <Fragment>
+      <div className="autocomplete">
        <Multiselect
          options={data}
          selectedValues={selectedArray}
@@ -34,7 +34,7 @@ const Autocomplete = ({data, selectedArray, onSelect, onRemove, thisRef}) => {
          id="ac"
          ref={thisRef}
         />
-      </Fragment>
+      </div>
     );
 };
 

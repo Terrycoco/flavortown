@@ -19,7 +19,7 @@ const App = () => {
     <Fragment>
 
      <ErrorBoundary>
-       <div className="App">
+       <div className="App min-vw-100 min-vh-100 vh-100 vw-100">
         <Navbar />
         <div className="page">
         <Router>
