@@ -29,8 +29,7 @@ const ItemsList = ({data, selected, onSelect}) => {
     if (items) {
       return items.map(i => {
         return (
-       
-           <li className="friend" 
+          <li className="friend" 
                onClick={selectItem} 
                key={i.id}
                data-id={i.id}
@@ -43,7 +42,7 @@ const ItemsList = ({data, selected, onSelect}) => {
                data-name={i.name}>
                {i.name}
             </span>
-          </li>
+          </li>     
         
         )
      })
@@ -54,19 +53,32 @@ const ItemsList = ({data, selected, onSelect}) => {
 
 
   const renderCats = () => {
-    console.log('data for mutualfriends: ', data);
      const keys = Object.keys(data);
 
 
      const result = keys.map((k, idx) => {
         return (
-           <div className="catheader" key={idx}>
-              {k}
-              <hr className="catline"/>
-              <ul className="friends-group">
-                {renderItems(data[k])}
-             </ul>
-          </div>
+          <div className="accordion-item">
+            <div className="accordion-header catheader " id={`heading${idx}`}>
+              <div className="accordion-button collapsed" 
+                      data-bs-toggle="collapse" 
+                      data-bs-target={`#collapse${idx}`}
+                      aria-expanded="false" 
+                      aria-controls={`#collapse${idx}`}>
+                {k}
+              </div>
+            </div>
+            <div id={`collapse${idx}`}
+                 className="accordion-collapse collapse" 
+                 aria-labelledby={`heading${idx}`} 
+                 data-bs-parent="#item-accordion">
+                <div className="accordion-body">
+                  <ul className="friends-group">
+                   {renderItems(data[k])}       
+                  </ul>
+                </div>
+            </div>
+        </div>
         )
      });
     return result;
@@ -76,7 +88,7 @@ const ItemsList = ({data, selected, onSelect}) => {
 
    return (
     <Fragment>
-      <div className="list-container">
+      <div className="list-container accordion accordion-flush" id="item-accordion">
           {renderCats()}
       </div>
     </Fragment>

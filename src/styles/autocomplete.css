@@ -5,17 +5,18 @@
 }
 
 .multiselect-container {
-  width: 80%;
+  width: 100%;
 }
 
 #ac_input {
   width: 100%;
+  font-size: 12px;
 }
 
 
 .searchBox {
   border: none;
-  min-height: 50px;
+  min-height: 1.5rem;
 }
   /* // To change input field position or margin */
 .inputField { 

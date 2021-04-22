@@ -26,7 +26,8 @@ const Autocomplete = ({data, selectedArray, onSelect, onRemove, thisRef}) => {
          options={data}
          selectedValues={selectedArray}
          displayValue="name"
-         placeholder="Type to search or click on flavors below"
+         hidePlaceholder={true}
+         placeholder="Add a flavor to your dish"
          closeOnSelect={true}
          closeIcon="cancel"
          onSelect={handleSelect}
