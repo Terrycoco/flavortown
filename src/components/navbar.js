@@ -7,26 +7,26 @@ return (
   <Fragment>
 <div className="navbar mw-100 h-5">
    <div className="container-fluid h-100 logo-header d-flex justify-content-start" 
-        type="button" 
         data-bs-toggle="offcanvas" 
         data-bs-target="#offcanvasExample" 
         aria-controls="offcanvasExample">
             <img alt="" 
                 src={logo} 
                 className="logo align-self-center" 
-                type="button" 
                 data-bs-toggle="offcanvas" 
                 data-bs-target="#offcanvasExample" 
                 aria-controls="offcanvasExample" />
              <span 
                 className="logo-text align-self-center" 
                 id="offcanvasExampleLabel" 
-                type="button" 
                 data-bs-toggle="offcanvas" 
                 data-bs-target="#offcanvasExample" 
                 aria-controls="offcanvasExample">FlavorWorld</span>
     </div>
  </div>
+
+
+ 
 <div className="offcanvas offcanvas-start" 
      tabIndex="-1" 
      id="offcanvasExample" 
