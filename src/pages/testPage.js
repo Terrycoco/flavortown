@@ -1,8 +1,8 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 //import APICalls from '../apiCalls';
 //import {groupDataByFieldname} from '../utilities/data'
-import Autocomplete from '../components/autocomplete';
-
+//import Autocomplete from '../components/autocomplete';
+import EditItem from '../components/newItem';
     
       // let mock = [
       //       {"friend_cat": "Dairy", "value": "sour cream"},
@@ -14,7 +14,13 @@ import Autocomplete from '../components/autocomplete';
 
 
 function TestPage() {
-   // const [result, setResult] = useState(mock);
+const [isOpen, setIsOpen] = useState(true);
+
+
+const onAdd = () => {
+}
+const onClose = () => {
+}
 
   
    // useEffect(() => {
@@ -38,7 +44,11 @@ function TestPage() {
 
   return (
       <Fragment>
-           <Autocomplete 
+           <EditItem
+              text={""}
+              onAdd={onAdd}
+              onClose={onClose}
+              isOpen={isOpen}
             />
 
       </Fragment>

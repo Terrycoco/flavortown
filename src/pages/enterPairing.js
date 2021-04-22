@@ -6,7 +6,7 @@ import ItemSelect from '../components/itemSelect';
 import AffinitySelect from '../components/affinitySelect';
 import "../styles/friends.css";
 import APICalls from '../apiCalls';
-
+import editIcon from '../images/edit_pencil.svg';
 
 
 const styles = {
@@ -107,6 +107,7 @@ function EnterPairing() {
   const handleMainChange = (val, name) => {
     setMainId(val);  //triggers friends change
     setInputText(name);
+    setFieldName("main");
   };
 
   const handleFriendChange = async(val, name) => {
@@ -164,9 +165,9 @@ function EnterPairing() {
      setItems(data);
 
      if( fieldName === "main") {
-       handleMainChange(addedItem.item_id, addedItem.item);
+       handleMainChange(addedItem.id, addedItem.name);
     } else {
-       handleFriendChange(addedItem.item_id, addedItem.item);
+       handleFriendChange(addedItem.id, addedItem.name);
     }
 
      closeNewItem();
@@ -177,8 +178,11 @@ function EnterPairing() {
   };
 
   const selectFriend = (e) => {
-    setFriendId(Number(e.target.attributes["data-friend-id"].value));
-    setAffinityId(Number(e.target.attributes["data-affinity"].value));
+    // setFriendId(Number(e.target.attributes["data-id"].value));
+    // setAffinityId(Number(e.target.attributes["data-affinity"].value));
+   setFriendId(e.id);
+   setAffinityId(e.affinity_level);
+
   }
   
 
@@ -188,7 +192,7 @@ function EnterPairing() {
 
   <div className="pairings-container">
            <div className="row align-items-start ">
-             <div className="col-sm-4" >
+             <div className="col-md-4" >
               <ItemSelect
                     onClick={() => onClick("main")}
                     thisRef={mainRef} 
@@ -202,7 +206,7 @@ function EnterPairing() {
               </div>
 
 
-             <div className="col-sm-4" >
+             <div className="col-md-4" >
               <ItemSelect
                     thisRef={friendRef}
                     onClick={() => onClick("friend")}
@@ -215,7 +219,7 @@ function EnterPairing() {
                />
             </div>
 
-              <div className="col-sm-3">
+              <div className="col-md-3">
                 <AffinitySelect 
                     thisRef={affinityRef}
                     value={affinityId}
@@ -227,7 +231,7 @@ function EnterPairing() {
               <div className="btn-row d-flex justify-content-between align-items-middle">
                 <span className="control-label">Existing Friends</span>
                 <button 
-                    type="submit"
+                    type="button"
                     className="btn btn-sm btn-success"
                     id="addpairingbtn"
                     onClick={handleAddPairing}
@@ -235,6 +239,14 @@ function EnterPairing() {
                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="16" fill="currentColor" style={styles.button} className="bi bi-arrow-down" viewBox="0 0 16 16">
                       <path fillRule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                    </svg>
+                </button>
+                <button 
+                    type="button"
+                    className="btn btn-sm editItemBtn"
+                    id="editItembtn"
+                    onClick={openNewItem}
+                >
+                    <img  className="editsvg" src={editIcon} alt="Edit Item" width="32" height="32"   />
                 </button>
                 
             </div>
@@ -245,16 +257,35 @@ function EnterPairing() {
  
 
 
-<div className="friends-container">
+<div className="friends-container mh-25">
      <div>
        <ul id="friendslist"  className="friends-group">
-       {friends && friends.map(f => (
-        <li onClick={selectFriend} 
-            data-affinity={f.affinity_level} 
-            data-friend-id={f.friend_id} 
-            key={f.friend_id}
-            className={itemClasses[f.affinity_level].concat(" listitem")}>{f.friend}</li>))}
-       </ul>
+       {friends && friends.map(i => (
+
+
+
+        <li 
+            onClick={() => selectFriend(i)} 
+            key={i.id}
+            data-id={i.id}
+            data-name={i.name}
+            data-affinity={i.affinity_level}
+            >
+   
+            
+           <span 
+               className={itemClasses[i.affinity_level].concat(" listitem ")}
+               key={i.id}
+               data-id={i.id}
+               data-name={i.name}
+               data-affinity={i.affinity_level}
+               onClick={()=> selectFriend(i)}
+          >
+               {i.name}
+            </span>
+          </li> ))}
+          </ul>
+         
    </div>
 
 

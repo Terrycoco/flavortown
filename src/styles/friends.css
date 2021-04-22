@@ -4,7 +4,7 @@
  }
 
 .friends-container {
-
+ 
 }
 
 .friends-group {
@@ -17,7 +17,7 @@
   top: 10vh;
   background: white;
   padding-bottom: .5em;
-  border: 2px solid red;
+
 }
 
 .catheader {
@@ -37,6 +37,7 @@
 .listitem {
  display: inline-block;
  padding-bottom: 6px;
+ font-size: 16px;
 }
 
 

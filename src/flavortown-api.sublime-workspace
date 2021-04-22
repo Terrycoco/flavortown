@@ -19,7 +19,7 @@
 			"file": "/home/terry/myProjects/flavortown-api/index.js",
 			"settings":
 			{
-				"buffer_size": 5509,
+				"buffer_size": 5562,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -108,10 +108,6 @@
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
-	"expanded_folders":
-	[
-		"/home/terry/myProjects/flavortown-api"
-	],
 	"file_history":
 	[
 		"/home/terry/myProjects/flavortown/src/pages/enterPairing.js",
@@ -285,15 +281,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5509,
+						"buffer_size": 5562,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								286,
-								286
+								1636,
+								1636
 							]
 						],
 						"settings":
@@ -307,7 +303,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1314.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

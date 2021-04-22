@@ -34,7 +34,6 @@ return (
   
     <div className="navbar h-7 mw-100">
       <div className="d-flex mw-100 logo-header justify-content-between" 
-           type="button" 
            data-bs-toggle="offcanvas" 
            data-bs-target="#offcanvasExample" 
            aria-controls="offcanvasExample">
@@ -42,13 +41,11 @@ return (
                <img alt="" 
                     src={logo} 
                     className="logo" 
-                    type="button" 
                     data-bs-toggle="offcanvas" 
                     data-bs-target="#offcanvasExample" 
                     aria-controls="offcanvasExample" />
                <h5 className="logo-text align-self-center" 
                    id="offcanvasExampleLabel" 
-                   type="button" 
                    data-bs-toggle="offcanvas" 
                    data-bs-target="#offcanvasExample" 
                    aria-controls="offcanvasExample">
@@ -58,11 +55,11 @@ return (
          
    </div>
    <button 
-               type="button" 
-               className="logo-close btn-close text-reset justify-self-end align-self-start" 
-               data-bs-dismiss="offcanvas" 
-               aria-label="Close">
-          </button>
+       type="button" 
+       className="logo-close btn-close text-reset justify-self-end align-self-start" 
+       data-bs-dismiss="offcanvas" 
+       aria-label="Close">
+  </button>
 </div>
 
 

@@ -17,6 +17,10 @@
   height: 15%;
 }
 
+.editItemBtn {
+  background-color: #edffc4;
+  border: 2px solid #eee;
+}
 
 div.sticky {
   position: -webkit-sticky;

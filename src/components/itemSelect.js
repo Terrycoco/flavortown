@@ -21,8 +21,8 @@ const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, onClick
   function handleChange(it) {
     if (it) {
      setItem(it);
-     onChange(it.item_id, it.item);
-     onMatch(it.item_id, it.item);
+     onChange(it.id, it.name);
+     onMatch(it.id, it.name);
    }
   }
 
@@ -56,12 +56,12 @@ const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, onClick
      <Select
          ref={thisRef}
          value={items.find(it => {
-           return it.item_id === value
+           return it.id === value
           })}
          options={items}
          filterOption={filterOption}
-         getOptionLabel={(option)=>option.item}
-         getOptionValue={(option)=>option.item_id}
+         getOptionLabel={(option)=>option.name}
+         getOptionValue={(option)=>option.id}
          onChange={it => handleChange(it)}
          onFocus={onClick}
          className="react-select-container"
