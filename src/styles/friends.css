@@ -1,7 +1,4 @@
- .finder-container {
-   margin-left: auto;
-   margin-right: auto;
- }
+ 
 
 .friends-container {
  
@@ -24,6 +21,7 @@
   padding-left: 0;
   color: #fa46ee;
   font-weight: bold;
+  font-size: .8rem;
 }
 
 .accordion-button.collapsed{
@@ -43,10 +41,7 @@
   padding-right: 0;
 }
 
-.catheader {
-  text-align: left;
-  background-color: blue;
-}
+
 
 
 

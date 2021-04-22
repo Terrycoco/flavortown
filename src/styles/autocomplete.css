@@ -1,8 +1,18 @@
  /* To change search box element look */
 
-.autocomplete {
-
-}
+.finder-container {
+   margin-left: auto;
+   margin-right: auto;
+   margin-top: 5px;
+   margin-bottom: 5px;
+   position: -webkit-sticky;
+   position: sticky;
+   top: 0;
+   background: white;
+   border: 2px solid #0c63e4;
+   border-radius: 4px; 
+   z-index: 20;
+ }
 
 .multiselect-container {
   width: 100%;
@@ -10,9 +20,13 @@
 
 #ac_input {
   width: 100%;
-  font-size: 12px;
+  font-size: 12px; 
+  border: none;
 }
 
+.search-wrapper {
+  border: none;
+}
 
 .searchBox {
   border: none;

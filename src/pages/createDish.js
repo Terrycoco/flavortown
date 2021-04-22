@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef} from 'react';
+import React, { Fragment, useState, useCallback, useEffect, useRef} from 'react';
 import MutualFriendsList from '../components/mutualFriendsList';
 import "../styles/friends.css";
 import Autocomplete from '../components/autocomplete';
@@ -76,6 +76,7 @@ const selectFromList = (newobj) => {
 
 
   return (
+  <Fragment>
    <div id="finder-page" ref={pageRef} className="finder-page mw-100" >
       <div className="finder-container mw-25">
         <Autocomplete
@@ -93,6 +94,7 @@ const selectFromList = (newobj) => {
           onSelect={selectFromList}
         />
    </div>
+   </Fragment>
   );
 }
 
