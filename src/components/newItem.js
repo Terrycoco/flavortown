@@ -31,8 +31,8 @@ const NewItem = ({text, onAdd, onClose, isOpen}) => {
   const onSubmitForm = async(e) => {
       e.preventDefault();
       try {
-         const data = await APICalls.addNewItem(newText, catId);
-         onAdd(data);  //give back to calling form
+         const item = await APICalls.addNewItem(newText, catId);
+         onAdd(item);  //give back to calling form
        // onClose();
 
       } catch(err) {

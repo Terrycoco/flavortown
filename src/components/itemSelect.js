@@ -16,7 +16,11 @@ const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, onClick
   //try to update value when it changes?
   useEffect(() => {
     setInputValue(value);
-  }, [value]);
+    if (items && value > 0) {
+       const findObj = items.find(it => it.id === value);
+       setItem(findObj);
+    }
+  }, [value, items]);
 
   function handleChange(it) {
     if (it) {

@@ -7,6 +7,7 @@ import APICalls from '../apiCalls';
 
 
 const CreateDish = () => {
+
   //for tag
   const [selectedObjs, setSelectedObjs] = useState([]);
   
@@ -59,9 +60,11 @@ useEffect(() => {
 
 
   useEffect(() => {
+    setIsLoading(true);
     loadItems().then(results => {
       setGroupedItems(oldArr => results.grouped);
       setData(oldArr => results.ungrouped);
+      setIsLoading(false);
     });
      // eslint-disable-next-line
    },[loadItems]); //run once and when selectedIds change
@@ -93,26 +96,43 @@ const selectFromList = (newobj) => {
    // document.activeElement.blur();
    };
 
-
-
-  return (
-  <Fragment>
-   <div id="finder-page" ref={pageRef} className="finder-page mw-100" >
-      <div className="finder-container mw-25">
-        <Autocomplete
-           data={data}
-           thisRef={acRef}
-           selectedArray={selectedObjs}
-           onSelect={selectFromList}
-           onRemove={removeFromAC}
-           loading={isLoading}
-        />
-      </div>
+   const loaderOrList = () => {
+    console.log('isLoading?', isLoading);
+      if (isLoading) {
+          return (
+            <div className="h-75 d-flex justify-content-center align-items-center">
+              <div className="spinner-border d-flex text-info" role="status">
+                 <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          )
+       } else {
+        return (
         <MutualFriendsList
           data={groupedItems} 
           selected={selectedObjs} 
           onSelect={selectFromList}
         />
+        )
+      }
+   };
+
+  return (
+  <Fragment>
+   <div id="finder-page" ref={pageRef} className="finder-page mw-100" >
+      <div className="finder-container mw-25">
+            <Autocomplete
+               data={data}
+               thisRef={acRef}
+               selectedArray={selectedObjs}
+               onSelect={selectFromList}
+               onRemove={removeFromAC}
+            />
+      </div>
+
+
+      {loaderOrList()}
+      
    </div>
    </Fragment>
   );

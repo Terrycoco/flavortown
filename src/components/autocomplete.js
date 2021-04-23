@@ -5,7 +5,7 @@ import '../styles/autocomplete.css';
 
 
 
-const Autocomplete = ({data, selectedArray, onSelect, onRemove, thisRef}) => {
+const Autocomplete = ({data, loading, selectedArray, onSelect, onRemove, thisRef}) => {
 
   useEffect(()=> {
   }, []);
@@ -23,6 +23,7 @@ const Autocomplete = ({data, selectedArray, onSelect, onRemove, thisRef}) => {
 
     return (
       <div className="autocomplete">
+
        <Multiselect
          options={data}
          selectedValues={selectedArray}

@@ -1,29 +1,55 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment, useState, useRef, useEffect} from 'react';
+import ItemSelect from '../components/itemSelect';
 
 
 
 
 
-
-const ItemEdit = ({...props}) => {
-    const [itemId, setItemId] = useEffect(null);
-    const [catId, setCatId] = useEffect(null);
-    const [parentId, setParentId] = useEffect(null);
-
-
+const ItemEdit = ({items, defaultItemId}) => {
+    const [itemId, setItemId] = useState(null);
+    const [catId, setCatId] = useState(null);
+    const [parentId, setParentId] = useState(null);
+    const mainRef = useRef();
 
 
+    useEffect(() => {
+      if (defaultItemId && defaultItemId > 0) {
+        setItemId(defaultItemId)
+      }
+    }, [defaultItemId]);
+
+    const handleClickItem = (e) => {
+
+    };
+
+    const handleItemChange = (val, name) => {
+      console.log('got here', val, name);
+      setItemId(val);
+      setCatId(items[val])
+    };
+
+    const openNewItem = () => {
+
+    }
+
+    const closeNewItem = () => {
+
+    }
 
   return (
      <Fragment>
       <form >
-          <select class="form-select" aria-label="Default select example">
-            <option selected>Open this select menu</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-
+          <ItemSelect
+              onClick={handleClickItem}
+              thisRef={mainRef} 
+              data={items}
+              value={itemId}
+              onChange={handleItemChange}
+              label="Item"
+              onNoMatch={openNewItem}
+              onMatch={closeNewItem}
+               />
+          
       </form>
 
 

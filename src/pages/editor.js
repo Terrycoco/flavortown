@@ -149,9 +149,9 @@ const openFromBtn = () => {
      setItems(data);
 
      if( fieldName === "main") {
-       handleMainChange(addedItem.item_id, addedItem.item);
+       handleMainChange(addedItem.id, addedItem.name);
     } else {
-       handleFriendChange(addedItem.item_id, addedItem.item);
+       handleFriendChange(addedItem.id, addedItem.name);
     }
 
      closeNewItem();

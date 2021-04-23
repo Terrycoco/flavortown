@@ -1,56 +1,21 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment} from 'react';
 //import APICalls from '../apiCalls';
 //import {groupDataByFieldname} from '../utilities/data'
 //import Autocomplete from '../components/autocomplete';
-import EditItem from '../components/newItem';
+import ItemEdit from '../components/itemEdit';
     
-      // let mock = [
-      //       {"friend_cat": "Dairy", "value": "sour cream"},
-      //       {"friend_cat": "Herbs", "value": "Parsley"},
-      //       {"friend_cat": "Proteins", "value": "Beef"},
-      //       {"friend_cat": "Dairy", "value": "milk"}
-      // ];
+let mock = [{"id":746,"name":"ale","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":200,"name":"amaretto","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":372,"name":"applejack","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":420,"name":"apricot brandy","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":373,"name":"Armagnac","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":572,"name":"banana liqueur","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":535,"name":"beer","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":747,"name":"beer, dark","cat_id":3,"cat":"Aromatics & Other Flavorings"}];
 
 
 
 function TestPage() {
-const [isOpen, setIsOpen] = useState(true);
-
-
-const onAdd = () => {
-}
-const onClose = () => {
-}
-
-  
-   // useEffect(() => {
-   //   const runTest = async() => {
-      
-   //    //   //enter test here
-   //    const data = await APICalls.getMutual([]);
-   //    const grouped = groupDataByFieldname(data, "friend_cat", true);
-   //    console.log('grouped:', grouped);
-   //    return grouped;
-     
-   //   };
-
-   //   runTest().then(testdata => {
-   //      setResult(testdata);
-   //   });
-     
-
-   // }, []);
-
 
   return (
       <Fragment>
-           <EditItem
-              text={""}
-              onAdd={onAdd}
-              onClose={onClose}
-              isOpen={isOpen}
-            />
-
+       <ItemEdit
+         items={mock}
+         defaultItemId={572}
+        />
       </Fragment>
   )
 }
