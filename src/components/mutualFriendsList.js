@@ -15,9 +15,8 @@ import "../styles/friends.css";
 const ItemsList = ({data, selected, onSelect}) => {
 
 
-
    const selectItem = (e) => {
-     console.log(e.target);
+    // console.log(e.target);
      const id = e.target.attributes["data-id"].value;
      const name = e.target.attributes["data-name"].value;
      onSelect({name: name, id: id});
@@ -27,17 +26,17 @@ const ItemsList = ({data, selected, onSelect}) => {
 
   const renderItems = (items) => {
     if (items) {
-      return items.map(i => {
+      return items.map((i,idx) => {
         return (
           <li className="friend" 
                onClick={selectItem} 
-               key={i.id}
+               key={idx}
                data-id={i.id}
                data-name={i.name}
             >
            <span 
                className="listitem"
-               key={i.id}
+               key={`s{idx}`}
                data-id={i.id}
                data-name={i.name}>
                {i.name}
@@ -53,14 +52,17 @@ const ItemsList = ({data, selected, onSelect}) => {
 
 
   const renderCats = () => {
+
      const keys = Object.keys(data);
 
 
      const result = keys.map((k, idx) => {
         return (
-          <div className="accordion-item">
-            <div className="accordion-header catheader " id={`heading${idx}`}>
+
+    <div className="accordion-item" key={`item${idx}`}>
+            <div className="accordion-header catheader " key={`header${idx}`} id={`heading${idx}`}>
               <div className="accordion-button collapsed" 
+                   key={`button${idx}`}
                       data-bs-toggle="collapse" 
                       data-bs-target={`#collapse${idx}`}
                       aria-expanded="false" 
@@ -69,6 +71,7 @@ const ItemsList = ({data, selected, onSelect}) => {
               </div>
             </div>
             <div id={`collapse${idx}`}
+                 key={`arrow${idx}`}
                  className="accordion-collapse collapse" 
                  aria-labelledby={`heading${idx}`} 
                  data-bs-parent="#item-accordion">

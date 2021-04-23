@@ -13,8 +13,8 @@ const AffinitySelect = ({value, onChange, label, thisRef}) => {
        {value: -1, label: "enemy"},
        {value: 1, label: "friend"},
        {value: 2, label: "good friend"},
-       {value: 3, label: "best friend"},
-       {value: 4, label: "BFF"},
+       {value: 3, label: "BEST FRIEND"},
+       {value: 4, label: "BFF!"},
       ];
     setOptions(optionsList);
   }, []);

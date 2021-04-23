@@ -52,7 +52,7 @@ const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, onClick
     <Fragment>
     <form onSubmit={handleSubmit}>
     <div className="select-control-group">
-    <label htmlFor="itemSelect" className="control-label">{label}: {item.value}</label>
+    <label htmlFor="itemSelect" className="control-label">{label}: {item.id}</label>
      <Select
          ref={thisRef}
          value={items.find(it => {

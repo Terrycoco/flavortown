@@ -15,6 +15,8 @@ const CreateDish = () => {
 
   //data for grouped list
   const [groupedItems, setGroupedItems] = useState({});
+  const [allGroupedData, setAllGroupedData] = useState([]);
+
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,6 +24,18 @@ const CreateDish = () => {
   const acRef =  useRef();
   const pageRef = useRef();
 
+//initial page load don't repeat
+useEffect(() => {
+  const initalLoad = async() => {
+     const ungrouped = await APICalls.getAllItems();
+     const grouped = groupDataByFieldname(ungrouped, "cat", true);
+     return {ungrouped, grouped};
+  };
+  initalLoad()
+  .then(load => {
+    setAllGroupedData(load.grouped);
+  });
+}, []);
 
 
 
@@ -57,6 +71,8 @@ const CreateDish = () => {
 
   //from list
 const selectFromList = (newobj) => {
+    console.log('newobj selected', newobj);
+    if (selectedObjs.find(x => x.id === newobj.id) ) return;
 
     setSelectedObjs(oldArr => {
      // console.log('oldarr:', oldArr);
@@ -65,12 +81,16 @@ const selectFromList = (newobj) => {
   };
 
   const removeFromAC = (remainingList) => {
+    if (!remainingList.length) {
+      console.log('in store:', allGroupedData);
+      setGroupedItems(allGroupedData);
+    }
     setSelectedObjs(oldArr => {
      // console.log('oldarr:', oldArr);
       return [...remainingList];
    });
    //remove focus?
-   document.activeElement.blur();
+   // document.activeElement.blur();
    };
 
 

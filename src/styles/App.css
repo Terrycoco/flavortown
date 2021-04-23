@@ -1,3 +1,12 @@
+/*colors*/
+:root {
+  --blue: #0c63e4;
+  --pink: #fa46ee;
+  --lightgreen: #edffc4;
+  --lightpink: #ffd6fc;
+}
+
+
 .App {
   position: absolute;
   top: 0;
@@ -13,12 +22,12 @@
 }
 
 .navbar {
-  background-color: #edffc4;
+  background-color: var(--lightgreen);
   height: 15%;
 }
 
 .editItemBtn {
-  background-color: #edffc4;
+  background-color:  var(--lightgreen);
   border: 2px solid #eee;
 }
 
@@ -44,7 +53,7 @@ div.sticky {
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
   font-weight: bolder;
   font-size: 20px;
-  color: #fa46ee;
+  color: var(--pink);
   text-align: center;
 }
 
@@ -54,16 +63,7 @@ div.sticky {
 }
 
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+
 
 .App-link {
   color: #61dafb;

@@ -9,7 +9,7 @@ import Navbar from './components/navbar';
 
 //pages
 import TestPage from './pages/testPage';
-import EnterPairing from "./pages/enterPairing";
+import Editor from "./pages/editor";
 import CreateDish from './pages/createDish';
 
 const App = () => {
@@ -25,7 +25,7 @@ const App = () => {
         <Router>
            <Switch>
             <Route exact path="/" component={CreateDish} />
-            <Route path="/edit" component={EnterPairing} />
+            <Route path="/edit" component={Editor} />
             <Route path="/test" component={TestPage} />
            </Switch>
          </Router>

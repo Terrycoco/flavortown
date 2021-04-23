@@ -1,0 +1,26 @@
+.pairings-container{
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  padding-bottom: .75em;
+  background-color: white;
+}
+
+.btns {
+  margin-top: 10px;
+}
+
+#addpairingbtn > svg {
+  font-weight: bolder;
+}
+
+#editItembtn  {
+  border: 1px solid var(--pink);
+  margin-left: 3px;
+}
+
+/****  magic trick  *****/
+#editItembtn svg path{
+  fill: var(--pink);
+}

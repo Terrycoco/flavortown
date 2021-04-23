@@ -32,7 +32,6 @@ const NewItem = ({text, onAdd, onClose, isOpen}) => {
       e.preventDefault();
       try {
          const data = await APICalls.addNewItem(newText, catId);
-         console.log('returned item add?', data);
          onAdd(data);  //give back to calling form
        // onClose();
 

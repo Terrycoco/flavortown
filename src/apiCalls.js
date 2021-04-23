@@ -62,6 +62,21 @@ const getMutual = async(idArray) => {
   }
 };
 
+const addNewPairing = async(mainId, friendId, affinityId) => {
+   try{
+       const body = {item1_id: mainId, item2_id: friendId, level: affinityId};
+       // console.log(body);
+        await fetch(API + "/pairing/new", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(body)
+        });
+        return;
+      } catch(err) {
+        console.error('error adding pairing: ',  err.message);
+      }
+};
+
 
 
 const addNewItem = async(newItemText, catId) => {
@@ -93,7 +108,8 @@ const APICalls = {
   getCats: getCats,
   getFriends: getFriends,
   addNewItem: addNewItem,
-  getMutual: getMutual
+  getMutual: getMutual,
+  addNewPairing: addNewPairing
 };
 
 export default APICalls;

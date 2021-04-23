@@ -4,9 +4,9 @@ import 'reactjs-popup/dist/index.css';
 import NewItem from '../components/newItem';
 import ItemSelect from '../components/itemSelect';
 import AffinitySelect from '../components/affinitySelect';
-import "../styles/friends.css";
+import "../styles/editor.css";
 import APICalls from '../apiCalls';
-import editIcon from '../images/edit_pencil.svg';
+
 
 
 const styles = {
@@ -36,30 +36,18 @@ const styles = {
 
 
 
-function EnterPairing() {
+function Editor() {
   const mainRef = useRef(null);
   const friendRef = useRef(null);
   const affinityRef = useRef(null);
-
   const [items, setItems] = useState([]);
   const [friends, setFriends] = useState([]);
-  const [API, setAPI] = useState("");
-  const [mainId, setMainId] = useState();
+  const [mainId, setMainId] = useState(null);
   const [inputText, setInputText] = useState("");
-  const [friendId, setFriendId] = useState();
+  const [friendId, setFriendId] = useState(null);
   const [affinityId, setAffinityId] = useState(1);
-  const [itemFormIsOpen, setItemFormIsOpen] = useState(true);
+  const [itemFormIsOpen, setItemFormIsOpen] = useState(false);
   const [fieldName, setFieldName] = useState("");
-
-
-//side effects - in order
-  useEffect(() => {
-    const fetchAPI = async () => {
-      let api = await APICalls.API;
-      setAPI(api);
-    };
-    fetchAPI();
-   }, []); //on load only
 
 
   useEffect(() => {
@@ -83,9 +71,10 @@ function EnterPairing() {
   }
   }, [mainId]); //whever mainId changes refetch friends
 
-
-
-
+const openFromBtn = () => {
+  setInputText("");
+  setItemFormIsOpen(true);
+};
 
   const openNewItem = (newText) => {
    setInputText(newText);
@@ -105,18 +94,19 @@ function EnterPairing() {
 
   
   const handleMainChange = (val, name) => {
+    console.log('got here', val, name);
     setMainId(val);  //triggers friends change
     setInputText(name);
-    setFieldName("main");
   };
 
   const handleFriendChange = async(val, name) => {
-    await setFriendId(val);
-    await setInputText(name);
+    if (!val) return;
+    setFriendId(val);
+    setInputText(name);
     //is this an edit? if so pop in affinity level too
     if (friends) {
       const result = friends.find(f => {
-        return f.friend_id === friendId });
+        return f.id === val });
         if (result) {
           setAffinityId(result.affinity_level);
         }
@@ -126,6 +116,7 @@ function EnterPairing() {
 
     if (fieldName === "main") {
       friendRef.current.focus();
+      setFieldName("friend");
     } else {
       document.getElementById("addpairingbtn").focus();
     }
@@ -139,13 +130,7 @@ function EnterPairing() {
   const handleAddPairing = async () => {
     //do some validation?
     try {
-      const body = {item1_id: mainId, item2_id: friendId, level: affinityId};
-       // console.log(body);
-        await fetch(API + "/pairing/new", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(body)
-        });
+        await APICalls.addNewPairing(mainId, friendId, affinityId);
 
         //refresh friends
         const data = await APICalls.getFriends(mainId);
@@ -160,14 +145,13 @@ function EnterPairing() {
   };
 
   const handleItemAdd = async (addedItem) => {
-
      const data = await APICalls.getAllItems();
      setItems(data);
 
      if( fieldName === "main") {
-       handleMainChange(addedItem.id, addedItem.name);
+       handleMainChange(addedItem.item_id, addedItem.item);
     } else {
-       handleFriendChange(addedItem.id, addedItem.name);
+       handleFriendChange(addedItem.item_id, addedItem.item);
     }
 
      closeNewItem();
@@ -188,11 +172,9 @@ function EnterPairing() {
 
   return (
 <Fragment>
-
-
-  <div className="pairings-container">
+<div className="pairings-container">
            <div className="row align-items-start ">
-             <div className="col-md-4" >
+             <div className="col-md-3" >
               <ItemSelect
                     onClick={() => onClick("main")}
                     thisRef={mainRef} 
@@ -206,7 +188,7 @@ function EnterPairing() {
               </div>
 
 
-             <div className="col-md-4" >
+             <div className="col-md-3" >
               <ItemSelect
                     thisRef={friendRef}
                     onClick={() => onClick("friend")}
@@ -228,8 +210,7 @@ function EnterPairing() {
                 />
               </div>
         
-              <div className="btn-row d-flex justify-content-between align-items-middle">
-                <span className="control-label">Existing Friends</span>
+              <div className="btns col-md-3 d-flex align-self-end justify-content-start align-items-bottom">
                 <button 
                     type="button"
                     className="btn btn-sm btn-success"
@@ -244,14 +225,16 @@ function EnterPairing() {
                     type="button"
                     className="btn btn-sm editItemBtn"
                     id="editItembtn"
-                    onClick={openNewItem}
+                    onClick={openFromBtn}
                 >
-                    <img  className="editsvg" src={editIcon} alt="Edit Item" width="32" height="32"   />
+                   <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24px" height="24px"> 
+                      <path d="M 16.9375 1.0625 L 3.875 14.125 L 1.0742188 22.925781 L 9.875 20.125 L 22.9375 7.0625 C 22.9375 7.0625 22.8375 4.9615 20.9375 3.0625 C 19.0375 1.1625 16.9375 1.0625 16.9375 1.0625 z M 17.3125 2.6875 C 18.3845 2.8915 19.237984 3.3456094 19.896484 4.0214844 C 20.554984 4.6973594 21.0185 5.595 21.3125 6.6875 L 19.5 8.5 L 15.5 4.5 L 16.9375 3.0625 L 17.3125 2.6875 z M 4.9785156 15.126953 C 4.990338 15.129931 6.1809555 15.430955 7.375 16.625 C 8.675 17.825 8.875 18.925781 8.875 18.925781 L 8.9179688 18.976562 L 5.3691406 20.119141 L 3.8730469 18.623047 L 4.9785156 15.126953 z"/>
+                   </svg>
                 </button>
                 
             </div>
   
-      </div> 
+</div> 
         
 </div>
  
@@ -303,4 +286,4 @@ function EnterPairing() {
   );
 }
 
-export default EnterPairing;
+export default Editor;

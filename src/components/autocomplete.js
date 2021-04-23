@@ -16,6 +16,7 @@ const Autocomplete = ({data, selectedArray, onSelect, onRemove, thisRef}) => {
   };
 
   const handleRemove = (selectedList, selectedItem) => {
+     document.activeElement.blur();
      onRemove(selectedList);
   };
 

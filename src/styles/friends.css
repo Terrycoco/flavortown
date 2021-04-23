@@ -8,13 +8,7 @@
   padding: 0;
 }
 
-.pairings-container{
-  position: -webkit-sticky;
-  position: sticky;
-  top: 10vh;
-  background: white;
-  padding-bottom: .5em;
-}
+
 
 .accordion-button {
   padding: .3rem;
@@ -82,6 +76,8 @@
 
 .enemy {
    text-decoration: line-through;
+   text-decoration-color: darkred;
+
 }
 
 
