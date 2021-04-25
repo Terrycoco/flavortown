@@ -1,11 +1,16 @@
 /*colors*/
 :root {
-  --blue: #0c63e4;
-  --pink: #fa46ee;
+  --blue: #45b5ff;
+  --pink: #d63abf;
   --lightgreen: #edffc4;
   --lightpink: #ffd6fc;
+  --lightblue: #a4d6de;
+  --darkblue:  #1173cf;
 }
 
+body {
+   font-family: "Yantramanav", Arial, Helvetica, sans-serif;
+}
 
 .App {
   position: absolute;

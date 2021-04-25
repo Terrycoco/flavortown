@@ -15,6 +15,12 @@ const arrayFindObjectByProp = (arr, propname, value) =>{
   return find(arr, propname, value);
 }
 
+const objectIsEmpty = (obj) => {
+  return Object.keys(obj).length === 0;
+};
 
-
-export {groupDataByFieldname, arrayFindObjectByProp};
+export {
+        groupDataByFieldname, 
+        arrayFindObjectByProp,
+        objectIsEmpty
+      };

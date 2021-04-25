@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useCallback, useEffect, useRef} from 'react';
-import MutualFriendsList from '../components/mutualFriendsList';
+import ItemsListFull from '../components/itemsListFull';
 import "../styles/friends.css";
 import Autocomplete from '../components/autocomplete';
 import {groupDataByFieldname} from '../utilities/data';
@@ -108,10 +108,7 @@ const selectFromList = (newobj) => {
           )
        } else {
         return (
-        <MutualFriendsList
-          data={groupedItems} 
-          selected={selectedObjs} 
-          onSelect={selectFromList}
+        <ItemsListFull
         />
         )
       }

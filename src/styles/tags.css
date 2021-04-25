@@ -1,0 +1,47 @@
+/* To change search box element look */
+.tags-component {
+   margin-top: 5px;
+   margin-bottom: 5px;
+   position: -webkit-sticky;
+   position: sticky;
+   top: 0;
+   background-color: white;
+}
+
+.tags-container {
+   width: 80vw;
+   margin-top: 5px;
+   margin-bottom: 5px;
+   position: -webkit-sticky;
+   position: sticky;
+   top: 0;
+   background: white;
+   border: 2px solid var(--blue);
+   border-radius: 4px; 
+   z-index: 20;
+   min-height: 2em;
+   display: flex;
+   flex-wrap: wrap;
+   align-items: flex-start;
+ }
+
+ .tag {
+  border-radius: 5px;
+  white-space: nowrap; /* keep btn flat */
+  margin: .2rem;
+  background-color: var(--blue);
+  color: white;
+  font-family: "Yantramanav";
+  font-weight: bold;
+  font-size: .7rem;
+  display: inline-block;
+  vertical-align: center;
+  padding: .2rem .7rem .1rem .6rem;
+  box-shadow: 1px 1px 1px #888888;
+ }
+
+
+
+.tag:hover {
+  background-color: var(--pink);
+}

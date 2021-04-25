@@ -11,20 +11,21 @@
 
 
 .accordion-button {
+  font-family: 'Montserrat';
   padding: .3rem;
   padding-left: 0;
-  color: #fa46ee;
-  font-weight: bold;
-  font-size: .8rem;
+  color: var(--darkblue);
+  font-weight: bolder;
+  font-size: 1.2rem;
 }
 
 .accordion-button.collapsed{
-  color: #0c63e4;
+  color: var(--darkblue)
 }
 
 .accordion-button:not(.collapsed) {
   background-color: white;
-  color: #fa46ee;
+  color: var(--pink);
 }
 
 
@@ -39,16 +40,16 @@
 
 
 
-.catline {
+/*.catline {
   color: #fa46ee;
   font-weight: bolder;
   margin-top: 0;
 }
-
+*/
 .listitem {
  display: inline-block;
  padding-bottom: 6px;
- font-size: 16px;
+ font-size: 1rem;
 }
 
 

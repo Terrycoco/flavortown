@@ -10,7 +10,7 @@ const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, onClick
 
 
   useEffect(() => {
-    setItems(data);
+    setItems([...data]);
   }, [data]);
 
   //try to update value when it changes?

@@ -24,3 +24,9 @@
 #editItembtn svg path{
   fill: var(--pink);
 }
+
+#deletePairingBtn {
+  color: var(--pink);
+  border: 1px solid var(--pink);
+  margin-left: 3px;
+}

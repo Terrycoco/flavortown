@@ -10,7 +10,7 @@ import Navbar from './components/navbar';
 //pages
 import TestPage from './pages/testPage';
 import Editor from "./pages/editor";
-import CreateDish from './pages/createDish';
+import FlavorFinder from './pages/FlavorFinder';
 
 const App = () => {
  // const [open, setOpen] = useToggle(true);
@@ -24,7 +24,7 @@ const App = () => {
         <div className="page">
         <Router>
            <Switch>
-            <Route exact path="/" component={CreateDish} />
+            <Route exact path="/" component={FlavorFinder} />
             <Route path="/edit" component={Editor} />
             <Route path="/test" component={TestPage} />
            </Switch>

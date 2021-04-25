@@ -2,16 +2,6 @@ import React, { Fragment  } from 'react';
 import "../styles/friends.css";
 
 
-  // const itemClasses = {
-  //   "1": "friend",
-  //   "2": "goodfriend",
-  //   "3": "bestfriend",
-  //   "4": "bff",
-  //   "-1": "enemy"
-  // };
-
-
-
 const ItemsList = ({data, selected, onSelect}) => {
 
 
@@ -62,11 +52,11 @@ const ItemsList = ({data, selected, onSelect}) => {
     <div className="accordion-item" key={`item${idx}`}>
             <div className="accordion-header catheader " key={`header${idx}`} id={`heading${idx}`}>
               <div className="accordion-button collapsed" 
-                   key={`button${idx}`}
-                      data-bs-toggle="collapse" 
-                      data-bs-target={`#collapse${idx}`}
-                      aria-expanded="false" 
-                      aria-controls={`#collapse${idx}`}>
+                  key={`button${idx}`}
+                  data-bs-toggle="collapse" 
+                  data-bs-target={`#collapse${idx}`}
+                  aria-expanded="false" 
+                  aria-controls={`#collapse${idx}`}>
                 {k}
               </div>
             </div>

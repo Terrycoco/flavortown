@@ -2,10 +2,11 @@
 const API = (process.env.NODE_ENV === 'production') ?  process.env.REACT_APP_API : "http://localhost:5000";
 
 const getAllItems = async () => {
+  //ordered by item
     try {
       const response = await fetch(API + "/items");
       const jsonData = await response.json();
-    //  console.log("data: ", jsonData);
+       console.log("data: ", jsonData);
       return jsonData;
 
     } catch(err) {
@@ -36,9 +37,23 @@ const getFriends = async(mainId) => {
     }
 };
 
+const getItemsByCat = async(catId) => {
+  if (!catId) return;
+  try {
+     
+      const response = await fetch(API + "/itemsbycat/" + catId);
+      const jsonData = await response.json();
+      //console.log('data returned: ', jsonData);
+      return jsonData;
+    } catch(err) {
+      console.error(err.message);
+    }
+};
+
 
 
 const getMutual = async(idArray) => {
+  //ordered by category
   if (idArray && idArray.length > 0) {
     try {
       console.log('fetching mutual friends ', idArray);
@@ -100,6 +115,23 @@ const addNewItem = async(newItemText, catId) => {
 };
 
 
+const deletePairing = async(mainId, friendId) => {
+   try{
+       const body = {item1_id: mainId, item2_id: friendId};
+       // console.log(body);
+        await fetch(API + "/pairing/delete", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(body)
+        });
+        return;
+      } catch(err) {
+        console.error('error adding pairing: ',  err.message);
+      }
+};
+
+
+
 
 
 const APICalls = {
@@ -109,7 +141,9 @@ const APICalls = {
   getFriends: getFriends,
   addNewItem: addNewItem,
   getMutual: getMutual,
-  addNewPairing: addNewPairing
+  addNewPairing: addNewPairing, 
+  deletePairing: deletePairing,
+  getItemsByCat: getItemsByCat
 };
 
 export default APICalls;
