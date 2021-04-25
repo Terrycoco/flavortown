@@ -1,6 +1,6 @@
 /*colors*/
 :root {
-  --blue: #45b5ff;
+  --blue: #0051ff;
   --pink: #d63abf;
   --lightgreen: #edffc4;
   --lightpink: #ffd6fc;
@@ -10,6 +10,7 @@
 
 body {
    font-family: "Yantramanav", Arial, Helvetica, sans-serif;
+   color: black;
 }
 
 .App {
