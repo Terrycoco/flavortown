@@ -23,7 +23,7 @@
   border-radius: 5px;
   white-space: nowrap; /* keep btn flat */
   margin: .2rem;
-  background-color: var(--blue);
+  background-color: var(--darkblue);
   color: white;
   font-family: "Yantramanav";
   font-weight: bold;
