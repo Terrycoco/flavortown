@@ -1,14 +1,14 @@
-import React, {Fragment, useState, useRef, useEffect} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import ItemSelect from '../components/itemSelect';
 
 
 
 
 
-const ItemEdit = ({items, defaultItemId}) => {
-    const [itemId, setItemId] = useState(null);
-    const [catId, setCatId] = useState(null);
-    const [parentId, setParentId] = useState(null);
+const ItemEdit = ({isOpen, items, defaultItemId, thisRef, onClose}) => {
+    const [itemId, setItemId] = useState();
+    const [catId, setCatId] = useState();
+    const [parentId, setParentId] = useState();
     const mainRef = useRef();
 
 
@@ -28,32 +28,41 @@ const ItemEdit = ({items, defaultItemId}) => {
       setCatId(items[val])
     };
 
-    const openNewItem = () => {
+    const closeMe = () => onClose();
 
-    }
+    const onNoMatch = () => {};
+    const onMatch = () => {};
 
-    const closeNewItem = () => {
 
-    }
-
+  if (!isOpen) {
+    return false;
+  }
   return (
-     <Fragment>
-      <form >
+      <div className="editItemForm d-flex flex-column justify-content-between">
           <ItemSelect
-              onClick={handleClickItem}
-              thisRef={mainRef} 
-              data={items}
-              value={itemId}
-              onChange={handleItemChange}
-              label="Item"
-              onNoMatch={openNewItem}
-              onMatch={closeNewItem}
-               />
-          
-      </form>
+                thisRef={thisRef}
+                onClick={handleClickItem}
+                data={items} 
+                value={itemId}
+                onChange={handleItemChange}
+                label="Item"
+                onNoMatch={onNoMatch}
+                onMatch={onMatch}
+           />
+          <div className="button-group justify-self-end d-flex justify-content-around">
+            <button 
+               className="btn btn-secondary btn-sm"
+               onClick={closeMe}
+             >Close</button>
+            <button 
+               className="btn btn-primary btn-sm"
+             >Save Edit</button>
+          </div>
+
+      </div>
 
 
-     </Fragment>
+ 
   );
 
 };

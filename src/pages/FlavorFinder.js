@@ -23,7 +23,7 @@ const FlavorFinder = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   //ref to Autocomplete
-  const acRef =  useRef();
+  const tagRef =  useRef();
   const pageRef = useRef();
 
 // //initial page load don't repeat
@@ -81,6 +81,8 @@ const FlavorFinder = () => {
      // console.log('oldarr:', oldArr);
       return [...oldArr, newobj]
    });
+
+      console.log('tagRef: ', tagRef);
   };
 
   //from tags
@@ -94,8 +96,7 @@ const FlavorFinder = () => {
      // console.log('oldarr:', oldArr);
       return [...remainingList];
    });
-   //remove focus?
-   // document.activeElement.blur();
+   console.log('tagRef: ', tagRef);
    };
 
    const loaderOrList = () => {
@@ -124,6 +125,7 @@ const FlavorFinder = () => {
          <TagsBox
            selectedItems={selectedObjs}
            onRemove={removeFromTags}
+           thisRef={tagRef}
          />
       </div>
 

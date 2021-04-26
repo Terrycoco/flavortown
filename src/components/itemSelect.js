@@ -1,8 +1,16 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, { useState, useEffect} from 'react';
 import Select from 'react-select';
-import '../styles/selectStyles.css';
+import '../styles/itemSelect.css';
 
-const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, onClick, label}) => {
+const ItemSelect = ({thisRef, 
+                     data, 
+                     value, 
+                     onChange, 
+                     onNoMatch, 
+                     onMatch, 
+                     onClick, 
+                     label,
+                     sideBtn}) => {
   const [items, setItems] = useState([]);
   const [noMatch, setNoMatch] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -10,7 +18,9 @@ const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, onClick
 
 
   useEffect(() => {
-    setItems([...data]);
+    if (data) {
+    setItems(data);
+  }
   }, [data]);
 
   //try to update value when it changes?
@@ -52,28 +62,30 @@ const ItemSelect = ({thisRef, data, value, onChange, onNoMatch, onMatch, onClick
 
   };
 
+//takes 100% of parent's width
   return (
-    <Fragment>
-    <form onSubmit={handleSubmit}>
-    <div className="select-control-group">
-    <label htmlFor="itemSelect" className="control-label">{label}: {item.id}</label>
-     <Select
-         ref={thisRef}
-         value={items.find(it => {
-           return it.id === value
-          })}
-         options={items}
-         filterOption={filterOption}
-         getOptionLabel={(option)=>option.name}
-         getOptionValue={(option)=>option.id}
-         onChange={it => handleChange(it)}
-         onFocus={onClick}
-         className="react-select-container"
-         classNamePrefix="react-select"
-      />
-      </div>
+    <span className="item-select w-100 d-flex">
+    <form onSubmit={handleSubmit} className="w-100">
+      <div className="w-100 input-group d-flex">
+         <label htmlFor="itemSelect" className="control-label">{label}: {item.id}</label>
+         <Select
+             ref={thisRef}
+             value={items.find(it => {
+               return it.id === value
+              })}
+             options={items}
+             filterOption={filterOption}
+             getOptionLabel={(option)=>option.name}
+             getOptionValue={(option)=>option.id}
+             onChange={it => handleChange(it)}
+             onFocus={onClick}
+             className="item-select-dropdown"
+             classNamePrefix="item-select"
+          />
+         {sideBtn}
+        </div>
       </form>
-    </Fragment>
+    </span>
   );
 
    

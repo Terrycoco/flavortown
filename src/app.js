@@ -9,7 +9,7 @@ import Navbar from './components/navbar';
 
 //pages
 import TestPage from './pages/testPage';
-import Editor from "./pages/editor";
+import Editor from "./pages/Editor";
 import FlavorFinder from './pages/FlavorFinder';
 
 const App = () => {

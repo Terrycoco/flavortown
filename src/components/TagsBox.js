@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import '../styles/tags.css';
 
-const TagsBox = ({selectedItems, onSelect, onRemove}) => {
+const TagsBox = ({selectedItems, onSelect, onRemove, thisRef}) => {
    const [thisArray, setThisArray] = useState([]);
 
   useEffect(() => {
@@ -26,8 +26,10 @@ const TagsBox = ({selectedItems, onSelect, onRemove}) => {
   return (
 
      <div className="tags-component">
-        <div className="tags-container">
- 
+        <div className="tags-container"
+              ref={thisRef}
+                autoFocus={true}
+        >
           {thisArray && (thisArray.length > 0) && thisArray.map(it => {
             return (
               <span 
@@ -37,6 +39,7 @@ const TagsBox = ({selectedItems, onSelect, onRemove}) => {
                  data-id={it.id}
                  data-name={it.name}
                  onClick={handleRemove}
+
               >
                   {it.name}
               </span>

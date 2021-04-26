@@ -9,7 +9,6 @@ const ItemsListFull = ({selected, onSelect}) => {
    const [catId, setCatId] = useState();
    const [itemsObj, setItemsObj] = useState({});
    const [isLoading, setIsLoading] = useState(true);
-   const [closeAll, setCloseAll] = useState(true);
 
 
 
@@ -62,8 +61,10 @@ const fetchFriends = useCallback(
 
 
   useEffect(() =>  {
-    if (selected.length ===0){
+    if (selected.length === 0){
+      setIsLoading(true);
       initCats();
+      setIsLoading(false);
     }
   }, [selected.length]);
 
@@ -71,7 +72,6 @@ const fetchFriends = useCallback(
 
 
   function resetCatsArr(groupedData) {
-  //  console.log('resetCats called groupedData', groupedData, 'type:', typeof groupedData);
     if (groupedData && typeof groupedData === 'object') {
       let keys = Object.keys(groupedData).map(Number);
       console.log('keys', keys);
@@ -95,14 +95,14 @@ const fetchFriends = useCallback(
   //when user selects different catid
    useEffect(() => {
     if (selected.length === 0) {
-      console.log('no items selected');
+      setIsLoading(true);
       fetchItemsByCat(catId)
       .then(data => {
         console.log('cat items returned: ', data);
         setItemsObj({...data});
       })
     } else {
-      // console.log('items selected', selected);
+      setIsLoading(true);
       fetchFriends()
       .then(data => {
         console.log('grouped data returned: ', data.grouped);
