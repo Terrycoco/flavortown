@@ -6,7 +6,7 @@ import {groupDataByFieldname} from '../utilities/data';
 
 const ItemsListFull = ({selected, onSelect}) => {
    const [catsArr, setCatsArr] = useState([]); ///hard code for speed?
-   const [catId, setCatId] = useState();
+   const [catId, setCatId] = useState(0);
    const [itemsObj, setItemsObj] = useState({});
    const [isLoading, setIsLoading] = useState(true);
 
@@ -34,15 +34,13 @@ const fetchItemsByCat = useCallback(
     return newObj;
 },[catId, selected.length]);
 
- useEffect(() =>  {
+useEffect(() =>  {
     if (selected.length === 0){
       setIsLoading(true);
       initCats();
       setIsLoading(false);
     }
   }, [selected.length]); 
-
-
 
 const fetchFriends = useCallback(
   async() => {
@@ -66,13 +64,8 @@ const fetchFriends = useCallback(
 
   function initCats() {
     setCatsArr(cats);
-    setCatId();
+    setCatId(0);
   };
-
-
- 
-
-
 
 
   function resetCatsArr(groupedData) {
@@ -174,13 +167,6 @@ const fetchFriends = useCallback(
      }
   };
 
-
-
-
-
-
-
-
 const loaderOrList = () => {
       if (isLoading) {
           return (
@@ -197,50 +183,49 @@ const loaderOrList = () => {
 
 
 const onCatClick = (e) => {
-  // console.log('curr itemsObj:', itemsObj);
-  // console.log('e.target:', e.target);
-  if (e.target.attributes["aria-expanded"].value === "true") {
-    const thisCatId = e.target.attributes["data-cat-id"].value;
-    setCatId(thisCatId); 
-    if (!(thisCatId in itemsObj)) {
-      fetchItemsByCat(thisCatId);
+    const thisCatId = parseInt(e.target.attributes["data-cat-id"].value);
+    console.log('thiscatid:', thisCatId);
+    if (catId !== thisCatId) {
+       setCatId(thisCatId);
+        if (!(thisCatId in itemsObj)) {
+          fetchItemsByCat(thisCatId);
+       } 
+    } else {
+      setCatId(0);
     }
-  }
-};
+  };
 
-
-  const renderCats = () => {
-
-     console.log('rendering: selected:', selected, 'catsArr:', catsArr);
-
-    if (!catsArr.length) return null;
-
-
+const renderCats = () => {
     const result = catsArr.map((cat, idx) => {
-      let id = cat.cat_id;
+      let id = parseInt(cat.cat_id);
+      //console.log('rendering cat', id);
+      let cl = "accordion-collapse collapse";
+      let btncl = "accordion-button";
+      if (id === catId) {
+        cl = cl + " show";
+      } else {
+        btncl = btncl + " collapsed";
+      }
        return (
         <div className="accordion-item" 
              key={`item${id}`}
         >
-                <div  className="accordion-header catheader " 
+                 <div className="accordion-header catheader " 
                       key={`header${id}`} 
                       id={`heading${id}`}
-                       onClick={onCatClick}
+                      onClick={onCatClick}
+
                       >
-                  <div className="accordion-button collapsed in" 
+                  <div className={btncl}
                       key={`button${id}`}
-                      data-bs-toggle="collapse" 
-                      data-bs-target={`#collapse${id}`}
-                      aria-expanded="false" 
-                      aria-controls={`#collapse${id}`}
-                      data-cat-id={cat.cat_id}
+                      data-cat-id={id}
                       >
                     {cat.cat}
                   </div>
                 </div>
                 <div id={`collapse${id}`}
                      key={`arrow${id}`}
-                     className="accordion-collapse collapse" 
+                     className={cl} 
                      aria-labelledby={`heading${id}`} 
                      data-bs-parent="#item-accordion"
                 >

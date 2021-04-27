@@ -1,14 +1,13 @@
 /* To change search box element look */
-.tags-component {
+
+
+.tags-container {
+   background-color: white;
    margin-top: 5px;
-   margin-bottom: 5px;
+   margin-bottom: 10px;
    position: -webkit-sticky;
    position: sticky;
    top: 0;
-   background-color: white;
-}
-
-.tags-container {
    width: 80vw;
    border: 2px solid var(--lightblue);
    border-radius: 4px; 

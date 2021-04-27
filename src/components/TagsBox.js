@@ -10,27 +10,25 @@ const TagsBox = ({selectedItems, onSelect, onRemove, thisRef}) => {
         //do nothing
        } else {
          setThisArray(oldarr => selectedItems);
+         document.getElementById("tags-container").focus();
        }
   }, [selectedItems, thisArray.length]);
 
   const handleRemove = (e) => {
     e.stopPropagation();
-    console.log('target:', e.target);
     let id = parseInt(e.target.attributes["data-id"].value);
     const remainingArray = thisArray.filter(it => {
-      return it.id !== id;
+      return parseInt(it.id) !== id;
     })
-    console.log('remianingarray:', remainingArray);
+   // console.log('remianingarray:', remainingArray);
     setThisArray(oldArray => remainingArray);
     onRemove(remainingArray);
   };
 
   return (
 
-     <div className="tags-component">
         <div className="tags-container"
               ref={thisRef}
-              autoFocus={true}
               id="tags-container"
         >
           {thisArray && (thisArray.length > 0) && thisArray.map(it => {
@@ -50,7 +48,6 @@ const TagsBox = ({selectedItems, onSelect, onRemove, thisRef}) => {
              )
            })}
         </div> 
-      </div>
 
 
   );
