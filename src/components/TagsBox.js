@@ -14,7 +14,9 @@ const TagsBox = ({selectedItems, onSelect, onRemove, thisRef}) => {
   }, [selectedItems, thisArray.length]);
 
   const handleRemove = (e) => {
-    let id = e.target.attributes["data-id"].value;
+    e.stopPropagation();
+    console.log('target:', e.target);
+    let id = parseInt(e.target.attributes["data-id"].value);
     const remainingArray = thisArray.filter(it => {
       return it.id !== id;
     })
@@ -28,13 +30,15 @@ const TagsBox = ({selectedItems, onSelect, onRemove, thisRef}) => {
      <div className="tags-component">
         <div className="tags-container"
               ref={thisRef}
-                autoFocus={true}
+              autoFocus={true}
+              id="tags-container"
         >
           {thisArray && (thisArray.length > 0) && thisArray.map(it => {
             return (
               <span 
                  className="tag"
                  key={it.id}
+                 id={it.id}
                  role="button"
                  data-id={it.id}
                  data-name={it.name}

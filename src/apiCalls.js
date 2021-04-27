@@ -37,6 +37,20 @@ const getFriends = async(mainId) => {
     }
 };
 
+const getIngredients = async(itemId) => {
+  try {
+      console.log('fetching ingredients of ',  itemId);
+      const response = await fetch(API + "/ingreds/" + itemId);
+      const jsonData = await response.json();
+       console.log('ingreds: ', jsonData);
+      return jsonData;
+
+    } catch(err) {
+      console.error(err.message);
+    }
+};
+
+
 const getItemsByCat = async(catId) => {
   if (!catId) return;
   try {
@@ -131,6 +145,15 @@ const deletePairing = async(mainId, friendId) => {
 };
 
 
+const updateCombo = async(mainId) => {
+   try {
+      await fetch(API + "/updCombo/" + mainId);
+      return; 
+
+    } catch(err) {
+      console.error(err.message);
+    }
+};
 
 
 
@@ -143,7 +166,9 @@ const APICalls = {
   getMutual: getMutual,
   addNewPairing: addNewPairing, 
   deletePairing: deletePairing,
-  getItemsByCat: getItemsByCat
+  getItemsByCat: getItemsByCat,
+  getIngredients: getIngredients,
+  updateCombo: updateCombo
 };
 
 export default APICalls;

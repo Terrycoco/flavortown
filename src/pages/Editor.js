@@ -1,5 +1,4 @@
 import React, {Fragment, useState, useEffect, useRef} from 'react';
-//import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import NewItem from '../components/newItem';
 import ItemEdit from '../components/itemEdit';
@@ -7,8 +6,8 @@ import ItemSelect from '../components/itemSelect';
 import AffinitySelect from '../components/affinitySelect';
 import "../styles/editor.css";
 import APICalls from '../apiCalls';
-
-
+import SimpleModal from '../components/simpleModal';
+import { Modal } from 'bootstrap'
 
 const styles = {
   friends: {
@@ -31,7 +30,8 @@ const styles = {
     "2": "goodfriend",
     "3": "bestfriend",
     "4": "bff",
-    "-1": "enemy"
+    "-1": "enemy",
+    "5": "ingred"
   };
 
 
@@ -42,6 +42,7 @@ function Editor() {
   const friendRef = useRef();
   const affinityRef = useRef();
   const editItemRef = useRef();
+  const modalRef = useRef();
   const [items, setItems] = useState([]);
   const [friends, setFriends] = useState([]);
   const [mainId, setMainId] = useState();
@@ -51,7 +52,7 @@ function Editor() {
   const [newIsOpen, setNewIsOpen] = useState(false);
   const [editIsOpen, setEditIsOpen] = useState(false);
   const [fieldName, setFieldName] = useState("");
-
+  const [modal, setModal] = useState(null);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -63,6 +64,12 @@ function Editor() {
     mainRef.current.focus();
     setFieldName("main");
   }, []);  //on load only
+
+  useEffect(() => {
+    setModal(
+      new Modal(modalRef.current)
+    )
+  }, [])
 
 
   useEffect(() => {
@@ -182,12 +189,11 @@ const deletePairing = async() => {
      const data = await APICalls.getAllItems();
      setItems(data);
 
-     if( fieldName === "main") {
-       handleMainChange(addedItem.id, addedItem.name);
-    } else {
-       handleFriendChange(addedItem.id, addedItem.name);
-    }
-
+       if( fieldName === "main") {
+         handleMainChange(addedItem.id, addedItem.name);
+      } else {
+         handleFriendChange(addedItem.id, addedItem.name);
+      }
      closeNewItem();
   };
 
@@ -203,6 +209,18 @@ const deletePairing = async() => {
 
   }
   
+const updateCombo = async() => {
+  if (!mainId) return;
+   //do some validation?
+    try {
+      console.log('update started for: ', mainId);
+        await APICalls.updateCombo(mainId);
+        modal.show();
+
+      } catch(err) {
+        console.error(err.message);
+      }
+};
 
   
 const EditBtn = () => {
@@ -227,6 +245,7 @@ const EditBtn = () => {
 
   return (
 <Fragment>
+
 <div className="pairings-container ">
 
     <div className="row gx-0">
@@ -301,6 +320,15 @@ const EditBtn = () => {
                     >
                     <i className="fas fa-trash-alt"></i>
                 </button>
+                   <button
+                    type="button"
+                    className="btn btn-sm updateComboBtn"
+                    id="updateComboBtn"
+                    onClick={updateCombo}
+                    tabIndex={-1}
+                    >
+                <i className="fab fa-connectdevelop"></i>
+                </button>
             </div>
   
 
@@ -350,7 +378,13 @@ const EditBtn = () => {
   onClose={closeEditItem}
   thisRef={editItemRef}
   isOpen={editIsOpen}
-/> 
+/>
+<SimpleModal
+  title={"Success!"}
+  thisRef={modalRef}
+  modal={modal}
+  >All ingredients now relate to eachother
+</SimpleModal>
  
 </Fragment>
   );

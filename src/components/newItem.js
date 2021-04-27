@@ -66,10 +66,10 @@ if (isOpen) {
   <div className="d-flex flex-column">
     <h4>Enter New Item</h4>
     <label className="control-label" htmlFor="inputBox">New Item</label>
-    <input 
+    <textarea 
         type="text" 
         className="form-control" 
-        id="inputBox" 
+        id="item-entry" 
         placeholder="Enter New Item" 
         value={newText}
         onChange={enterInput}

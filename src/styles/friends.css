@@ -81,7 +81,9 @@
 
 }
 
-
+.ingred {
+  font-color: var(--darkblue);
+}
 
 .btn-row {
   padding-top: 10px;
@@ -106,6 +108,14 @@
     font-size: 1rem;
   }
 
+}
+
+
+@media only screen and (min-width: 376px) {
+  #collapse12 .friends-group {
+    column-count: 2;
+    font-size: 1rem;
+  }
 }
 
 @media only screen and (min-width: 376px) and (max-width: 600px) {

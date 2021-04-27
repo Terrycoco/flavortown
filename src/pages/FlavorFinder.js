@@ -73,16 +73,29 @@ const FlavorFinder = () => {
 
   //from list
   const selectFromList = (newobj) => {
-    console.log('newobj selected', newobj);
-    //already selected
-    if (selectedObjs.find(x => x.id === newobj.id) ) return;
+   // console.log('FF newobj selected', newobj);
+   if (Array.isArray(newobj)) {
+    console.log('got here array');
+    //filter out dups
+    let res = newobj.filter(it => {
+      return (!selectedObjs.find(x => it.id === x.id));
+    });
+    console.log('res:', res);
 
     setSelectedObjs(oldArr => {
-     // console.log('oldarr:', oldArr);
-      return [...oldArr, newobj]
-   });
+       // console.log('oldarr:', oldArr);
+        return [...oldArr, ...res];
+    });
 
-      console.log('tagRef: ', tagRef);
+    } else { 
+     //one regular object
+     if (selectedObjs.find(x => x.id === newobj.id) ) return;
+
+     setSelectedObjs(oldArr => {
+     // console.log('oldarr:', oldArr);
+      return [...oldArr, newobj];
+     });
+   } //end if
   };
 
   //from tags

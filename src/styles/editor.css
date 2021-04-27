@@ -36,7 +36,11 @@
 
 #deletePairingBtn {
   color: var(--pink);
-  border: 1px solid var(--pink);
+  border: 1px solid var(--darkblue);
+}
+#updateComboBtn {
+  color: black;
+  border: 1px solid var(--darkblue);
 }
 
 
@@ -52,4 +56,108 @@
   border: 2px solid var(--blue);
   background-color: var(--lightgreen);
   padding: 1rem;
+}
+
+
+/*friends lists */
+.listitem {
+ display: inline-block;
+ padding-bottom: 6px;
+ font-size: 1rem;
+ width: 100%;
+}
+
+
+.friend {
+  font-weight: normal;
+}
+
+.goodfriend {
+  font-weight: bold;
+}
+
+.bestfriend {
+  font-weight: bold;
+}
+.bestfriend::after { 
+  content: "*";
+}
+
+.bff {
+  font-weight: bold; 
+}
+ .bff::after { 
+  content: "**";
+}
+
+.enemy {
+   text-decoration: line-through;
+   text-decoration-color: darkred;
+
+}
+
+.ingred {
+   background-color: #eee;
+   line-height: 1.2rem;
+   padding:  5px;
+   font-size: .8rem;
+   margin-bottom: 5px;
+}
+
+
+
+#collapse12 .listitem {
+  font-size: .7rem;
+}
+
+
+
+@media only screen and (max-width: 375px) {
+
+  .friends-group {
+    column-count: 1;
+  }
+  .listitem {
+    line-height: .7rem;
+  }
+
+  .accordion-button {
+    font-size: 1rem;
+  }
+
+}
+
+
+@media only screen and (min-width: 376px) {
+  #collapse12 .friends-group {
+    column-count: 2;
+  }
+
+  #collapse12 .listitem {
+    font-size: .9rem;
+  }
+}
+
+@media only screen and (min-width: 376px) and (max-width: 600px) {
+  .friends-group {
+    column-count: 2;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  .friends-group {
+    column-count: 2;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 800px) {
+  .friends-group {
+    column-count: 3;
+  }
+}
+
+@media only screen and (min-width: 801px) {
+  .friends-group {
+    column-count: 6;
+  }
 }

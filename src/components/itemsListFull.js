@@ -34,18 +34,28 @@ const fetchItemsByCat = useCallback(
     return newObj;
 },[catId, selected.length]);
 
- 
+ useEffect(() =>  {
+    if (selected.length === 0){
+      setIsLoading(true);
+      initCats();
+      setIsLoading(false);
+    }
+  }, [selected.length]); 
+
+
+
 const fetchFriends = useCallback(
   async() => {
-    let selectedIds;
+    let selectedIds = [];
     console.log('fetchFriends called, selectedObs:', selected);
      if (!selected || selected.length === 0) {
       //return all
        selectedIds = [];
-     } 
-     selectedIds = selected.map(i => {
-       return parseInt(i.id);
-     });
+     } else {
+       selected.map(i => {
+          return selectedIds.push(parseInt(i.id));
+        });
+     }
      console.log('selectedIds:', selectedIds);
      const ungrouped = await APICalls.getMutual(selectedIds);
      const grouped = groupDataByFieldname(ungrouped, "cat_id", true);
@@ -60,13 +70,7 @@ const fetchFriends = useCallback(
   };
 
 
-  useEffect(() =>  {
-    if (selected.length === 0){
-      setIsLoading(true);
-      initCats();
-      setIsLoading(false);
-    }
-  }, [selected.length]);
+ 
 
 
 
@@ -85,6 +89,13 @@ const fetchFriends = useCallback(
     } else {
       setCatsArr(cats);
     }
+  }
+
+  async function fetchIngredients(catId, itemId) {
+  if (catId !== 12) return;
+     const ingreds = await APICalls.getIngredients(itemId);
+     console.log('ingeds:', ingreds);
+     return ingreds;
   }
 
    //on initial load at least get the cats
@@ -121,10 +132,21 @@ const fetchFriends = useCallback(
 
 
    const selectItem = (e) => {
-    // console.log(e.target);
+  // console.log(e.target.attributes);
      const id = e.target.attributes["data-id"].value;
      const name = e.target.attributes["data-name"].value;
+     const cid = parseInt(catId);
+
+     // console.log('cid:', catId );
+    if (cid === 12) {
+     fetchIngredients(cid, id)
+       .then(data => {
+         // console.log('data fetched:', data)
+          onSelect(data);
+      });
+    } else {
      onSelect({id: id, name: name}); //sends back to parent
+    }
    };
 
 
@@ -143,7 +165,8 @@ const fetchFriends = useCallback(
                      className="listitem"
                      key={`s{id}`}
                      data-id={i.id}
-                     data-name={i.name}>
+                     data-name={i.name}
+                  >
                      {i.name}
                   </span>
             </li>     

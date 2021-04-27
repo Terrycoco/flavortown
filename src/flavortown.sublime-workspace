@@ -16,10 +16,55 @@
 	"buffers":
 	[
 		{
-			"file": "pages/FlavorFinder.js",
+			"file": "pages/Editor.js",
 			"settings":
 			{
-				"buffer_size": 3864,
+				"buffer_size": 10383,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "styles/editor.css",
+			"settings":
+			{
+				"buffer_size": 2584,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "styles/friends.css",
+			"settings":
+			{
+				"buffer_size": 1768,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "styles/itemEntry.css",
+			"settings":
+			{
+				"buffer_size": 253,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "components/newItem.js",
+			"settings":
+			{
+				"buffer_size": 2516,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "utilities/cats.js",
+			"settings":
+			{
+				"buffer_size": 407,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -120,29 +165,32 @@
 	],
 	"file_history":
 	[
-		"/home/terry/myProjects/flavortown/src/components/itemsListFull.js",
-		"/home/terry/myProjects/flavortown/src/utilities/cats.js",
-		"/home/terry/myProjects/flavortown/src/pages/testPage.js",
-		"/home/terry/myProjects/flavortown/src/styles/App.css",
 		"/home/terry/myProjects/flavortown/src/styles/friends.css",
-		"/home/terry/myProjects/flavortown/src/styles/tags.css",
+		"/home/terry/myProjects/flavortown/src/components/affinitySelect.js",
+		"/home/terry/myProjects/flavortown/src/styles/editor.css",
+		"/home/terry/myProjects/flavortown/src/styles/itemSelect.css",
+		"/home/terry/myProjects/flavortown/src/utilities/cats.js",
+		"/home/terry/myProjects/flavortown/src/app.js",
+		"/home/terry/myProjects/flavortown/src/components/itemSelect.js",
+		"/home/terry/myProjects/flavortown/src/pages/editor.js",
+		"/home/terry/myProjects/flavortown/src/styles/selectStyles.css",
+		"/home/terry/myProjects/flavortown/src/components/itemEdit.js",
+		"/home/terry/myProjects/flavortown/src/components/itemsListFull.js",
+		"/home/terry/myProjects/flavortown/src/styles/App.css",
+		"/home/terry/myProjects/flavortown/src/pages/FlavorFinder.js",
 		"/home/terry/myProjects/flavortown/src/components/TagsBox.js",
 		"/home/terry/myProjects/flavortown/public/index.html",
+		"/home/terry/myProjects/flavortown/src/styles/tags.css",
+		"/home/terry/myProjects/flavortown/src/pages/testPage.js",
 		"/home/terry/myProjects/flavortown/src/styles/Tags.css",
 		"/home/terry/myProjects/flavortown/src/utilities/data.js",
-		"/home/terry/myProjects/flavortown/src/app.js",
 		"/home/terry/myProjects/flavortown/src/apiCalls.js",
 		"/home/terry/myProjects/flavortown/src/pages/createDish.js",
 		"/home/terry/myProjects/flavortown/src/components/mutualFriendsList.js",
 		"/home/terry/myProjects/flavortown/src/components/newItem.js",
-		"/home/terry/myProjects/flavortown/src/pages/editor.js",
-		"/home/terry/myProjects/flavortown/src/components/itemEdit.js",
-		"/home/terry/myProjects/flavortown/src/components/itemSelect.js",
-		"/home/terry/myProjects/flavortown/src/styles/editor.css",
 		"/home/terry/myProjects/flavortown/src/components/autocomplete.js",
 		"/home/terry/myProjects/flavortown/src/styles/itemEntry.css",
 		"/home/terry/myProjects/flavortown/src/pages/enterPairing.js",
-		"/home/terry/myProjects/flavortown/src/components/affinitySelect.js",
 		"/home/terry/myProjects/flavortown/src/styles/autocomplete.css",
 		"/home/terry/myProjects/flavortown/src/images/edit_pencil.svg",
 		"/home/terry/myProjects/flavortown/src/components/navbar.js",
@@ -244,10 +292,7 @@
 		"/home/terry/myProjects/react-starter/index.html",
 		"/home/terry/myProjects/react-starter/README.md",
 		"/home/terry/myProjects/tester/webpack.config.js",
-		"/home/terry/myProjects/tester/.babelrc",
-		"/home/terry/myProjects/tester/src/components/testcomp.js",
-		"/home/terry/myProjects/tester/src/lib/utils.js",
-		"/home/terry/myProjects/tester/cypress/support/index.js"
+		"/home/terry/myProjects/tester/.babelrc"
 	],
 	"find":
 	{
@@ -265,6 +310,8 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"();\n",
+			"      // console.log('items selected', selected);",
 			"{ "
 		],
 		"highlight": true,
@@ -283,30 +330,163 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "pages/FlavorFinder.js",
+					"file": "pages/Editor.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3864,
+						"buffer_size": 10383,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2916,
-								2916
+								339,
+								339
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "javascript (babel)",
-							"buffer_scroll_name": "c813d67f",
+							"buffer_scroll_name": "6a2c21b7",
+							"git_gutter_is_enabled": true,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "styles/editor.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2584,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2151,
+								2151
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "css",
+							"buffer_scroll_name": "4bb12724",
+							"git_gutter_is_enabled": true,
+							"spell_check": false,
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4751.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "styles/friends.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1768,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1768,
+								1768
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "css",
+							"buffer_scroll_name": "74127d89",
+							"git_gutter_is_enabled": true,
+							"spell_check": false,
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4050.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "styles/itemEntry.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 253,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								253,
+								253
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "css",
+							"buffer_scroll_name": "311d2b0d",
+							"git_gutter_is_enabled": true,
+							"spell_check": false,
+							"syntax": "Packages/CSS/CSS.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "components/newItem.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2516,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1651,
+								1651
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "javascript (babel)",
+							"buffer_scroll_name": "5d798408",
 							"git_gutter_is_enabled": true,
 							"spell_check": false,
 							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
@@ -314,10 +494,42 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2970.0,
+						"translation.y": 1800.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "utilities/cats.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 407,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								267,
+								267
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "javascript (babel)",
+							"buffer_scroll_name": "fe30fbea",
+							"git_gutter_is_enabled": true,
+							"spell_check": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -356,7 +568,7 @@
 	"menu_visible": true,
 	"output.Terminus":
 	{
-		"height": 227.0
+		"height": 59.0
 	},
 	"output.find_results":
 	{
@@ -412,7 +624,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 292.0,
+	"side_bar_width": 417.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

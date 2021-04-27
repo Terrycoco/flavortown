@@ -10,11 +10,13 @@ const AffinitySelect = ({value, onChange, label, thisRef}) => {
 
   useEffect(() => {
       const optionsList = [
-       {value: -1, label: "enemy"},
+
        {value: 1, label: "friend"},
        {value: 2, label: "good friend"},
        {value: 3, label: "BEST FRIEND"},
        {value: 4, label: "BFF!"},
+       {value: 5, label: "ingredient"},
+       {value: -1, label: "enemy"},
       ];
     setOptions(optionsList);
   }, []);

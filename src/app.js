@@ -11,7 +11,7 @@ import Navbar from './components/navbar';
 import TestPage from './pages/testPage';
 import Editor from "./pages/Editor";
 import FlavorFinder from './pages/FlavorFinder';
-
+require('bootstrap');
 const App = () => {
  // const [open, setOpen] = useToggle(true);
 
