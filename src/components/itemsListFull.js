@@ -10,14 +10,12 @@ const ItemsListFull = ({selected, onSelect}) => {
    const [itemsObj, setItemsObj] = useState({});
    const [isLoading, setIsLoading] = useState(true);
 
-
-
 const fetchItemsByCat = useCallback(
   async() => {
+    if (!catId || catId === 0) return;
     if (catId in itemsObj) {
       return;
     }
-    setIsLoading(true);
     const items = await APICalls.getItemsByCat(catId);
    // console.log('items received:', items);
     let thisObj = {};
@@ -62,13 +60,12 @@ const fetchFriends = useCallback(
   }, [selected.length]); //every time ids change reload friends
 
 
-  function initCats() {
+function initCats() {
     setCatsArr(cats);
     setCatId(0);
-  };
+};
 
-
-  function resetCatsArr(groupedData) {
+function resetCatsArr(groupedData) {
     if (groupedData && typeof groupedData === 'object') {
       let keys = Object.keys(groupedData).map(Number);
       console.log('keys', keys);
@@ -82,51 +79,42 @@ const fetchFriends = useCallback(
     } else {
       setCatsArr(cats);
     }
-  }
+}
 
-  async function fetchIngredients(catId, itemId) {
+async function fetchIngredients(catId, itemId) {
   if (catId !== 12) return;
      const ingreds = await APICalls.getIngredients(itemId);
      console.log('ingeds:', ingreds);
      return ingreds;
-  }
+}
 
-   //on initial load at least get the cats
-   useEffect(() => {
-     initCats();
-   }, []);
+//on initial load at least get the cats
+useEffect(() => {
+ initCats();
+}, []);
 
   //when user selects different catid
-   useEffect(() => {
+useEffect(() => {
     if (selected.length === 0) {
-      setIsLoading(true);
       fetchItemsByCat(catId)
       .then(data => {
         console.log('cat items returned: ', data);
         setItemsObj({...data});
       })
     } else {
-      setIsLoading(true);
       fetchFriends()
       .then(data => {
         console.log('grouped data returned: ', data.grouped);
         setItemsObj({...data.grouped});
         resetCatsArr(data.grouped);
       })
-    }
-
-    setIsLoading(false);
-   }, [catId, fetchItemsByCat, selected.length, fetchFriends]);
-
-
-
-
-
+   }
+}, [catId, fetchItemsByCat, selected.length, fetchFriends]);
 
 
    const selectItem = (e) => {
   // console.log(e.target.attributes);
-     const id = e.target.attributes["data-id"].value;
+     const id = parseInt(e.target.attributes["data-id"].value);
      const name = e.target.attributes["data-name"].value;
      const cid = parseInt(catId);
 
