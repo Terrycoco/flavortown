@@ -155,6 +155,25 @@ const updateCombo = async(mainId) => {
     }
 };
 
+const updateItem = async(mainId, name, catId) => {
+    const body = {item_id: mainId, item: name, cat_id: catId};
+    console.log('trying to update: ', body);
+    try{
+       // console.log(body);
+        const response = await fetch(API + "/item/edit", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(body)
+        });
+
+        //const jsonData = await response.json();
+
+        //console.log('editItem,response: ', jsonData); //returned id?
+        return response;
+      } catch(err) {
+        console.error('error adding item: ',  err.message);
+      }
+}
 
 
 const APICalls = {
@@ -168,7 +187,8 @@ const APICalls = {
   deletePairing: deletePairing,
   getItemsByCat: getItemsByCat,
   getIngredients: getIngredients,
-  updateCombo: updateCombo
+  updateCombo: updateCombo,
+  updateItem: updateItem
 };
 
 export default APICalls;

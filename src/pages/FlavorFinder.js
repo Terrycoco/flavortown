@@ -22,7 +22,7 @@ const FlavorFinder = () => {
     let res = newobj.filter(it => {
       return (!selectedObjs.find(x => it.id === x.id));
     });
-    console.log('res:', res);
+  //  console.log('res:', res);
 
     setSelectedObjs(oldArr => {
        // console.log('oldarr:', oldArr);

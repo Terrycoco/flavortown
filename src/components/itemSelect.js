@@ -11,6 +11,7 @@ const ItemSelect = ({thisRef,
                      onClick, 
                      label,
                      sideBtn}) => {
+  
   const [items, setItems] = useState([]);
   const [noMatch, setNoMatch] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -25,18 +26,22 @@ const ItemSelect = ({thisRef,
 
   //try to update value when it changes?
   useEffect(() => {
+    console.log('data is:', data, 'mainid:', value);
+    setItems(data);
     setInputValue(value);
-    if (items && value > 0) {
-       const findObj = items.find(it => it.id === value);
+    if (data && value > 0) {
+       const findObj = data.find(it => it.id === value);
        setItem(findObj);
     }
-  }, [value, items]);
+  }, [value, data]);
 
   function handleChange(it) {
     if (it) {
+     let id = parseInt(it.id);
+     let catId = parseInt(it.cat_id);
      setItem(it);
-     onChange(it.id, it.name);
-     onMatch(it.id, it.name);
+     onChange(id, it.name, catId);
+     onMatch(id, it.name, catId);
    }
   }
 
@@ -70,9 +75,7 @@ const ItemSelect = ({thisRef,
          <label htmlFor="itemSelect" className="control-label">{label}: {item.id}</label>
          <Select
              ref={thisRef}
-             value={items.find(it => {
-               return it.id === value
-              })}
+             value={item}
              options={items}
              filterOption={filterOption}
              getOptionLabel={(option)=>option.name}

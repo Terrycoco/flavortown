@@ -1,16 +1,16 @@
 .pairings-container{
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  left: 0;
+
   padding-bottom: .75em;
   background-color: white;
   width: 80vw;
 }
 
+.main-row {
+  padding-bottom: 1rem;
+}
+
 .btns-container {
  padding: 0;
- margin-bottom: 6px;
  padding-top: 6px;
 }
 

@@ -19,7 +19,7 @@
 			"file": "/home/terry/myProjects/flavortown-api/index.js",
 			"settings":
 			{
-				"buffer_size": 7568,
+				"buffer_size": 8165,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -255,6 +255,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"error"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -281,15 +282,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7568,
+						"buffer_size": 8165,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3699,
-								3699
+								2810,
+								2810
 							]
 						],
 						"settings":
@@ -303,7 +304,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3296.0,
+						"translation.y": 2306.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

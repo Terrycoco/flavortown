@@ -43,6 +43,7 @@ function Editor() {
   const affinityRef = useRef();
   const editItemRef = useRef();
   const modalRef = useRef();
+  const [editMode, setEditMode] = useState(false);
   const [items, setItems] = useState([]);
   const [friends, setFriends] = useState([]);
   const [mainId, setMainId] = useState();
@@ -52,16 +53,21 @@ function Editor() {
   const [newIsOpen, setNewIsOpen] = useState(false);
   const [editIsOpen, setEditIsOpen] = useState(false);
   const [fieldName, setFieldName] = useState("");
-  const [modal, setModal] = useState(null);
+  const [modal, setModal] = useState();
+  const [catId, setCatId] = useState();
+  const [cats, setCats] = useState([]);
+  const [modalMessage, setModalMessage] = useState("Done!");
 
-  useEffect(() => {
-    const fetchItems = async () => {
+  
+  const fetchItems = async () => {
       const data = await APICalls.getAllItems();
       setItems(data);
     };
 
+
+  useEffect(() => {
     fetchItems();
-    mainRef.current.focus();
+    if (!editMode) mainRef.current.focus();
     setFieldName("main");
   }, []);  //on load only
 
@@ -69,7 +75,15 @@ function Editor() {
     setModal(
       new Modal(modalRef.current)
     )
-  }, [])
+  }, []);
+
+  useEffect(() => {
+   const getCats = async() => {
+     const data = await APICalls.getCats();
+     setCats(data);
+   };
+   getCats();
+  }, []);  //only on load
 
 
   useEffect(() => {
@@ -94,6 +108,19 @@ const openNewItem = (newText) => {
 const openEditFromBtn = () => {
   setEditIsOpen(!editIsOpen);
 };
+
+//EDIT ITEM
+const changeEditMode = () => {
+//dont open if there's no id selectd
+  if (mainId) {
+    setEditMode(!editMode);
+    //console.log('curr vals: ', mainId, inputText, catId);
+  }
+};
+
+const editItemName = (e) => {
+  setInputText(e.target.value);
+}
 
  const closeEditItem = () => {
   if (fieldName === "main") {
@@ -134,10 +161,10 @@ const deletePairing = async() => {
       }
 };
   
-  const handleMainChange = (val, name) => {
-    console.log('got here', val, name);
-    setMainId(val);  //triggers friends change
+  const handleMainChange = (id, name, catId) => {
+    setMainId(id);  //triggers friends change
     setInputText(name);
+    setCatId(catId);
   };
 
   const handleFriendChange = async(val, name) => {
@@ -215,6 +242,7 @@ const updateCombo = async() => {
     try {
       console.log('update started for: ', mainId);
         await APICalls.updateCombo(mainId);
+        setModalMessage("All ingredients now relate to eachother");
         modal.show();
 
       } catch(err) {
@@ -229,7 +257,7 @@ const EditBtn = () => {
           type="button"
           className="btn btn-sm editItemBtn"
           id="editItemBtn"
-          onClick={openEditFromBtn}
+          onClick={changeEditMode}
           tabIndex={-1}
       >
          <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24px" height="24px"> 
@@ -239,33 +267,133 @@ const EditBtn = () => {
   )
 };
 
+const changeCat = (e) => {
+  console.log(e.target.value);
+  setCatId(e.target.value);
+  //document.getElementById("addItemBtn").focus();
+}
 
+const handleEditItem = async(e) => {
+  console.log('got here vals:', catId, mainId, inputText);
+  const currentMainId = mainId;
+  if (!mainId) return;
 
+   //do some validation?
+    try {
+      console.log('editing: ', mainId);
+      let res = await APICalls.updateItem(mainId, inputText, catId);
+      if (res) {
+        setModalMessage("Item updated");
+        modal.show();
+        //somehow requery item lists
+        await fetchItems();
+        setMainId(currentMainId);
+        setEditMode(false);
+      }
+    } catch(err) {
+      console.error(err.message);
+    }
+};
 
+const mainOrEdit = (e) => {
+  if (editMode) {
+    return (
+   <div className="w-100 edit-name d-flex-column justify-content-start">
+      <label className="control-label" htmlFor="item-edit">Edit Item Name: {mainId}</label>
+      <textarea 
+          type="text" 
+          className="form-control" 
+          id="item-edit" 
+          value={inputText}
+          onChange={editItemName}
+      />
+    </div>
+    )
+  } else {
+    return (
+         <ItemSelect
+            onClick={() => onClick("main")}
+            thisRef={mainRef} 
+            data={items}
+            value={mainId}
+            onChange={handleMainChange}
+            label="Main Item"
+            onNoMatch={openNewItem}
+            onMatch={closeNewItem}
+         />
+    )
+  }
+};
 
   return (
+
 <Fragment>
 
 <div className="pairings-container ">
 
-    <div className="row gx-0">
+    <div className="main-row row w-100 d-flex justify-content-start ">
 
-        <div className="col-sm-12 col-md-3">
-          <ItemSelect
-                onClick={() => onClick("main")}
-                thisRef={mainRef} 
-                data={items}
-                value={mainId}
-                onChange={handleMainChange}
-                label="Main Item"
-                onNoMatch={openNewItem}
-                onMatch={closeNewItem}
-                sideBtn={<EditBtn />}
-           />
-          </div>
-  
-     
+           <div className="col-md-6 gx-0 d-flex align-items-end">
+                  {mainOrEdit()}
+                  <EditBtn />
+           </div>
+           <div className="col-md-4 gx-0">
+              <label className="control-label" htmlFor="selectcontrol">Main Category: {catId}</label>
+              <select 
+                className="form-control form-select" 
+                id="selectcontrol" 
+                onChange={changeCat}
+                required
+                value={catId}
+              >
+                {cats && cats.map(c => (
+                  <option key={c.cat_id} value={c.cat_id}>{c.cat}</option>
+                ))}
+              </select>
+           </div>
 
+           <div className="btns-container col-md-2 d-flex justify-content-start align-items-end">
+                <button 
+                    type="button"
+                    className="btn btn-sm btn-success"
+                    id="addpairingbtn"
+                    onClick={handleEditItem}
+                >
+                  <i className="fas fa-arrow-up"></i>
+                </button>
+                <button 
+                    type="button"
+                    className="btn btn-sm editItemBtn"
+                    id="AddItembtn"
+                    onClick={openNewFromBtn}
+                    tabIndex={-1}
+                >
+                  <i className="fas fa-plus"></i>
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-sm deletePairingBtn"
+                    id="deletePairingBtn"
+                    onClick={deletePairing}
+                    tabIndex={-1}
+                    >
+                    <i className="fas fa-trash-alt"></i>
+                </button>
+                   <button
+                    type="button"
+                    className="btn btn-sm updateComboBtn"
+                    id="updateComboBtn"
+                    onClick={updateCombo}
+                    tabIndex={-1}
+                    >
+                <i className="fab fa-connectdevelop"></i>
+                </button>
+            </div>
+
+    </div>
+
+
+    <div className="row gx-sm-0 gx-md-3 d-flex align-items-end">
 
              <div className="col-md-3" >
               <ItemSelect
@@ -296,10 +424,8 @@ const EditBtn = () => {
                     id="addpairingbtn"
                     onClick={handleAddPairing}
                 >
-                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="16" fill="currentColor" style={styles.button} className="bi bi-arrow-down" viewBox="0 0 16 16">
-                      <path fillRule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
-                   </svg>
-                </button>
+                 <i className="fas fa-arrow-down"></i>
+               </button>
                 <button 
                     type="button"
                     className="btn btn-sm editItemBtn"
@@ -307,9 +433,7 @@ const EditBtn = () => {
                     onClick={openNewFromBtn}
                     tabIndex={-1}
                 >
-                   <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24px" height="24px"> 
-                      <path d="M 16.9375 1.0625 L 3.875 14.125 L 1.0742188 22.925781 L 9.875 20.125 L 22.9375 7.0625 C 22.9375 7.0625 22.8375 4.9615 20.9375 3.0625 C 19.0375 1.1625 16.9375 1.0625 16.9375 1.0625 z M 17.3125 2.6875 C 18.3845 2.8915 19.237984 3.3456094 19.896484 4.0214844 C 20.554984 4.6973594 21.0185 5.595 21.3125 6.6875 L 19.5 8.5 L 15.5 4.5 L 16.9375 3.0625 L 17.3125 2.6875 z M 4.9785156 15.126953 C 4.990338 15.129931 6.1809555 15.430955 7.375 16.625 C 8.675 17.825 8.875 18.925781 8.875 18.925781 L 8.9179688 18.976562 L 5.3691406 20.119141 L 3.8730469 18.623047 L 4.9785156 15.126953 z"/>
-                   </svg>
+                 <i className="fas fa-plus"></i>
                 </button>
                 <button
                     type="button"
@@ -383,7 +507,7 @@ const EditBtn = () => {
   title={"Success!"}
   thisRef={modalRef}
   modal={modal}
-  >All ingredients now relate to eachother
+  >{modalMessage}
 </SimpleModal>
  
 </Fragment>

@@ -15,7 +15,7 @@ const SimpleModal = ({ children, title, thisRef, modal}) => {
               {children}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={() => modal.hide()}>Close</button>
+              <button type="submit" className="btn btn-secondary" onClick={() => modal.hide()}>Close</button>
             </div>
           </div>
         </div>
