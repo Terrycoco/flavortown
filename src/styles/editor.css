@@ -34,7 +34,7 @@
   fill: var(--pink);
 }
 
-#deletePairingBtn {
+.deletePairingBtn {
   color: var(--pink);
   border: 1px solid var(--darkblue);
 }

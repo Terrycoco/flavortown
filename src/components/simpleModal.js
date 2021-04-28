@@ -1,7 +1,20 @@
 import React from 'react';
 
 //a modal component which will be used by other components & pages
-const SimpleModal = ({ children, title, thisRef, modal}) => {
+const SimpleModal = ({ children, title, thisRef, modal, okBtn, onOk}) => {
+
+const handleOKClick = (e) => {
+   onOk();
+   modal.hide();
+};
+
+const getOkBtn = () => {
+  if (okBtn) {
+    return (
+      <button type="button" className="btn btn-primary" onClick={handleOKClick}>OK</button>
+    )
+  }
+}
 
   return (
     <div className="modal fade" ref={thisRef} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -16,6 +29,7 @@ const SimpleModal = ({ children, title, thisRef, modal}) => {
             </div>
             <div className="modal-footer">
               <button type="submit" className="btn btn-secondary" onClick={() => modal.hide()}>Close</button>
+             {getOkBtn()}
             </div>
           </div>
         </div>

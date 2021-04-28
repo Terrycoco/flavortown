@@ -57,7 +57,8 @@ function Editor() {
   const [catId, setCatId] = useState();
   const [cats, setCats] = useState([]);
   const [modalMessage, setModalMessage] = useState("Done!");
-
+  const [modalOk, setModalOk] = useState(false);
+  const [modalTitle, setModalTitle] = useState("Success!");
   
   const fetchItems = async () => {
       const data = await APICalls.getAllItems();
@@ -143,23 +144,23 @@ const editItemName = (e) => {
    setNewIsOpen(false);
  };
 
-const deletePairing = async() => {
-  if (!mainId || !friendId) return;
-   //do some validation?
-    try {
-        await APICalls.deletePairing(mainId, friendId);
+  const deletePairing = async() => {
+    if (!mainId || !friendId) return;
+     //do some validation?
+      try {
+          await APICalls.deletePairing(mainId, friendId);
 
-        //refresh friends
-        const data = await APICalls.getFriends(mainId);
-        setFriends(data);
-       
-       //set focus back on friendId
-        friendRef.current.focus();
+          //refresh friends
+          const data = await APICalls.getFriends(mainId);
+          setFriends(data);
+         
+         //set focus back on friendId
+          friendRef.current.focus();
 
-      } catch(err) {
-        console.error(err.message);
-      }
-};
+        } catch(err) {
+          console.error(err.message);
+        }
+  };
   
   const handleMainChange = (id, name, catId) => {
     setMainId(id);  //triggers friends change
@@ -213,8 +214,34 @@ const deletePairing = async() => {
   };
 
   const handleItemAdd = async (addedItem) => {
-     const data = await APICalls.getAllItems();
-     setItems(data);
+      await fetchItems()
+
+       if( fieldName === "main") {
+         handleMainChange(mainId, inputText, catId);
+      } else {
+         handleFriendChange(friendId, inputText);
+      }
+     closeNewItem();
+  };
+
+  const confirmDelete = () => {
+  //get ok
+     setModalOk(true);
+     setModalMessage(inputText + " and all its pairings will be deleted. Click OK to continue.");
+     setModalTitle("Are you sure?");
+     modal.show();
+  };
+
+  const handleItemDelete = async (addedItem) => {
+      await APICalls.deleteItem(mainId)
+      .then(() => {
+        setModalMessage("Item deleted!");
+        setModalOk(false);
+        modal.show();
+      })
+
+
+      await fetchItems();
 
        if( fieldName === "main") {
          handleMainChange(addedItem.id, addedItem.name);
@@ -283,7 +310,9 @@ const handleEditItem = async(e) => {
       console.log('editing: ', mainId);
       let res = await APICalls.updateItem(mainId, inputText, catId);
       if (res) {
+        setModalTitle("Success!");
         setModalMessage("Item updated");
+        setModalOk(false);
         modal.show();
         //somehow requery item lists
         await fetchItems();
@@ -337,6 +366,7 @@ const mainOrEdit = (e) => {
                   {mainOrEdit()}
                   <EditBtn />
            </div>
+
            <div className="col-md-4 gx-0">
               <label className="control-label" htmlFor="selectcontrol">Main Category: {catId}</label>
               <select 
@@ -373,8 +403,8 @@ const mainOrEdit = (e) => {
                 <button
                     type="button"
                     className="btn btn-sm deletePairingBtn"
-                    id="deletePairingBtn"
-                    onClick={deletePairing}
+                    id="deleteItemBtn"
+                    onClick={confirmDelete}
                     tabIndex={-1}
                     >
                     <i className="fas fa-trash-alt"></i>
@@ -504,9 +534,11 @@ const mainOrEdit = (e) => {
   isOpen={editIsOpen}
 />
 <SimpleModal
-  title={"Success!"}
+  title={modalTitle}
   thisRef={modalRef}
   modal={modal}
+  okBtn={modalOk}
+  onOk={handleItemDelete}
   >{modalMessage}
 </SimpleModal>
  

@@ -165,13 +165,25 @@ const updateItem = async(mainId, name, catId) => {
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(body)
         });
-
-        //const jsonData = await response.json();
-
-        //console.log('editItem,response: ', jsonData); //returned id?
         return response;
       } catch(err) {
         console.error('error adding item: ',  err.message);
+      }
+}
+
+const deleteItem = async(mainId) => {
+    const body = {item_id: mainId};
+    console.log('trying to delete: ', body);
+    try{
+       // console.log(body);
+        const response = await fetch(API + "/item/delete", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(body)
+        });
+        return response;
+      } catch(err) {
+        console.error('error deleting item: ',  err.message);
       }
 }
 
@@ -188,7 +200,8 @@ const APICalls = {
   getItemsByCat: getItemsByCat,
   getIngredients: getIngredients,
   updateCombo: updateCombo,
-  updateItem: updateItem
+  updateItem: updateItem,
+  deleteItem: deleteItem
 };
 
 export default APICalls;
