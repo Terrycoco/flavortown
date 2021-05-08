@@ -1,29 +1,19 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import APICalls from '../apiCalls';
-import "../styles/itemEntry.css";
+import { connect } from 'react-redux';
+import "../styles/itemNew.css";
+import { addItem,
+        selectItem,
+        } from '../actions/editorActions';
 
 
 
 
-
-const NewItem = ({text, onAdd, onClose, isOpen}) => {
-  const [cats, setCats] = useState([]);
+const NewItem = ({dispatch, cats, text, onAdd, onClose, isOpen, itemType}) => {
   const [newText, setNewText] = useState("");
-  const [catId, setCatId] = useState(1);
-
-
+  const [catId, setCatId] = useState(3);
 
   useEffect(() => {
-   const getCats = async() => {
-     const data = await APICalls.getCats();
-     setCats(data);
-   };
-   getCats();
-  }, []);  //only on load
-
-
-
-  useEffect(() => {
+    console.log('text is:', text);
     setNewText(text);
   }, [text]);  //on load and whenever text (from calling form) changes
 
@@ -31,25 +21,24 @@ const NewItem = ({text, onAdd, onClose, isOpen}) => {
   const onSubmitForm = async(e) => {
       e.preventDefault();
       try {
-         const item = await APICalls.addNewItem(newText, catId);
-         onAdd(item);  //give back to calling form
-       // onClose();
-
+         dispatch(addItem(newText, catId, itemType)) 
+         //auto refreshes items
+         //selects new item in store
+         onClose(catId); //to update filter
       } catch(err) {
         console.error(err.message);
       }
   }
 
-  const enterInput = (e) => {
-    //when user inputs for good
-    console.log("Entered:" & e.target.value);
-    setNewText(e.target.value);
-  }
+const enterInput = (e) => {
+  //when user inputs for good
+  console.log("Entered:" & e.target.value);
+  setNewText(e.target.value);
+}
 
 const enterCat = (e) => {
   console.log(e.target.value);
-  setCatId(e.target.value);
-  document.getElementById("addItemBtn").focus();
+  setCatId(parseInt(e.target.value));
 }
 
 const handleOnClose = () => {
@@ -73,6 +62,8 @@ if (isOpen) {
         placeholder="Enter New Item" 
         value={newText}
         onChange={enterInput}
+        autoFocus={true}
+
       />
 
       <label className="control-label" htmlFor="selectcontrol">Main Category</label>
@@ -106,4 +97,10 @@ if (isOpen) {
 
 };
 
-export default NewItem;
+const mapStoreToProps = (store) => ({
+  cats: store.editor.cats,
+});
+
+
+
+export default connect(mapStoreToProps)(NewItem);

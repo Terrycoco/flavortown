@@ -1,21 +1,48 @@
-import React, {Fragment} from 'react';
-//import APICalls from '../apiCalls';
-//import {groupDataByFieldname} from '../utilities/data'
-//import Autocomplete from '../components/autocomplete';
-import ItemsListFull from '../components/itemsListFull';
-    
-//let mock = [{"id":746,"name":"ale","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":200,"name":"amaretto","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":372,"name":"applejack","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":420,"name":"apricot brandy","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":373,"name":"Armagnac","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":572,"name":"banana liqueur","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":535,"name":"beer","cat_id":3,"cat":"Aromatics & Other Flavorings"},{"id":747,"name":"beer, dark","cat_id":3,"cat":"Aromatics & Other Flavorings"}];
+import React, {Fragment, useEffect} from 'react';
+import { connect } from 'react-redux';
+import {openConfirmModal, 
+        showSuccessModal} from '../actions/modalActions.js';
+import {getCats,
+        getItems
+        } from '../actions/editorActions';
+import ItemCombobox from '../components/ItemCombobox';
 
 
 
-function TestPage() {
+const TestPage = ({dispatch, cats, items, selectedMain}) => {
+   let result;
+
+  useEffect(() => {
+    dispatch(getCats());
+    dispatch(getItems());
+  }, [dispatch]);
+
+
+  const runThis = () => {
+    //DO SOMETHING OR DO ANOTHER ACTION
+    dispatch(showSuccessModal({content: 'Item was deleted'}))
+  };
+
+
 
   return (
-      <Fragment>
-       <ItemsListFull
-        />
-      </Fragment>
+    <Fragment>
+  
+      <ItemCombobox />
+     
+
+     </Fragment>
   )
 }
 
-export default TestPage;
+const mapStoreToProps = (store) => {
+  console.log('store: ', store)
+  return (
+    {show: store.modal.show,
+    items: store.editor.items,
+    cats: store.editor.cats,
+    selectedMain: store.editor.selectedMain
+  // hasErrors: state.editor.hasErrors
+})};
+
+export default connect(mapStoreToProps)(TestPage);

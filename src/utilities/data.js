@@ -11,7 +11,7 @@ const groupDataByFieldname = (data, fieldname, isSorted) => {
 };
 
 
-const arrayFindObjectByProp = (arr, propname, value) =>{
+const arrayFindObjectByProp = (arr, propname, value) =>  {
   return find(arr, propname, value);
 }
 

@@ -1,6 +1,20 @@
-.item-select {
+.control-label {
+  text-transform: capitalize;
 }
 
-.item-select-dropdown {
-  flex-grow: 1;
+[data-reach-combobox-list] {
+  background: #edffc4;
+  z-index: 10000;
+}
+
+span[data-user-value] {
+  font-weight: bold;
+}
+
+span[data-suggested-value] {
+  font-weight: normal;
+}
+
+[data-reach-combobox-option][data-highlighted] {
+  background: var(--lightyellow);
 }

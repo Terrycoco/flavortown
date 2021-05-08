@@ -1,5 +1,8 @@
-.pairings-container{
+button {
+  z-index: 1;
+}
 
+.pairings-container{
   padding-bottom: .75em;
   background-color: white;
   width: 80vw;
@@ -9,14 +12,21 @@
   padding-bottom: 1rem;
 }
 
+.friend-row {
+  justify-content: space-between;
+}
+
 .btns-container {
  padding: 0;
  padding-top: 6px;
+ align-self: flex-end;
+ display: flex;
+ justify-content: flex-end;
 }
 
-.btns-container > button {
-  width: 50px;
-  height: 45px;
+.btns-container  button {
+  width:2rem;
+  height: 2rem;
   margin-left: 3px;
 }
 
@@ -26,6 +36,11 @@
 
 .editItemBtn  {
   border: 1px solid var(--pink);
+  height: 2rem;
+}
+
+.mergeBtn {
+  border: 1px solid var(--darkblue);
   height: 2.2rem;
 }
 
@@ -109,6 +124,68 @@
 #collapse12 .listitem {
   font-size: .7rem;
 }
+
+
+/* checkboxes */
+.checkbox-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.checkbox-go {
+  width: auto;
+  height: 1.5em;
+  font-size: .7em;
+  align-self: center;
+  border-color: gray;
+  border-top: none;
+  border-left: none;
+  border-bottom: 2px solid gray;
+  border-right: 2px solid gray;
+  background: var(--lightgreen);
+  border-radius: 3px;
+  margin-right: 15px;
+  color: gray;
+  border-color: gray;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.checkbox-group {
+  border-bottom: 2px solid lightgray;
+  border-right: 2px solid lightgray;
+  border-radius: 4px;
+  width: 160px;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.checkbox-group-label {
+  font-size: .7em;
+  color: gray;
+  text-align: center;
+  width: 100%;
+  padding-bottom: .2rem;
+}
+
+.checkboxes {
+  padding: 0;
+  flex-basis: 50%;
+  font-size: .8em;
+  color: gray;
+  height: .7rem;
+} 
+
+.checkbox {
+  margin-right: .2rem;
+  margin-left: .5rem;
+}
+
+/*.checkboxes label {
+  height: .7rem;
+}*/
 
 
 
