@@ -25,7 +25,6 @@ import {getCats,
 //import 'reactjs-popup/dist/index.css';
 import NewItem from '../components/newItem';
 import ItemCombobox from '../components/ItemCombobox';
-import AffinitySelect from '../components/affinitySelect';
 import "../styles/editor.css";
 
   const itemClasses = {
@@ -34,9 +33,16 @@ import "../styles/editor.css";
     "3": "bestfriend",
     "4": "bff",
     "-1": "enemy",
-    "5": "ingred"
+    "5": "ingred",
+    "0": "child"
   };
 
+const nextElem = {
+  mainselect: "friendselect",
+  friendselect: "affinityselect",
+  affinityselect: "addpairingbtn",
+  addpairingbtn: "friendselect"
+};
 
 
 
@@ -66,6 +72,16 @@ const Editor = ({dispatch, items, cats, friends, selectedMain, selectedFriend, a
 
 
 useEffect(() => {
+  window.addEventListener('keydown', handleKeyDown);
+   //return cleanup function
+   return () => {
+     window.removeEventListener('keydown', handleKeyDown);
+   }
+
+}, []);
+
+
+useEffect(() => {
     dispatch(getCats())
 }, [dispatch]);
 
@@ -80,8 +96,8 @@ useEffect(() => {
 }, [dispatch, filter]);
 
 useEffect(() => {
-  dispatch(getFriends(1114))
-}, [dispatch]);
+  dispatch(getFriends(selectedMain.id))
+}, [dispatch,selectedMain.id]);
 
 // useEffect(() => {
 //   setMainId(selectedMain.id);
@@ -89,8 +105,11 @@ useEffect(() => {
 // }, [selectedMain]);
 
 useEffect(() => {
-  setAffinityId(selectedFriend.affinity_level);
-  affinityRef.current.value = selectedFriend.affinity_level;
+  if (selectedFriend.friend_type !== undefined) {
+    setAffinityId(selectedFriend.friend_type);
+  } else {
+    setAffinityId(1);
+  }
 }, [selectedFriend]);
 
 
@@ -101,7 +120,7 @@ useEffect(() => {
 
 const addEditPairing = async () => {
   dispatch(addPairing(selectedMain.id, selectedFriend.id, affinityId));
-  friendRef.current.focus();
+  //friendRef.current.focus();
 };
 
 const afterItemAdded = (catid) => {
@@ -109,20 +128,15 @@ const afterItemAdded = (catid) => {
    if (catid === 12) combosRef.current.click();
    if (catid === 11) dishesRef.current.click();
    setNewIsOpen(false);
+   document.getElementById('friendselect').focus();
 };
 
 const afterAffinitySelect = (e) => {
-  console.log(e.target.value);
-  document.getElementById("addpairingbtn").focus();
+  console.log('after affinity', e.target.value);
+  setAffinityId(e.target.value);
+ // document.getElementById("addpairingbtn").focus();
 };
 
-const afterFriendSelect = () => {
-  affinityRef.current.focus();
-};
-
-const afterMainSelect = () => {
-  friendRef.current.focus();
-};
 
 const callDeletePairing = (e) => {
   dispatch(deletePairing(selectedMain.id, selectedFriend.id));
@@ -153,15 +167,15 @@ const changeEditMode = () => {
 };
 
 const clickFriendList = (e) => {
-  console.log('clickFriendList');
- const aid = parseInt(e.target.getAttribute("data-affinity"));
- console.log('affinityID: ', aid);
- setAffinityId(aid);
- const name = e.target.getAttribute("data-name");
- const id = parseInt(e.target.getAttribute("data-id"));
- const item = {id: id, name: name, affinity_level: aid};
- dispatch(selectItem(item, "friend"));
- affinityRef.current.focus();
+   console.log('clickFriendList');
+   const aid = parseInt(e.target.getAttribute("data-friend-type"));
+   console.log('affinityID: ', aid);
+   setAffinityId(aid);
+   const name = e.target.getAttribute("data-name");
+   const id = parseInt(e.target.getAttribute("data-id"));
+   const item = {id: id, name: name, friend_type: aid};
+   dispatch(selectItem(item, "friend"));
+   affinityRef.current.focus();
 };
 
 const closeEditItem = () => {
@@ -243,10 +257,39 @@ const filterDirty = () => {
   filterRef.current.style.backgroundColor = colors.lightpink;
 }
 
+function handleKeyDown (e) {
+  let elem;
+  let next;
+  e.stopPropagation();
+  switch(e.keyCode) {
+  case 13:
+    elem = e.srcElement.id;
+    next = nextElem[elem];
+
+    if (elem === 'friendselect') {
+      e.preventDefault(); //prevent opening
+    }
+    document.getElementById(next).focus();
+    break;
+  case 9:
+    e.preventDefault(); //don't do chrome crazy
+        console.log('got here')
+    elem = e.srcElement.id;
+    next = nextElem[elem];
+
+    if (elem === 'friendselect') {
+      //e.preventDefault();
+    }
+    document.getElementById(next).focus();
+    break;
+  default:
+   return;
+ }
+}
+
 const onClick = (field) => {
   setFieldName(field);
 };
-
 
 const openNewFriend = (input) => {
   //console.log('input text: ', input)
@@ -355,7 +398,6 @@ const mainOrEdit = (e) => {
             id="mainselect"
             itemType="main"
             thisRef={mainRef}
-            onSelect={afterMainSelect}
             autofocus={true}
             onNoMatch={openNewMain}
          />
@@ -458,7 +500,6 @@ return (
                     id="friendselect"
                     thisRef={friendRef}
                     itemType="friend"
-                    onSelect={afterFriendSelect}
                     autofocus={false}
                     onNoMatch={openNewFriend}
                   />
@@ -467,23 +508,25 @@ return (
 
       <div className="col-md-3">
         <div className="w-100">
-          <label className="control-label" htmlFor="affinities">Affinity</label>
+          <label className="control-label" htmlFor="affinities">{`Affinity ${affinityId}`}</label>
           <select
               onChange={afterAffinitySelect}
-              className="rbt-input-main form-control rbt-input form-control-sm" 
+              className="form-control form-control-sm" 
               ref={affinityRef} 
               name="affinity-select" 
               id="affinityselect"
+              value={affinityId}
+              tabIndex="3"
             >
-          {affinities.map(a => {
-            return (
-              <option 
-                 key={a.affinity_level}
-                 value={a.affinity_level}
-                 className="dropdown-item"
-                 data-affinity-id={a.affinity_level}
-              >{a.name}</option>
-            )
+               {affinities.map(a => {
+                return (
+                    <option 
+                       key={a.friend_type}
+                       value={a.friend_type}
+                       className="dropdown-item"
+                       data-friend-type={a.friend_type}
+                    >{a.name}</option>
+                  )
           })}
           </select>
         </div>
@@ -495,7 +538,6 @@ return (
                   className="btn btn-sm btn-success"
                   id="addpairingbtn"
                   onClick={addEditPairing}
-                  onBlur={() => friendRef.current.focus()}
               >
                <i className="fas fa-arrow-down"></i>
              </button>
@@ -527,19 +569,26 @@ return (
 <div className="friends-container mh-25" tabIndex="-1">
  <div>
    <ul id="friendslist"  className="friends-group">
-   {friends && friends.map(i => (
+   {friends && friends.map(i => {
+ 
+    let cl = "listitem";
+    cl = cl + ((i.is_parent === 1) ?  " parent" :  " " + itemClasses[i.friend_type]);
+
+    return (
     <li key={`key${i.id}`}>
        <span 
-           className={itemClasses[i.affinity_level].concat(" listitem ")}
+           className={cl}
            key={i.id}
            data-id={i.id}
            data-name={i.name}
-           data-affinity={i.affinity_level}
+           data-friend-type={i.friend_type}
            onClick={clickFriendList}
       >
            {i.name}
         </span>
-      </li> ))}
+      </li> 
+      )})
+     }
       </ul>
   </div>
 </div>
@@ -559,6 +608,7 @@ return (
 
 
 function mapStoreToProps(store) {
+  console.log('editor:', store.editor)
   return store.editor;
 } 
 

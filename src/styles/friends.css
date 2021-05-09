@@ -54,6 +54,13 @@
  font-size: 1rem;
 }
 
+.parent {
+  font-weight: bold;
+}
+
+.parent::after {
+  content: "...";
+}
 
 .friend {
   font-weight: normal;

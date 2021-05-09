@@ -108,7 +108,9 @@ button {
 .enemy {
    text-decoration: line-through;
    text-decoration-color: darkred;
-
+}
+.child::before {
+  content: "- ";
 }
 
 .ingred {

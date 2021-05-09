@@ -2,17 +2,18 @@ import * as e from '../actions/editorActions';
 
 
 const affinities = [
- {affinity_level: 1, name: "friend"},
- {affinity_level: 2, name: "good friend"},
- {affinity_level: 3, name: "BEST FRIEND"},
- {affinity_level: 4, name: "BFF!"},
- {affinity_level: 5, name: "ingredient"},
- {affinity_level: -1, name: "enemy"},
- {affinity_level:  6, name: "child"}
+ {friend_type: 1, name: "friend"},
+ {friend_type: 2, name: "good friend"},
+ {friend_type: 3, name: "BEST FRIEND"},
+ {friend_type: 4, name: "BFF!"},
+ {friend_type: 5, name: "ingredient"},
+ {friend_type: -1, name: "enemy"},
+ {friend_type:  0, name: "child"}
 ];
 
 
 const INITIAL = {
+  timestamp: Date.now(),
   loading: false,
   hasErrors: false,
   error: '',
@@ -36,7 +37,7 @@ function editorReducer (state=INITIAL, action) {
       case e.GOT_FRIENDS: 
          return {...state, friends: action.payload, loading: false, hasErrors: false, error: ''}     
       case e.GOT_ITEMS: 
-         return {...state, items: action.payload, loading: false, hasErrors: false, error: ''}
+         return {...state, timestamp: Date.now(), items: action.payload, loading: false, hasErrors: false, error: ''}
       case e.RESET:
           return {...state, ...INITIAL}
       case e.SELECTED_FRIEND:

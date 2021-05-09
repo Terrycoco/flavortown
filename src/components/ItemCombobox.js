@@ -16,26 +16,34 @@ import { selectItem } from '../actions/editorActions';
 
 
 
-const ItemCombobox = ({dispatch, id, items, itemType, onSelect, thisRef, selectedMain, selectedFriend, autofocus, onNoMatch, text}) => {
+const ItemCombobox = ({dispatch, id, items, itemType,  thisRef, selectedMain, selectedFriend, autofocus, onNoMatch, text, timestamp}) => {
   const [term, setTerm] = useState("");
   const [selectedItem, setSelectedItem] = useState({});
+  const [ts, setTs] = useState(0);
+  const [data, setData] = useState([]);
   const listRef = useRef();
   const results = useItemMatch(term);
 
 
    useEffect(() => {
-    console.log('rendering inital again');
+    console.log('rendering initial again');
     if (autofocus) {
       thisRef.current.focus();
     }
   }, []);
 
+   useEffect(() => {
+     if (timestamp > ts) {
+       setData(items);
+       setTs(timestamp);
+     }
+   },[timestamp])
+
   useEffect(() => {
     if (itemType === "main") {
+      console.log('main changed');
       setSelectedItem(selectedMain);
       setTerm("");
-      thisRef.current.value = "";
-      thisRef.current.placeholder = selectedMain.name;
     }
   },[ selectedMain.id]);
 
@@ -44,8 +52,6 @@ const ItemCombobox = ({dispatch, id, items, itemType, onSelect, thisRef, selecte
     if (itemType === "friend") {
       setSelectedItem(selectedFriend);
       setTerm("");
-      thisRef.current.value = "";
-      thisRef.current.placeholder = selectedFriend.name;
     }
   },[ selectedFriend.id]);
 
@@ -64,7 +70,7 @@ const ItemCombobox = ({dispatch, id, items, itemType, onSelect, thisRef, selecte
      ? null
 
      //else match using matchSorter
-     : matchSorter(items, term, {
+     : matchSorter(data, term, {
         keys: ['name'], //can also use alias!
         threshold: matchSorter.rankings.WORD_STARTS_WITH //or WORD_STARTS_WITH?
      }),
@@ -72,14 +78,12 @@ const ItemCombobox = ({dispatch, id, items, itemType, onSelect, thisRef, selecte
     );
   }
 
+
   const handleChange = (e) => {
     setTerm(e.target.value);
   }
 
-  const handleFocus = (e) => {
-   // console.log('focus fired');
-    //e.target.select();
-  };
+ 
 
   const handleKeyDown = (e) => {
    let elem;
@@ -87,18 +91,23 @@ const ItemCombobox = ({dispatch, id, items, itemType, onSelect, thisRef, selecte
      case 13:
       //there's a dropdown (something matches)
       if (listRef.current) {
-         //there's one selected (tabbed into)
+         //and it's at least one value
          if (listRef.current.children.length) {
+
+             //there's one selected (tabbed into)
              elem = listRef.current.querySelector("li[aria-selected=true]");
             if (!elem) {
               //just pressed enter take first one
               elem = listRef.current.firstChild;
             }
-          console.log(elem);
+         console.log(elem);
          let item = JSON.parse(elem.getAttribute('data-item'));
          dispatch(selectItem(item, itemType));
-         listRef.current.value = item.name;
-         onSelect();
+
+          //clear input box because will be in placeholder now
+          setTerm("");
+
+
 
          //not one selected
          } else {
@@ -108,10 +117,9 @@ const ItemCombobox = ({dispatch, id, items, itemType, onSelect, thisRef, selecte
       //there's no dropdown
       } else { 
         //if the current value <> selectedItem val
-        if (term !== selectedItem.name) {
+        if (term.length && term !== selectedItem.name) {
              onNoMatch(term);
         } else {
-          onSelect(); //just move on nothing to see here
         }
       }
       break;
@@ -131,20 +139,20 @@ const ItemCombobox = ({dispatch, id, items, itemType, onSelect, thisRef, selecte
       <label className="control-label" >{`${itemType} Item ${selectedItem.id}`}</label>
       <Combobox aria-label="items">
         <ComboboxInput
+           id={id}
            ref={thisRef}
            className="form-select"
            onChange={handleChange}
            onKeyDown={handleKeyDown}
-           onFocus={handleFocus}
            selectOnClick={true}
            placeholder={selectedItem.name}
+           value={term}
         />
         {results && (
         <ComboboxPopover className="shadow-popup">
           {results.length > 0 ? (
           <ComboboxList 
               ref={listRef}
-              persistSelection={false}
           >
             {results.slice(0, 20).map((result, index) => (
                  <ComboboxOption
@@ -177,7 +185,8 @@ const mapStoreToProps = (store) => {
   return {
     items: store.editor.items,
     selectedMain: store.editor.selectedMain,
-    selectedFriend: store.editor.selectedFriend
+    selectedFriend: store.editor.selectedFriend,
+    timestamp: store.editor.timestamp
   };
 };
 

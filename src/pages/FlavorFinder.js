@@ -15,51 +15,51 @@ const FlavorFinder = () => {
   const pageRef = useRef();
 
   //from list
-  const selectFromList = (newobj) => {
+const selectFromList = (newobj) => {
    // console.log('FF newobj selected', newobj);
    if (Array.isArray(newobj)) {
     //filter out dups
-    let res = newobj.filter(it => {
-      return (!selectedObjs.find(x => it.id === x.id));
-    });
-  //  console.log('res:', res);
+        let res = newobj.filter(it => {
+          return (!selectedObjs.find(x => it.id === x.id));
+        });
+      //  console.log('res:', res);
 
-    setSelectedObjs(oldArr => {
-       // console.log('oldarr:', oldArr);
-        return [...oldArr, ...res];
-    });
+        setSelectedObjs(oldArr => {
+               // console.log('oldarr:', oldArr);
+          return [...oldArr, ...res];
+        });
 
-    } else { 
-     //one regular object
-     if (selectedObjs.find(x => x.id === newobj.id) ) return;
+        } else { 
+         //one regular object
+         if (selectedObjs.find(x => x.id === newobj.id) ) return;
 
-     setSelectedObjs(oldArr => {
-     // console.log('oldarr:', oldArr);
-      return [...oldArr, newobj];
-     });
-   } //end if
-  };
+         setSelectedObjs(oldArr => {
+         // console.log('oldarr:', oldArr);
+          return [...oldArr, newobj];
+         });
+    } //end if
+};
 
   //from tags
-  const removeFromTags = (remainingList) => {
-    console.log('removefromtags called, remaininglist:', remainingList);
-    if (!remainingList.length) {
-      setSelectedObjs([]);
-    }
-    setSelectedObjs(oldArr => {
-     // console.log('oldarr:', oldArr);
-      return [...remainingList];
-   });
-   };
+const removeFromTags = (remainingList) => {
+  console.log('removefromtags called, remaininglist:', remainingList);
+  if (!remainingList.length) {
+    setSelectedObjs([]);
+  }
+  setSelectedObjs(oldArr => {
+   // console.log('oldarr:', oldArr);
+    return [...remainingList];
+ });
+ };
 
-   const loaderOrList = () => {
+const loaderOrList = () => {
         return (
         <ItemsListFull 
             onSelect={selectFromList}
             selected={selectedObjs}
         />
         )
-   };
+};
 
   return (
   <Fragment>

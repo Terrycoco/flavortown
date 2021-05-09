@@ -16,6 +16,12 @@ export function addItem(text, catId, itemType) {
     dispatch(loading())
     try {
       const newItem = await APICalls.addNewItem(text, catId);
+      //if catID is in the normal exclude list don't exclude it
+      let excludeArr = [11, 12];
+      if (excludeArr.includes(catId)) {
+        excludeArr.splice(excludeArr.indexOf(catId), 1);
+      }
+      dispatch(getItemsFiltered(excludeArr)); //refresh list
       dispatch(selectItem(newItem, itemType));
     } catch(error) {
        dispatch(fetchFailure("addItem ", error.message))
@@ -96,7 +102,8 @@ export function getFriends(mainId) {
    return async (dispatch) => {
       dispatch(loading()) //turn on loader TODO
       try {
-        const data = await APICalls.getFriends(mainId);
+        const data = await APICalls.getFriends(mainId); 
+        //got here it's not good
         dispatch(gotFriends(data))
       } catch (error) {
         dispatch(fetchFailure('getFriends ', error.message))

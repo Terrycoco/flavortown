@@ -94,10 +94,12 @@ const getCats = async () => {
 };
 
 const getFriends = async(mainId) => {
+  if (!mainId) return;
   try {
       console.log('fetching friends of ', mainId);
       const response = await fetch(API + "/friends/" + mainId);
       const jsonData = await response.json();
+      console.log('data ret:', jsonData);
       return jsonData;
     } catch(err) {
       console.error(err.message);
