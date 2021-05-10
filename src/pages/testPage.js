@@ -1,6 +1,6 @@
 import React, {Fragment, useEffect} from 'react';
 import { connect } from 'react-redux';
-import {openConfirmModal, 
+import {
         showSuccessModal} from '../actions/modalActions.js';
 import {getCats,
         getItems

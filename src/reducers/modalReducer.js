@@ -11,7 +11,7 @@ const INITIAL = {
 
 
 function modalReducer(state=INITIAL, action) {
-
+  console.log('action:', action)
     switch (action.type) {
 
       case a.CLOSE: 
@@ -33,8 +33,8 @@ function modalReducer(state=INITIAL, action) {
             ...action.payload
           });
       
-      case a.OPEN: 
-            return Object.assign({}, state, {show: true});
+      case a.INFO: 
+            return Object.assign({}, state, {show: true, ...action.payload});
        
       case a.SUCCESS: 
           return Object.assign({}, state, {

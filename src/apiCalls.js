@@ -1,25 +1,23 @@
+import axios from 'axios';
+import {store} from './index';
+import * as modals from './actions/modalActions';
 
 const API = (process.env.NODE_ENV === 'production') ?  process.env.REACT_APP_API : "http://localhost:5000";
 
-const addNewItem = async(newItemText, catId) => {
-    const body = {item: newItemText, cat_id: catId};
-    console.log('trying to add: ', body);
-    try{
-       // console.log(body);
-        const response = await fetch(API + "/items/new", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(body)
-        });
+//store.dispatch(someAction)
 
-        const jsonData = await response.json();
+function addNewItem(newItemText, catId) {
+  const body = {item: newItemText, cat_id: catId};
+  console.log('trying to add: ', body);
+  axios.post(API + "/items/new", body)
+  .then(function(response) {
+    console.log(response);
+  })
+  .catch(function(error) {
+    console.log(error);
+  });
+}
 
-        console.log('addNewItem response: ', jsonData); //returned id?
-        return jsonData;
-      } catch(err) {
-        console.error('error adding item: ',  err.message);
-      }
-};
 
 const addNewPairing = async(mainId, friendId, affinityId) => {
    try{
@@ -187,7 +185,7 @@ const mergeItems = async(keepId, loseId) => {
     console.log('trying to merge: ', body);
     try {
        // console.log(body);
-      const res =  await fetch(API + "/merge", {
+      await fetch(API + "/merge", {
           method: "POST",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(body)
@@ -210,22 +208,31 @@ const updateCombo = async(mainId) => {
     }
 };
 
-const updateParent = async(mainId) => {
+function updateParent(mainId) {
   const body = {item_id: mainId};
-  try {
-       // console.log(body);
-      const res =  await fetch(API + "/updParent", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(body)
-        });
-      return res;
-       
-    } catch(err) {
-        console.error('error updating parent : ',  err.message);
-        return err.message;
-    }
-};
+  console.log('updating parent: ', body);
+  axios.post(API + "/updParent", body)
+  .then(function(response) {
+    console.log('response received', response);
+  })
+  .catch(function(error) {
+    console.log('APICALL ERROR', error.response.data);
+    store.dispatch(modals.showErrorModal({content: error.response.data.message}));
+  });
+}
+
+// const updateParent = (mainId) => {
+//   const body = {item_id: mainId};
+//   fetch(API + "/updParent", {
+//           method: "POST",
+//           headers: {"Content-Type": "application/json"},
+//           body: JSON.stringify(body)
+//   }).then(res => {
+//     console.log('got from res at api1:',res.response); //not getting here
+//   }).catch(err => {
+//      console.log('got from err at api2 :',err);  // not getting here
+//   })
+// }; 
 
 const updateItem = async(mainId, name, catId) => {
     const body = {item_id: mainId, item: name, cat_id: catId};
@@ -260,7 +267,8 @@ const APICalls = {
   updateCombo: updateCombo,
   updateItem: updateItem,
   deleteItem: deleteItem,
-  mergeItems: mergeItems
+  mergeItems: mergeItems,
+  updateParent: updateParent
 };
 
 export default APICalls;

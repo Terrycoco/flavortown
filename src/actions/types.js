@@ -3,7 +3,8 @@ export const modal = {
   CLOSE: 'CLOSE',
   SUCCESS: 'SUCCESS',
   CONFIRM: 'CONFIRM',
-  ERROR: 'ERROR'
+  ERROR: 'ERROR',
+  INFO: 'INFO'
 };
 
 export const editor = {

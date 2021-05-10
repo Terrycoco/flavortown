@@ -2,17 +2,13 @@ import React, {useState, useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
 import sum from 'lodash.sum';
 import colors from '../styles/colors';
-import isEmpty from 'lodash.isempty';
 
 //for modal
-import {openConfirmModal, 
-        showSuccessModal, 
-        closeModal,
-        showErrorModal} from '../actions/modalActions.js';
+import {openConfirmModal, showModal} from '../actions/modalActions.js';
 
 //for editor
 import {getCats,
-        getItems,
+        //getItems,
         getItemsFiltered,
         getFriends,
         selectItem,
@@ -142,13 +138,16 @@ const callDeleteItem = () => {
   dispatch(deleteItem(selectedMain.id));
 };
 
-const callMerge = (keepId, loseId) => {
-  console.log('got here callMerge');
-  dispatch(mergeItems(keepId, loseId));
+function callMerge() {
+  dispatch(mergeItems(callMerge.keepId, callMerge.loseId));
 };
 
  const callUpdateCombo = () => {
    dispatch(updateCombo(selectedMain.id));
+ };
+
+const callUpdateParent = () => {
+   dispatch(updateParent(callUpdateParent.item_id));
  };
 
 const changeCat = (e) => {
@@ -197,9 +196,11 @@ const closeEditItem = () => {
 };
 
 const confirmDelete = () => {
-   if (!selectedMain.id) return;
-   let item = selectedMain;
-   if(!item) return;
+  const item = selectedMain;
+   if(!item || item.id === undefined)  {
+    dispatch(showModal({content: 'No Main Item selected'}));
+    return;
+   } 
    const payload = {
      action: callDeleteItem,
      content: `<b>${item.name} (${item.id})</b> and all its pairings will be deleted. Click OK to continue.`
@@ -209,7 +210,10 @@ const confirmDelete = () => {
 
 const confirmUpdateCombo = () => {
    let item = selectedMain;
-   if(!item) return;
+   if(!item || item.cat_id !== 12)  {
+    dispatch(showModal({content: 'Must have Combo selected as Main Item'}));
+    return;
+   } 
    const payload = {
      action: callUpdateCombo,
      content: `This will ensure that all ingredients of the combo <b>${item.name} (${item.id})</b> will be friends. Click OK to continue.`
@@ -217,9 +221,29 @@ const confirmUpdateCombo = () => {
    dispatch(openConfirmModal(payload));
 };
 
+const confirmParentUpdate = () => {
+   let item = selectedMain;
+   if(item.id === undefined)  {
+    dispatch(showModal({content: 'Must have Parent with children selected as Main Item'}));
+    return;
+   } else {
+
+
+   callUpdateParent.item_id = item.id;
+   
+   const payload = {
+     action: callUpdateParent,
+     content: `This will rollup all the children's friends (if any) up to the Parent <b>${item.name} (${item.id})</b>. Click OK to continue.`
+   };
+   dispatch(openConfirmModal(payload));
+ }
+};
+
 const confirmMerge = () => {
-   if (!selectedMain) return;
-   if (!selectedFriend) return;
+   if(selectedMain.id === undefined || selectedFriend.id === undefined)  {
+    dispatch(showModal({content: 'Must have item to keep in Main, and item to lose in Friend'}));
+    return;
+   } 
 
    const keepItem = selectedMain;
    const loseItem = selectedFriend;
@@ -237,11 +261,14 @@ const confirmMerge = () => {
       </Fragment>`
     );
 
+     callMerge.keepId = keepItem.id;
+     callMerge.loseId = loseItem.id;
 
+    
     const payload = {
       title:"IMPORTANT! CHECK CAREFULLY!",
       content: msg,
-      action: callMerge(keepItem.id, loseItem.id)
+      action: callMerge
     };
     dispatch(openConfirmModal(payload));
 };
@@ -379,7 +406,54 @@ return (
    <div className="pairings-container ">
 
     {/* Checkbox Row */}
-    <div className="row checkbox-row w-100 d-flex align-items-end"  >
+    <div className="row checkbox-row w-100 d-flex justify-content-between"  >
+                   <div className="btns-container col-md-6">
+                    <button 
+                        type="button"
+                        className="btn btn-primary btn-sm text-nowrap"
+                        id="AddItembtn"
+                        onClick={openNewMain}
+                        tabIndex="-1"
+                    >
+                      Edit Item
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-sm btn-primary"
+                        id="deleteItemBtn"
+                        onClick={confirmDelete}
+                        tabIndex="-1"
+                        >
+                        Delete
+                    </button>
+                     <button
+                      type="button"
+                      className="btn btn-sm btn-primary"
+                      id="updateComboBtn"
+                      onClick={confirmUpdateCombo}
+                      tabIndex="-1"
+                      >
+                      Update Combo
+                     </button>
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-primary"
+                        id="mergeBtn"
+                        onClick={confirmMerge}
+                        tabIndex="-1"
+                        >
+                        Merge
+                    </button>
+                     <button
+                        type="button"
+                        className="btn btn-sm btn-primary"
+                        id="mergeBtn"
+                        onClick={confirmParentUpdate}
+                        tabIndex="-1"
+                        >
+                        Update Parent
+                    </button>
+                </div>
         <button tabIndex="-1" ref={filterRef} tabIndex="-1" type="button" className="checkbox-go" onClick={changeFilter}>Set Filter</button>
         <div className="checkbox-group">
            <span className="w-100 checkbox-group-label">Click to exclude</span>
@@ -419,44 +493,7 @@ return (
                   </select>
                </div>
 
-               <div className="btns-container col-md-2">
-                    <button 
-                        type="button"
-                        className="btn btn-sm editItemBtn"
-                        id="AddItembtn"
-                        onClick={openNewMain}
-                        tabIndex="-1"
-                    >
-                      <i className="fas fa-plus"></i>
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-sm deletePairingBtn"
-                        id="deleteItemBtn"
-                        onClick={confirmDelete}
-                        tabIndex="-1"
-                        >
-                        <i className="fas fa-trash-alt"></i>
-                    </button>
-                     <button
-                      type="button"
-                      className="btn btn-sm updateComboBtn"
-                      id="updateComboBtn"
-                      onClick={confirmUpdateCombo}
-                      tabIndex="-1"
-                      >
-                        <i className="fab fa-connectdevelop"></i>
-                     </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm mergeBtn"
-                        id="mergeBtn"
-                        onClick={confirmMerge}
-                        tabIndex="-1"
-                        >
-                         <i className="fas fa-compress-alt"></i>
-                    </button>
-                </div>
+             
     </div>
 
     {/* Friend Row */}

@@ -8,7 +8,6 @@ const FlavorFinder = () => {
 
   //for tag
   const [selectedObjs, setSelectedObjs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   //ref to Autocomplete
   const tagRef =  useRef();

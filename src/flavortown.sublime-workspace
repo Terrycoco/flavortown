@@ -19,16 +19,25 @@
 			"file": "pages/Editor.js",
 			"settings":
 			{
-				"buffer_size": 16419,
+				"buffer_size": 17583,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "components/ItemCombobox.js",
+			"file": "actions/editorActions.js",
 			"settings":
 			{
-				"buffer_size": 4696,
+				"buffer_size": 6167,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "apiCalls.js",
+			"settings":
+			{
+				"buffer_size": 7148,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -123,41 +132,41 @@
 		"/home/terry/myProjects/flavortown/public",
 		"/home/terry/myProjects/flavortown/src",
 		"/home/terry/myProjects/flavortown/src/actions",
-		"/home/terry/myProjects/flavortown/src/components",
 		"/home/terry/myProjects/flavortown/src/pages",
 		"/home/terry/myProjects/flavortown/src/reducers",
 		"/home/terry/myProjects/flavortown/src/styles"
 	],
 	"file_history":
 	[
+		"/home/terry/myProjects/flavortown/src/actions/modalActions.js",
+		"/home/terry/myProjects/flavortown/src/actions/types.js",
+		"/home/terry/myProjects/flavortown/src/reducers/modalReducer.js",
+		"/home/terry/myProjects/flavortown/src/styles/editor.css",
+		"/home/terry/myProjects/flavortown/src/styles/friends.css",
+		"/home/terry/myProjects/flavortown/src/pages/testPage.js",
+		"/home/terry/myProjects/flavortown/src/actions/editorActions.js",
+		"/home/terry/myProjects/flavortown/src/apiCalls.js",
+		"/home/terry/myProjects/flavortown/src/pages/FlavorFinder.js",
+		"/home/terry/myProjects/flavortown/src/reducers/editorReducer.js",
+		"/home/terry/myProjects/flavortown/src/components/ItemCombobox.js",
+		"/home/terry/myProjects/flavortown/src/components/itemsListFull.js",
+		"/home/terry/myProjects/flavortown/src/pages/Editor.js",
 		"/home/terry/myProjects/flavortown/src/styles/itemSelect.css",
 		"/home/terry/myProjects/flavortown/src/styles/colors.js",
 		"/home/terry/myProjects/flavortown/src/styles/App.css",
-		"/home/terry/myProjects/flavortown/src/actions/modalActions.js",
-		"/home/terry/myProjects/flavortown/src/actions/editorActions.js",
-		"/home/terry/myProjects/flavortown/src/apiCalls.js",
-		"/home/terry/myProjects/flavortown/src/components/ItemCombobox.js",
 		"/home/terry/myProjects/flavortown/src/components/affinitySelect.js",
-		"/home/terry/myProjects/flavortown/src/styles/editor.css",
-		"/home/terry/myProjects/flavortown/src/pages/testPage.js",
-		"/home/terry/myProjects/flavortown/src/pages/Editor.js",
 		"/home/terry/myProjects/flavortown/package.json",
-		"/home/terry/myProjects/flavortown/src/components/itemsListFull.js",
-		"/home/terry/myProjects/flavortown/src/pages/FlavorFinder.js",
 		"/home/terry/myProjects/flavortown/src/App.js",
 		"/home/terry/myProjects/flavortown/src/components/ItemSelect.js",
-		"/home/terry/myProjects/flavortown/src/reducers/editorReducer.js",
 		"/home/terry/myProjects/flavortown/src/styles/index.css",
 		"/home/terry/myProjects/flavortown/src/components/newItem.js",
 		"/home/terry/myProjects/flavortown/src/styles/itemNew.css",
 		"/home/terry/myProjects/flavortown/src/utilities/data.js",
 		"/home/terry/myProjects/flavortown/src/components/itemSelect.js",
-		"/home/terry/myProjects/flavortown/src/reducers/modalReducer.js",
 		"/home/terry/myProjects/flavortown/src/components/GlobalModal.js",
 		"/home/terry/myProjects/flavortown/src/reducers/index.js",
 		"/home/terry/myProjects/flavortown/src/app/store.js",
 		"/home/terry/myProjects/flavortown/src/index.js",
-		"/home/terry/myProjects/flavortown/src/actions/types.js",
 		"/home/terry/myProjects/flavortown/src/reducers/configureStore.js",
 		"/home/terry/myProjects/flavortown/src/reducers/connectToStore.js",
 		"/home/terry/myProjects/flavortown/src/reducers/appReducer.js",
@@ -172,7 +181,6 @@
 		"/home/terry/myProjects/flavortown/src/components/AppModal.js",
 		"/home/terry/myProjects/flavortown/src/styles/tags.css",
 		"/home/terry/myProjects/flavortown/src/components/TagsBox.js",
-		"/home/terry/myProjects/flavortown/src/styles/friends.css",
 		"/home/terry/myProjects/flavortown/src/components/modal.js",
 		"/home/terry/myProjects/flavortown/src/utilities/cats.js",
 		"/home/terry/myProjects/flavortown/src/styles/itemEntry.css",
@@ -276,6 +284,9 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"mergeItems",
+			"affinity_level",
+			"focus",
 			"value",
 			"clickFriendList",
 			"bootstrap.esm",
@@ -297,6 +308,7 @@
 		"regex": true,
 		"replace_history":
 		[
+			"friend_type"
 		],
 		"reverse": false,
 		"show_context": false,
@@ -307,7 +319,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -316,15 +328,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 16419,
+						"buffer_size": 17583,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4122,
-								4122
+								6085,
+								6085
 							]
 						],
 						"settings":
@@ -338,7 +350,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 4331.0,
+						"translation.y": 5049.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -346,25 +358,25 @@
 				},
 				{
 					"buffer": 1,
-					"file": "components/ItemCombobox.js",
+					"file": "actions/editorActions.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4696,
+						"buffer_size": 6167,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2907,
-								2907
+								6161,
+								6161
 							]
 						],
 						"settings":
 						{
 							"bs_sintax": "javascript (babel)",
-							"buffer_scroll_name": "5bd6e511",
+							"buffer_scroll_name": "fff1fc96",
 							"git_gutter_is_enabled": true,
 							"spell_check": false,
 							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
@@ -372,7 +384,41 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2250.0,
+						"translation.y": 2160.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "apiCalls.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7148,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6121,
+								6121
+							]
+						],
+						"settings":
+						{
+							"bs_sintax": "javascript (babel)",
+							"buffer_scroll_name": "a393ecd1",
+							"git_gutter_is_enabled": true,
+							"spell_check": false,
+							"syntax": "Packages/Babel/JavaScript (Babel).sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -414,7 +460,7 @@
 	"menu_visible": true,
 	"output.Terminus":
 	{
-		"height": 410.0
+		"height": 235.0
 	},
 	"output.find_results":
 	{
@@ -432,7 +478,7 @@
 	"project": "flavortown.sublime-project",
 	"replace":
 	{
-		"height": 78.0
+		"height": 102.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -470,7 +516,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 327.0,
+	"side_bar_width": 331.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

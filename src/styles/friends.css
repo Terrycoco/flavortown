@@ -55,8 +55,10 @@
 }
 
 .parent {
+  color: var(--pink);
   font-weight: bold;
 }
+
 
 .parent::after {
   content: "...";

@@ -27,6 +27,7 @@ const INITIAL = {
 };
 
 
+
 function editorReducer (state=INITIAL, action) {
     switch (action.type) {
       case e.FETCH_FAILURE:

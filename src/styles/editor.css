@@ -19,13 +19,16 @@ button {
 .btns-container {
  padding: 0;
  padding-top: 6px;
- align-self: flex-end;
+ word-wrap: nowrap;
  display: flex;
- justify-content: flex-end;
+ justify-content: flex-start;
+ width: auto;
 }
 
 .btns-container  button {
-  width:2rem;
+  background: var(--lightblue);
+  color: var(--blue);
+  width: auto;
   height: 2rem;
   margin-left: 3px;
 }
@@ -39,13 +42,13 @@ button {
   height: 2rem;
 }
 
-.mergeBtn {
+/*.mergeBtn {
   border: 1px solid var(--darkblue);
   height: 2.2rem;
 }
 
 /****  magic trick  *****/
-#editItembtn svg path{
+/*#editItembtn svg path{
   fill: var(--pink);
 }
 
@@ -56,7 +59,7 @@ button {
 #updateComboBtn {
   color: black;
   border: 1px solid var(--darkblue);
-}
+}*/
 
 
 
@@ -72,6 +75,10 @@ button {
   background-color: var(--lightgreen);
   padding: 1rem;
 }
+
+
+
+
 
 
 /*friends lists */
