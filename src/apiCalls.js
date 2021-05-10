@@ -192,7 +192,7 @@ const mergeItems = async(keepId, loseId) => {
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify(body)
         });
-      return res;
+      return true;
        
     } catch(err) {
         console.error('error merging items: ',  err.message);
@@ -210,6 +210,23 @@ const updateCombo = async(mainId) => {
     }
 };
 
+const updateParent = async(mainId) => {
+  const body = {item_id: mainId};
+  try {
+       // console.log(body);
+      const res =  await fetch(API + "/updParent", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(body)
+        });
+      return res;
+       
+    } catch(err) {
+        console.error('error updating parent : ',  err.message);
+        return err.message;
+    }
+};
+
 const updateItem = async(mainId, name, catId) => {
     const body = {item_id: mainId, item: name, cat_id: catId};
     console.log('trying to update: ', body);
@@ -224,7 +241,7 @@ const updateItem = async(mainId, name, catId) => {
       } catch(err) {
         console.error('error adding item: ',  err.message);
       }
-}
+};
 
 
 

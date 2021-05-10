@@ -8,7 +8,8 @@ const affinities = [
  {friend_type: 4, name: "BFF!"},
  {friend_type: 5, name: "ingredient"},
  {friend_type: -1, name: "enemy"},
- {friend_type:  0, name: "child"}
+ {friend_type: 0, name: "child"},
+ {friend_type: 6, name: "child friend"}
 ];
 
 

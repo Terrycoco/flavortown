@@ -147,6 +147,34 @@ export const gotItems = (items) => ({
   payload: items
 });
 
+export function mergeItems(keepId, loseId) {
+  return async (dispatch) => {
+    dispatch(loading());
+    try {
+       let res = await APICalls.mergeItems(keepId, loseId);
+       if (res === true) {
+           dispatch(reset());
+           dispatch(getItems());
+           dispatch(selectItem(keepId), "main");
+
+           dispatch(modal.showSuccessModal({content: "Items were merged"}));
+       } else {
+           let payload = {
+             content: "Something went wrong. " + res
+           };
+           console.error(res);
+           dispatch(modal.showErrorModal(payload));
+        }
+   } catch(err) {
+        let errm = {
+          content: "Something went wrong. " + err.message
+        };
+        dispatch(modal.showErrorModal(errm));
+        console.error(err);
+  }
+  };
+}
+
 export function reset() {
   return {
     type: RESET
@@ -174,7 +202,7 @@ export const selectedMain = (item) => ({
   payload: item
 });
 
-export const updateCombo = (mainId)  => {
+export function updateCombo(mainId) {
   return async (dispatch) => {
     dispatch(loading());
     try {
@@ -186,6 +214,22 @@ export const updateCombo = (mainId)  => {
        dispatch(modal.showSuccessModal(payload));
     } catch(error) {
        dispatch(fetchFailure("updateCombo ", error.message))
+    }
+  }
+}
+
+export function updateParent(mainId) {
+  return async (dispatch) => {
+    dispatch(loading());
+    try {
+       await APICalls.updateParent(mainId);
+       await dispatch(getFriends(mainId));
+       const payload = {
+          content: "Item now entertains children's friends",
+       };
+       dispatch(modal.showSuccessModal(payload));
+    } catch(error) {
+       dispatch(fetchFailure("updateParent ", error.message))
     }
   }
 }

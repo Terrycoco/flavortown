@@ -19,7 +19,9 @@ import {getCats,
         deleteItem,
         addPairing,
         deletePairing,
-        updateCombo
+        updateCombo,
+        mergeItems,
+        updateParent
       } from '../actions/editorActions';
 
 //import 'reactjs-popup/dist/index.css';
@@ -34,7 +36,8 @@ import "../styles/editor.css";
     "4": "bff",
     "-1": "enemy",
     "5": "ingred",
-    "0": "child"
+    "0": "child",
+    "6": "child-friend"
   };
 
 const nextElem = {
@@ -99,10 +102,6 @@ useEffect(() => {
   dispatch(getFriends(selectedMain.id))
 }, [dispatch,selectedMain.id]);
 
-// useEffect(() => {
-//   setMainId(selectedMain.id);
-//   setCatId(selectedMain.cat_id);
-// }, [selectedMain]);
 
 useEffect(() => {
   if (selectedFriend.friend_type !== undefined) {
@@ -113,10 +112,7 @@ useEffect(() => {
 }, [selectedFriend]);
 
 
-// const callMerge = () => {
-//   console.log('got here callMerge');
-//    mergeItems();
-// };
+
 
 const addEditPairing = async () => {
   dispatch(addPairing(selectedMain.id, selectedFriend.id, affinityId));
@@ -142,6 +138,19 @@ const callDeletePairing = (e) => {
   dispatch(deletePairing(selectedMain.id, selectedFriend.id));
 };
 
+const callDeleteItem = () => {
+  dispatch(deleteItem(selectedMain.id));
+};
+
+const callMerge = (keepId, loseId) => {
+  console.log('got here callMerge');
+  dispatch(mergeItems(keepId, loseId));
+};
+
+ const callUpdateCombo = () => {
+   dispatch(updateCombo(selectedMain.id));
+ };
+
 const changeCat = (e) => {
   setCatId(e.target.value);
 };
@@ -156,7 +165,6 @@ const changeFilter = (e) => {
   }
   filterRef.current.style.backgroundColor = colors.lightgreen;
 };
-
 
 const changeEditMode = () => {
   //dont open if there's no id selectd
@@ -209,45 +217,34 @@ const confirmUpdateCombo = () => {
    dispatch(openConfirmModal(payload));
 };
 
-const callDeleteItem = () => {
-  dispatch(deleteItem(selectedMain.id));
+const confirmMerge = () => {
+   if (!selectedMain) return;
+   if (!selectedFriend) return;
+
+   const keepItem = selectedMain;
+   const loseItem = selectedFriend;
+
+
+
+    let msg =  (
+     `<Fragment>
+      <p>This will merge</p>
+      <p><b>${loseItem.name} (${loseItem.id})</b></p>
+      <p><i className="fas fa-arrow-down"></i>&emsp;INTO&emsp; <i className="fas fa-arrow-down"></i></p>
+      <p><b>${keepItem.name} (${keepItem.id})</b></p>
+      <p>${loseItem.name} WILL BE DELETED!</p>
+      <p>Click OK to continue</p>
+      </Fragment>`
+    );
+
+
+    const payload = {
+      title:"IMPORTANT! CHECK CAREFULLY!",
+      content: msg,
+      action: callMerge(keepItem.id, loseItem.id)
+    };
+    dispatch(openConfirmModal(payload));
 };
-
-
-// const confirmMerge = () => {
-//     if (!mainId) return;
-//     if (!friendId) return;
-//     if (mainId === friendId) return;
-
-//     let keepItem = items.find(it => {
-//       return it.id === mainId;
-//     });
-//     let loseItem = items.find(it => {
-//       return it.id === friendId;
-//     });
-
-
-//     let msg =  (
-//      `<Fragment>
-//       <p>This will merge</p>
-//       <p><b>${loseItem.name} (${loseItem.id})</b></p>
-//       <p><i className="fas fa-arrow-down"></i>&emsp;INTO&emsp; <i className="fas fa-arrow-down"></i></p>
-//       <p><b>${keepItem.name} (${keepItem.id})</b></p>
-//       <p>${loseItem.name} WILL BE DELETED!</p>
-//       <p>Click OK to continue</p>
-//       </Fragment>`
-//     );
-
-
-//     const payload = {
-//       title:"IMPORTANT! CHECK CAREFULLY!",
-//       content: msg,
-//       action: callMerge
-//     };
-//     dispatch(openConfirmModal(payload));
-// };
-
-
 
 const editItemName = (e) => {
   setInputText(e.target.value);
@@ -305,9 +302,7 @@ const openNewMain = (input) => {
   setNewIsOpen(true);
 };
 
- const callUpdateCombo = () => {
-   dispatch(updateCombo(selectedMain.id));
- };
+
 
 const EditBtn = () => {
   return (
@@ -346,34 +341,6 @@ const EditBtn = () => {
 //     }
 // };
 
-
-// async function mergeItems() {
-//   try {
-//       const keepId = mainId;
-//       const loseId = friendId;
-//       setMainId(null); //clear this
-//       let res = await APICalls.mergeItems(keepId, loseId);
-//       if (res === true) {
-//         dispatch(getItems());
-//         setMainId(keepId);
-//         setFriendId(null);
-//         dispatch(showSuccessModal({content: "Items were merged"}));
-//      } else {
-//         let payload = {
-//           content: "Something went wrong. " + res
-//         };
-   
-//         console.error(res);
-//         dispatch(showErrorModal(payload));
-//      }
-//   } catch(err) {
-//         let errm = {
-//           content: "Something went wrong. " + err.message
-//         };
-//         dispatch(showErrorModal(errm));
-//         console.error(err);
-//   }
-// };
 
 
 
@@ -484,6 +451,7 @@ return (
                         type="button"
                         className="btn btn-sm mergeBtn"
                         id="mergeBtn"
+                        onClick={confirmMerge}
                         tabIndex="-1"
                         >
                          <i className="fas fa-compress-alt"></i>

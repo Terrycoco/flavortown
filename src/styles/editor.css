@@ -113,6 +113,10 @@ button {
   content: "- ";
 }
 
+.child-friend {
+  color: gray;
+}
+
 .ingred {
    background-color: #eee;
    line-height: 1.2rem;
