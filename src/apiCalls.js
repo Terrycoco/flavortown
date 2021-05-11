@@ -209,16 +209,22 @@ const updateCombo = async(mainId) => {
 };
 
 function updateParent(mainId) {
-  const body = {item_id: mainId};
-  console.log('updating parent: ', body);
-  axios.post(API + "/updParent", body)
-  .then(function(response) {
-    console.log('response received', response);
+  return new Promise(function(resolve, reject) {
+      const body = {item_id: mainId};
+      console.log('updating parent: ', body);
+      axios.post(API + "/updParent", body)
+      .then(function(response) {
+        if(response.status === 200) {
+           resolve(true);
+         }
+      })
+      .catch(function(error) {
+        console.log('APICALL ERROR', error.response.data);
+        store.dispatch(modals.showErrorModal({content: error.response.data.message}));
+        reject();
+      });
   })
-  .catch(function(error) {
-    console.log('APICALL ERROR', error.response.data);
-    store.dispatch(modals.showErrorModal({content: error.response.data.message}));
-  });
+ 
 }
 
 // const updateParent = (mainId) => {

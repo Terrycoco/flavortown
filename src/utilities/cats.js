@@ -10,7 +10,8 @@ const cats = [
 {cat_id:1,cat:"Herbs & Spices"},
 {cat_id:5,cat:"Proteins"},
 {cat_id:9,cat:"Starches"},
-{cat_id:6,cat:"Vegetables"}
+{cat_id:6,cat:"Vegetables"},
+{cat_id:13,cat:"Sauces & Dressings"}
 ];
 
 export default cats;

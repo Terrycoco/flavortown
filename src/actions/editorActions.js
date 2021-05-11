@@ -221,19 +221,14 @@ export function updateCombo(mainId) {
 export function updateParent(mainId) {
   return async (dispatch) => {
     dispatch(loading());
-    let res = APICalls.updateParent(mainId) //failing here
-
-       console.log('res at updateparent', res);
-      // dispatch(getFriends(mainId));
-
-
-          // const payload = {
-          //      content: "Parent now entertains children's friends"
-          //  };
-          //  dispatch(modal.showSuccessModal(payload));
-
-          //  console.log('action got error:', err.response);
-          //  dispatch(modal.showErrorModal("Update failed: " + err.response))
-    
+    let res = await APICalls.updateParent(mainId);
+    console.log('res:', res); 
+    if (res) { //worked now refresh
+      await dispatch(getFriends(mainId));
+      const payload = {
+           content: "Parent now entertains children's friends"
+       };
+       dispatch(modal.showSuccessModal(payload));
+    }
   }
 };

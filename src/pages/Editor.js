@@ -90,9 +90,6 @@ useEffect(() => {
 }, []);
 
 
-useEffect(() => {
-  dispatch(getItemsFiltered(filter))
-}, [dispatch, filter]);
 
 useEffect(() => {
   dispatch(getFriends(selectedMain.id))
@@ -116,11 +113,8 @@ const addEditPairing = async () => {
 };
 
 const afterItemAdded = (catid) => {
-  console.log('catid: ', catid);
-   if (catid === 12) combosRef.current.click();
-   if (catid === 11) dishesRef.current.click();
    setNewIsOpen(false);
-   document.getElementById('friendselect').focus();
+   refreshData();
 };
 
 const afterAffinitySelect = (e) => {
@@ -158,11 +152,8 @@ const changeFilter = (e) => {
   let arr = [];
   if (dishesRef.current.checked) arr.push(11);
   if (combosRef.current.checked) arr.push(12);
-
-  if (sum(arr) !== sum(filter)) {
-    setFilter(arr); //triggers data refresh
-  }
-  filterRef.current.style.backgroundColor = colors.lightgreen;
+    setFilter(arr); 
+    refreshData()
 };
 
 const changeEditMode = () => {
@@ -277,9 +268,6 @@ const editItemName = (e) => {
   setInputText(e.target.value);
 };
 
-const filterDirty = () => {
-  filterRef.current.style.backgroundColor = colors.lightpink;
-}
 
 function handleKeyDown (e) {
   let elem;
@@ -346,6 +334,11 @@ const EditBtn = () => {
     </button>
   )
 };
+
+const refreshData = () => {
+  dispatch(getItemsFiltered(filter))
+};
+
 
 // const handleEditItem = async(e) => {
 //   console.log('got here vals:', catId, mainId, inputText);
@@ -453,18 +446,27 @@ return (
                         >
                         Update Parent
                     </button>
+                  <button tabIndex="-1" 
+                          ref={filterRef}
+                          type="button" 
+                           className="btn btn-sm btn-primary"
+                          onClick={refreshData}
+                      >
+                        Refresh Data
+                    </button>
                 </div>
-        <button tabIndex="-1" ref={filterRef} tabIndex="-1" type="button" className="checkbox-go" onClick={changeFilter}>Set Filter</button>
         <div className="checkbox-group">
+             
+        
            <span className="w-100 checkbox-group-label">Click to exclude</span>
 
             <span className="checkboxes form-check" >
-              <input tabIndex="-1" ref={dishesRef} className="checkbox" type="checkbox" onClick={filterDirty} id="chkDishes" value="11" />
+              <input tabIndex="-1" ref={dishesRef} className="checkbox" type="checkbox" onClick={changeFilter} id="chkDishes" value="11" />
               <label tabIndex="-1" className="" htmlFor="inlineCheckbox1">Dishes</label>
             </span>
 
           <span className="checkboxes form-check" >
-            <input tabIndex="-1" ref={combosRef} className="checkbox" type="checkbox" onClick={filterDirty} id="chkCombos" value="12" />
+            <input tabIndex="-1" ref={combosRef} className="checkbox" type="checkbox" onClick={changeFilter} id="chkCombos" value="12" />
             <label tabIndex="-1" className="form-check-label" htmlFor="inlineCheckbox2">Combos</label>
           </span>
         </div>
