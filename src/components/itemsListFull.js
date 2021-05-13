@@ -136,7 +136,10 @@ useEffect(() => {
   const renderItems = () => {
     if (itemsObj && itemsObj[catId]) {
       return itemsObj[catId].map((i,idx) => {
-        let cl = (i.is_parent ? "listitem parent" : "listitem")
+        let cl = "listitem";
+        cl =  cl + (i.is_parent ? " parent" : "");
+        cl =  cl + (i.is_child ? " child" : "");
+         cl =  cl + (i.hide_children ? " hiddenchildren" : "");
         return    <li  className="friend" 
                  onClick={selectItem} 
                  key={idx}

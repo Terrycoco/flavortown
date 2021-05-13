@@ -77,7 +77,10 @@ button {
 }
 
 
-
+/*edit item modal */
+.edit-checkbox-row {
+  margin-top: 1rem;
+}
 
 
 
@@ -116,9 +119,9 @@ button {
    text-decoration: line-through;
    text-decoration-color: darkred;
 }
-.child::before {
+/*.child::before {
   content: "- ";
-}
+}*/
 
 .child-friend {
   color: gray;

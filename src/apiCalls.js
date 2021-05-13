@@ -97,7 +97,7 @@ const getFriends = async(mainId) => {
       console.log('fetching friends of ', mainId);
       const response = await fetch(API + "/friends/" + mainId);
       const jsonData = await response.json();
-      console.log('data ret:', jsonData);
+      //console.log('data ret:', jsonData);
       return jsonData;
     } catch(err) {
       console.error(err.message);
@@ -224,36 +224,24 @@ function updateParent(mainId) {
         reject();
       });
   })
- 
 }
 
-// const updateParent = (mainId) => {
-//   const body = {item_id: mainId};
-//   fetch(API + "/updParent", {
-//           method: "POST",
-//           headers: {"Content-Type": "application/json"},
-//           body: JSON.stringify(body)
-//   }).then(res => {
-//     console.log('got from res at api1:',res.response); //not getting here
-//   }).catch(err => {
-//      console.log('got from err at api2 :',err);  // not getting here
-//   })
-// }; 
 
-const updateItem = async(mainId, name, catId) => {
-    const body = {item_id: mainId, item: name, cat_id: catId};
-    console.log('trying to update: ', body);
-    try{
-       // console.log(body);
-        const response = await fetch(API + "/item/edit", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(body)
-        });
-        return response;
-      } catch(err) {
-        console.error('error adding item: ',  err.message);
-      }
+const updateItem = async(item) => {
+   return new Promise(function(resolve, reject) {
+      console.log('updating item: ', item);
+      axios.post(API + "/upditem", item)
+      .then(function(response) {
+        if(response.status === 200) {
+           resolve(true);
+         }
+      })
+      .catch(function(error) {
+        console.log('APICALL ERROR', error.response.data);
+        store.dispatch(modals.showErrorModal({content: error.response.data.message}));
+        reject();
+      });
+  })
 };
 
 

@@ -1,14 +1,19 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {connect} from 'react-redux';
-import sum from 'lodash.sum';
 import colors from '../styles/colors';
+import ItemEditModal from '../components/ItemEditModal';
 
 //for modal
-import {openConfirmModal, showModal} from '../actions/modalActions.js';
+import {openConfirmModal, 
+        showModal,
+        showFormModal,
+        loadParamObject,
+        changeParamObject
+       } from '../actions/modalActions.js';
 
 //for editor
-import {getCats,
-        //getItems,
+import {changeExcludedCats,
+        getCats,
         getItemsFiltered,
         getFriends,
         selectItem,
@@ -45,7 +50,7 @@ const nextElem = {
 
 
 
-const Editor = ({dispatch, items, cats, friends, selectedMain, selectedFriend, affinities}) => {
+const Editor = ({dispatch, items, cats, friends, selectedMain, selectedFriend, affinities, excludedCats=[], modalIsOpen}) => {
     const mainRef = useRef();
     const friendRef = useRef();
     const affinityRef = useRef();
@@ -58,16 +63,12 @@ const Editor = ({dispatch, items, cats, friends, selectedMain, selectedFriend, a
     const [catId, setCatId] = useState();
     // const [friendId, setFriendId] = useState();
 
-
-    const [editMode, setEditMode] = useState(false);
-
     const [inputText, setInputText] = useState("");
    
     const [affinityId, setAffinityId] = useState(1);
     const [newIsOpen, setNewIsOpen] = useState(false);
-    const [editIsOpen, setEditIsOpen] = useState(false);
     const [fieldName, setFieldName] = useState("");
-    const [filter, setFilter] = useState([11,12]);
+    const [showEditModal, setShowEditModal] = useState(false);
 
 
 useEffect(() => {
@@ -76,18 +77,21 @@ useEffect(() => {
    return () => {
      window.removeEventListener('keydown', handleKeyDown);
    }
-
 }, []);
+
+useEffect(() => {
+  refreshData();
+},[]);
 
 
 useEffect(() => {
     dispatch(getCats())
 }, [dispatch]);
 
-useEffect(() => {
-  dishesRef.current.checked = true;
-  combosRef.current.checked = true;
-}, []);
+// useEffect(() => {
+//   dishesRef.current.checked = excludedCats.includes(11)
+//   combosRef.current.checked = excludedCats.includes(12)
+// }, [excludedCats]);
 
 
 
@@ -114,13 +118,17 @@ const addEditPairing = async () => {
 
 const afterItemAdded = (catid) => {
    setNewIsOpen(false);
-   refreshData();
 };
+
+const afterItemEdited = () => {
+  setShowEditModal(false);
+  document.getElementById("mainselect").focus();
+}
 
 const afterAffinitySelect = (e) => {
   console.log('after affinity', e.target.value);
   setAffinityId(e.target.value);
- // document.getElementById("addpairingbtn").focus();
+  //document.getElementById("addpairingbtn").focus();
 };
 
 
@@ -146,22 +154,15 @@ const callUpdateParent = () => {
 
 const changeCat = (e) => {
   setCatId(e.target.value);
-};
+} 
+
 
 const changeFilter = (e) => {
   let arr = [];
   if (dishesRef.current.checked) arr.push(11);
   if (combosRef.current.checked) arr.push(12);
-    setFilter(arr); 
+    dispatch(changeExcludedCats(arr)); 
     refreshData()
-};
-
-const changeEditMode = () => {
-  //dont open if there's no id selectd
-  if (selectedMain.id) {
-    setEditMode(!editMode);
-    //console.log('curr vals: ', mainId, inputText, catId);
-  }
 };
 
 const clickFriendList = (e) => {
@@ -176,15 +177,6 @@ const clickFriendList = (e) => {
    affinityRef.current.focus();
 };
 
-const closeEditItem = () => {
-  if (fieldName === "main") {
-    friendRef.current.focus();
-  } else {
-    document.getElementById("addpairingbtn").focus();
-  }
-   
-   setEditIsOpen(false);
-};
 
 const confirmDelete = () => {
   const item = selectedMain;
@@ -218,16 +210,14 @@ const confirmParentUpdate = () => {
     dispatch(showModal({content: 'Must have Parent with children selected as Main Item'}));
     return;
    } else {
-
-
-   callUpdateParent.item_id = item.id;
-   
-   const payload = {
-     action: callUpdateParent,
-     content: `This will rollup all the children's friends (if any) up to the Parent <b>${item.name} (${item.id})</b>. Click OK to continue.`
-   };
-   dispatch(openConfirmModal(payload));
- }
+     callUpdateParent.item_id = item.id;
+     
+     const payload = {
+       action: callUpdateParent,
+       content: `This will rollup all the children's friends (if any) up to the Parent <b>${item.name} (${item.id})</b>. Click OK to continue.`
+     };
+     dispatch(openConfirmModal(payload));
+   }
 };
 
 const confirmMerge = () => {
@@ -268,7 +258,6 @@ const editItemName = (e) => {
   setInputText(e.target.value);
 };
 
-
 function handleKeyDown (e) {
   let elem;
   let next;
@@ -277,7 +266,7 @@ function handleKeyDown (e) {
   case 13:
     elem = e.srcElement.id;
     next = nextElem[elem];
-
+    if(!next) return;
     if (elem === 'friendselect') {
       e.preventDefault(); //prevent opening
     }
@@ -303,6 +292,17 @@ const onClick = (field) => {
   setFieldName(field);
 };
 
+const openEditMain = () => {
+  setFieldName("main");
+  //must have somethng to edit
+  if (!selectedMain.id) {
+    dispatch(showModal({content: "You must select a Main Item"}));
+
+  } else {
+    setShowEditModal(true);
+  }
+};
+
 const openNewFriend = (input) => {
   //console.log('input text: ', input)
   setFieldName("friend");
@@ -318,94 +318,24 @@ const openNewMain = (input) => {
 };
 
 
-
-const EditBtn = () => {
-  return (
-     <button 
-          type="button"
-          className="btn btn-sm editItemBtn"
-          id="editItemBtn"
-          onClick={changeEditMode}
-          tabIndex="-1"
-      >
-         <svg fill="#000000" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="24px" height="24px"> 
-            <path d="M 16.9375 1.0625 L 3.875 14.125 L 1.0742188 22.925781 L 9.875 20.125 L 22.9375 7.0625 C 22.9375 7.0625 22.8375 4.9615 20.9375 3.0625 C 19.0375 1.1625 16.9375 1.0625 16.9375 1.0625 z M 17.3125 2.6875 C 18.3845 2.8915 19.237984 3.3456094 19.896484 4.0214844 C 20.554984 4.6973594 21.0185 5.595 21.3125 6.6875 L 19.5 8.5 L 15.5 4.5 L 16.9375 3.0625 L 17.3125 2.6875 z M 4.9785156 15.126953 C 4.990338 15.129931 6.1809555 15.430955 7.375 16.625 C 8.675 17.825 8.875 18.925781 8.875 18.925781 L 8.9179688 18.976562 L 5.3691406 20.119141 L 3.8730469 18.623047 L 4.9785156 15.126953 z"/>
-         </svg>
-    </button>
-  )
-};
-
 const refreshData = () => {
-  dispatch(getItemsFiltered(filter))
+  dispatch(getItemsFiltered(excludedCats))
 };
 
-
-// const handleEditItem = async(e) => {
-//   console.log('got here vals:', catId, mainId, inputText);
-//   const currentMainId = mainId;
-//   if (!mainId) return;
-
-//    //do some validation?
-//     try {
-//       console.log('editing: ', mainId);
-//       let res = await APICalls.updateItem(mainId, inputText, catId);
-//       if (res) {
-//         let payload =  {content: "Item updated"};
-//         dispatch(showSuccessModal(payload));
-//         dispatch(getItems());
-//         setMainId(currentMainId);
-//         setEditMode(false);
-//       }
-//     } catch(err) {
-//       console.error(err.message);
-//     }
-// };
-
-
-
-
-const mainOrEdit = (e) => {
-  if (editMode) {
-    return (
-   <div className="w-100 edit-name d-flex-column justify-content-start">
-      <label className="control-label" htmlFor="item-edit">Edit Item Name: {selectedMain.id}</label>
-      <textarea 
-          type="text" 
-          className="form-control" 
-          id="item-edit" 
-          value={inputText}
-          onChange={editItemName}
-      />
-    </div>
-    )
-  } else {
-    return (
-        <div className="w-100 input-group d-flex">
-        <ItemCombobox
-            id="mainselect"
-            itemType="main"
-            thisRef={mainRef}
-            autofocus={true}
-            onNoMatch={openNewMain}
-         />
-        </div>
-    )
-  }
-};
 
 return (
 
-<div className="editorpage">
-   <div className="pairings-container ">
+<div className="editorpage" autoFocus={false}>
+  <div className="pairings-container ">
 
-    {/* Checkbox Row */}
-    <div className="row checkbox-row w-100 d-flex justify-content-between"  >
-                   <div className="btns-container col-md-6">
+      {/* Button Row */}
+      <div className="row checkbox-row w-100 d-flex justify-content-between"  >
+          <div className="btns-container col-md-6">
                     <button 
                         type="button"
                         className="btn btn-primary btn-sm text-nowrap"
                         id="AddItembtn"
-                        onClick={openNewMain}
+                        onClick={openEditMain}
                         tabIndex="-1"
                     >
                       Edit Item
@@ -451,22 +381,19 @@ return (
                           type="button" 
                            className="btn btn-sm btn-primary"
                           onClick={refreshData}
-                      >
-                        Refresh Data
-                    </button>
-                </div>
+                  >
+                  Refresh Data
+                  </button>
+        </div>
         <div className="checkbox-group">
-             
-        
            <span className="w-100 checkbox-group-label">Click to exclude</span>
-
             <span className="checkboxes form-check" >
-              <input tabIndex="-1" ref={dishesRef} className="checkbox" type="checkbox" onClick={changeFilter} id="chkDishes" value="11" />
+              <input tabIndex="-1" ref={dishesRef} className="checkbox" type="checkbox" onClick={changeFilter} id="chkDishes" value={excludedCats.includes(11)} />
               <label tabIndex="-1" className="" htmlFor="inlineCheckbox1">Dishes</label>
             </span>
 
           <span className="checkboxes form-check" >
-            <input tabIndex="-1" ref={combosRef} className="checkbox" type="checkbox" onClick={changeFilter} id="chkCombos" value="12" />
+            <input tabIndex="-1" ref={combosRef} className="checkbox" type="checkbox" onClick={changeFilter} id="chkCombos" value={excludedCats.includes(12)} />
             <label tabIndex="-1" className="form-check-label" htmlFor="inlineCheckbox2">Combos</label>
           </span>
         </div>
@@ -475,8 +402,15 @@ return (
     {/* Main Row */}
     <div className="main-row row w-100 d-flex justify-content-start ">
                <div className="col-md-6 gx-0 d-flex align-items-end">
-                      {mainOrEdit()}
-                      <EditBtn />
+                    <div className="w-100 input-group d-flex">
+                        <ItemCombobox
+                            id="mainselect"
+                            itemType="main"
+                            thisRef={mainRef}
+                            autoFocus={false}
+                            onNoMatch={openNewMain}
+                         />
+                    </div>
                </div>
 
                <div className="col-md-4 gx-0">
@@ -494,129 +428,129 @@ return (
                     ))}
                   </select>
                </div>
-
-             
-    </div>
-
-    {/* Friend Row */}
-    <div className="friend-row row w-100 input-group d-flex">
-
-      <div className="col-md-6 gx-0 d-flex align-items-end">
-            <div className="w-100 input-group d-flex">
-                 <ItemCombobox
-                    id="friendselect"
-                    thisRef={friendRef}
-                    itemType="friend"
-                    autofocus={false}
-                    onNoMatch={openNewFriend}
-                  />
-            </div>
       </div>
-
-      <div className="col-md-3">
-        <div className="w-100">
-          <label className="control-label" htmlFor="affinities">{`Affinity ${affinityId}`}</label>
-          <select
-              onChange={afterAffinitySelect}
-              className="form-control form-control-sm" 
-              ref={affinityRef} 
-              name="affinity-select" 
-              id="affinityselect"
-              value={affinityId}
-              tabIndex="3"
-            >
-               {affinities.map(a => {
-                return (
-                    <option 
-                       key={a.friend_type}
-                       value={a.friend_type}
-                       className="dropdown-item"
-                       data-friend-type={a.friend_type}
-                    >{a.name}</option>
-                  )
-          })}
-          </select>
+      {/* Friend Row */}
+      <div className="friend-row row w-100 input-group d-flex">
+        <div className="col-md-6 gx-0 d-flex align-items-end">
+              <div className="w-100 input-group d-flex">
+                   <ItemCombobox
+                      id="friendselect"
+                      thisRef={friendRef}
+                      itemType="friend"
+                      autoFocus={false}
+                      onNoMatch={openNewFriend}
+                    />
+              </div>
+        </div>
+        <div className="col-md-3">
+          <div className="w-100">
+            <label className="control-label" htmlFor="affinities">{`Affinity ${affinityId}`}</label>
+            <select
+                onChange={afterAffinitySelect}
+                className="form-control form-control-sm" 
+                ref={affinityRef} 
+                name="affinity-select" 
+                id="affinityselect"
+                value={affinityId}
+                tabIndex="3"
+              >
+                 {affinities.map(a => {
+                  return (
+                      <option 
+                         key={a.friend_type}
+                         value={a.friend_type}
+                         className="dropdown-item"
+                         data-friend-type={a.friend_type}
+                      >{a.name}</option>
+                    )
+            })}
+            </select>
+          </div>
+        </div>
+        <div className="btns-container col-md-3 d-flex">
+                <button 
+                    type="button"
+                    className="btn btn-sm btn-success"
+                    id="addpairingbtn"
+                    onClick={addEditPairing}
+                >
+                 <i className="fas fa-arrow-down"></i>
+               </button>
+                <button 
+                    type="button"
+                    className="btn btn-sm editItemBtn"
+                    id="AddFriendbtn"
+                    onClick={openNewFriend}
+                    tabIndex="-1"
+                >
+                 <i className="fas fa-plus"></i>
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-sm deletePairingBtn"
+                    id="deletePairingBtn"
+                    onClick={callDeletePairing}
+                    tabIndex="-1"
+                    >
+                    <i className="fas fa-trash-alt"></i>
+                </button>
         </div>
       </div>
-      
-      <div className="btns-container col-md-3 d-flex">
-              <button 
-                  type="button"
-                  className="btn btn-sm btn-success"
-                  id="addpairingbtn"
-                  onClick={addEditPairing}
-              >
-               <i className="fas fa-arrow-down"></i>
-             </button>
-              <button 
-                  type="button"
-                  className="btn btn-sm editItemBtn"
-                  id="AddFriendbtn"
-                  onClick={openNewFriend}
-                  tabIndex="-1"
-              >
-               <i className="fas fa-plus"></i>
-              </button>
-              <button
-                  type="button"
-                  className="btn btn-sm deletePairingBtn"
-                  id="deletePairingBtn"
-                  onClick={callDeletePairing}
-                  tabIndex="-1"
-                  >
-                  <i className="fas fa-trash-alt"></i>
-              </button>
+  </div> {/*end pairings container */}
 
+
+    {/* Friend List */}
+    <div className="friends-container mh-25" tabIndex="-1">
+     <div>
+       <ul id="friendslist"  className="friends-group">
+       {friends && friends.map(i => {
+     
+        let cl = "listitem";
+        cl = cl + ((i.is_parent === 1) ?  " parent" :  " " + itemClasses[i.friend_type]);
+
+        return (
+        <li key={`key${i.id}`}>
+           <span 
+               className={cl}
+               key={i.id}
+               data-id={i.id}
+               data-name={i.name}
+               data-friend-type={i.friend_type}
+               onClick={clickFriendList}
+          >
+               {i.name}
+            </span>
+          </li> 
+          )})
+         }
+          </ul>
       </div>
     </div>
-</div> 
 
 
-{/* Friend List */}
-<div className="friends-container mh-25" tabIndex="-1">
- <div>
-   <ul id="friendslist"  className="friends-group">
-   {friends && friends.map(i => {
- 
-    let cl = "listitem";
-    cl = cl + ((i.is_parent === 1) ?  " parent" :  " " + itemClasses[i.friend_type]);
+   <NewItem
+      id="newItemForm"
+      text={inputText} 
+      onClose={afterItemAdded}
+      isOpen={newIsOpen}
+      itemType={fieldName}
+    /> 
 
-    return (
-    <li key={`key${i.id}`}>
-       <span 
-           className={cl}
-           key={i.id}
-           data-id={i.id}
-           data-name={i.name}
-           data-friend-type={i.friend_type}
-           onClick={clickFriendList}
-      >
-           {i.name}
-        </span>
-      </li> 
-      )})
-     }
-      </ul>
-  </div>
+    <ItemEditModal
+      id="item-edit-modal"
+      show={showEditModal}
+      onClose={afterItemEdited}
+    />
 </div>
-
-
- <NewItem
-  id="newItemForm"
-  text={inputText} 
-  onClose={afterItemAdded}
-  isOpen={newIsOpen}
-  itemType={fieldName}
-/> 
-
-</div>
-  );
+)
 }
 
-
 function mapStoreToProps(store) {
-  console.log('editor:', store.editor)
-  return store.editor;
+  console.log('store:', store.editor);
+  return {
+    modalIsOpen: store.modal.show,
+    ...store.editor
+  }
 } 
 
 

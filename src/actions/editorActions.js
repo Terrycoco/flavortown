@@ -9,7 +9,7 @@ export const LOADING = 'LOADING';
 export const RESET = 'RESET';
 export const SELECTED_FRIEND = 'SELECTED_FRIEND';
 export const SELECTED_MAIN = 'SELECTED_MAIN';
-
+export const CHANGE_EXCLUDED_CATS = 'CHANGE_EXCLUDED_CATS';
 
 export function addItem(text, catId, itemType) {
   return async (dispatch) => {
@@ -40,6 +40,11 @@ export function addPairing(mainId, friendId, affinityId) {
     }
   }
 }
+
+export const changeExcludedCats = (catarr) => ({
+  type: CHANGE_EXCLUDED_CATS,
+  payload: catarr
+});
 
 export function deleteItem(itemId) {
   return async (dispatch) => {
@@ -129,13 +134,14 @@ export function getItems() {
    }
 }
 
-export function getItemsFiltered(catIdArray) {
+export function getItemsFiltered() {
   console.log('got to filtered items');
-   return async (dispatch) => {
+   return async (dispatch, getState) => {
+      let catIdArray = getState().excludedCats;
       dispatch(loading()) //turn on loader TODO
       try {
         const data = await APICalls.getItemsFiltered(catIdArray);
-        dispatch(gotItems(data))
+        dispatch(gotItems(data));
       } catch (error) {
         dispatch(fetchFailure('getItems ', error.message))
       }
@@ -214,6 +220,24 @@ export function updateCombo(mainId) {
        dispatch(modal.showSuccessModal(payload));
     } catch(error) {
        dispatch(fetchFailure("updateCombo ", error.message))
+    }
+  }
+}
+
+export function updateItem(item) {
+  return async (dispatch, getState) => {
+    dispatch(loading());
+    let res = await APICalls.updateItem(item);
+    console.log('res:', res); 
+
+    if (res) { //worked now refresh
+      console.log('getstate?', getState);
+      await dispatch(getItemsFiltered([]));
+      await dispatch(selectItem(item, "main"));
+      const payload = {
+           content: "Item updated"
+      };
+      dispatch(modal.showSuccessModal(payload));
     }
   }
 }

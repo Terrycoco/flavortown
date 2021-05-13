@@ -6,18 +6,25 @@ const INITIAL = {
   showActionBtn: false,
   actionBtnText: 'OK',
   action: '',
-  show: false
+  show: false,
+  hasParamObject: false,
+  paramObject: {}
 };
 
 
 function modalReducer(state=INITIAL, action) {
-  console.log('action:', action)
     switch (action.type) {
 
+      case a.CHANGE_PARAM_OBJECT:
+           let newobj = Object.assign({}, state.paramObject);
+           newobj[action.payload.fieldname] = action.payload.value;
+           console.log('newobj:', newobj);
+           return Object.assign({}, state, {paramObject: newobj});
+           
       case a.CLOSE: 
           return Object.assign({}, INITIAL);
       
-      case a.CONFIRM: 
+      case a.CONFIRM:
           return Object.assign({}, state, {
             show: true, 
             title: 'Are you sure?', 
@@ -32,9 +39,20 @@ function modalReducer(state=INITIAL, action) {
             showActionBtn: false,
             ...action.payload
           });
+
+      case a.FORM:
+          return Object.assign({}, state, {
+            show: true, 
+            showActionBtn: true,
+            hasParamObject:true,
+            ...action.payload
+          });
       
       case a.INFO: 
             return Object.assign({}, state, {show: true, ...action.payload});
+
+      case a.LOAD_PARAM_OBJECT:
+            return Object.assign({}, state, {paramObject: action.payload});
        
       case a.SUCCESS: 
           return Object.assign({}, state, {

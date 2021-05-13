@@ -23,13 +23,16 @@ const INITIAL = {
   friends: [],
   affinities: affinities,
   selectedMain: {},
-  selectedFriend: {}
+  selectedFriend: {},
+  excludeCats: [11,12]
 };
 
 
 
 function editorReducer (state=INITIAL, action) {
     switch (action.type) {
+      case e.CHANGE_EXCLUDED_CATS:
+         return {...state, excludeCats: action.payload}     
       case e.FETCH_FAILURE:
          return {...state, loading: false, hasErrors: true, error: action.payload}
       case e.LOADING:

@@ -1,40 +1,72 @@
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import { connect } from 'react-redux';
 import {Modal, Button} from 'react-bootstrap';
 import {closeModal} from '../actions/modalActions';
+import colors from '../styles/colors';
 
 
+const GlobalModal = ({dispatch, paramObject, title, show, content, showActionBtn, action, actionBtnText, hasParamObject}) => {
+    const [currObj, setCurrObj] = useState({});
+    
+    const closeRef = useRef();
 
-const GlobalModal = ({dispatch, ...props}) => {
+
+   useEffect(() => {
+     setCurrObj(paramObject);
+   },[]);
+
+
+   function createMarkup() { 
+    return {__html: content};
+  }
+
+
 
   const handleClose = () => {
      dispatch(closeModal());
   };
 
   return (
-  <Modal show={props.show} onHide={handleClose}>
-    <Modal.Header closeButton>
-      <Modal.Title>{props.title}</Modal.Title>
+  <Modal
+      show={show} 
+      onHide={handleClose} 
+      backdrop="static"
+      autoFocus={false}
+      onEntered={() => closeRef.current.focus()}
+  >
+    <Modal.Header style={{background: colors.lightgreen, color: colors.pink, border: 'none'}}>
+      <Modal.Title>{title}</Modal.Title>
     </Modal.Header>
-
-    <Modal.Body className="text-center"  dangerouslySetInnerHTML={{__html: props.content}}>
-
+        
+    <Modal.Body className="text-center" dangerouslySetInnerHTML= {createMarkup()} >
     </Modal.Body>
-
+  
     <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose} >Close</Button>
-        {props.showActionBtn && props.showActionBtn === true &&
-            <Button variant="primary" className="ModalButton" onClick={props.action}>
-             {props.actionBtnText}
-         </Button>
-        }
+    {showActionBtn && showActionBtn === true &&
+    <Button variant="primary" className="btn btn-primary ModalButton" onClick={action}>
+         {actionBtnText}
+    </Button>
+    }
+    <Button id="global-modal-close" variant="primary" className="btn btn-secondary btn-default" ref={closeRef} onClick={handleClose} >Close</Button>
     </Modal.Footer>
   </Modal >
 )
 };
  
 
-const mapStateToProps = (state) => state.modal;
+const mapStoreToProps = (store) => {
+  return {
+  title: store.modal.title,
+  content: store.modal.content,
+  showActionBtn: store.modal.showActionBtn,
+  actionBtnText: store.modal.actionBtnText,
+  action: store.modal.action,
+  show: store.modal.show,
+  hasParamObject: store.modal.hasParamObject,
+  paramObject: store.modal.paramObject
+  };
+}
+
+export default connect(mapStoreToProps)(GlobalModal);
 
 
-export default connect(mapStateToProps)(GlobalModal);
