@@ -55,7 +55,6 @@
 }
 
 .parent {
-  color: var(--pink);
   font-weight: bold;
 }
 
@@ -64,15 +63,11 @@
 }
 
 .child {
-  margin-left: .9em;
-  font-size: .9rem;
   line-height: 1rem;
   margin-bottom: .2rem;
 }
 
-.child::before{
-  content: '- ';
-}
+
 
 
 .friend {

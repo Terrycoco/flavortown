@@ -35,7 +35,20 @@ const ItemEditModal = ({dispatch, selectedMain, onClose, show}) => {
   };
 
    const onChange = (e) => {
-    setItem({...item, name: e.target.value});
+    switch (e.target.id) {
+      case ('edit-name'):
+        setItem({...item, name: e.target.value});
+        break;
+      case ('is_parent'):
+      console.log('now checked?', e.target.checked, typeof e.target.checked );
+        setItem({...item, is_parent: e.target.checked ? 1 : 0});
+        break;
+      case ('hide_children'):
+        setItem({...item, hide_children: e.target.checked ? 1 : 0});
+        break;
+      default:
+      return;
+    }
    }
 
    const changeCat = (e)  => {
@@ -88,9 +101,9 @@ const ItemEditModal = ({dispatch, selectedMain, onClose, show}) => {
           ))}
         </select>
           <div className="d-flex justify-content-start align-items-center edit-checkbox-row" >
-            <input tabIndex="-1" className="checkbox" type="checkbox" id="chkIsParent" defaultChecked={item.is_parent}/>
+            <input tabIndex="-1" className="checkbox" type="checkbox" id="is_parent" defaultChecked={item.is_parent} onInput={onChange}/>
             <label tabIndex="-1" className="form-check-label" htmlFor="inlineCheckbox2">Is Parent</label>
-            <input tabIndex="-1" className="checkbox" type="checkbox" id="chkIsParent" defaultChecked={item.hide_children}/>
+            <input tabIndex="-1" className="checkbox" type="checkbox" id="hide_children" defaultChecked={item.hide_children} onInput={onChange}/>
             <label tabIndex="-1" className="form-check-label" htmlFor="inlineCheckbox2">Hide Children</label>
           </div>
       </div>

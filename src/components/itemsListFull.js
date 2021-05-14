@@ -61,9 +61,16 @@ const fetchFriends = useCallback(
 
 
 function initCats() {
-    setCatsArr(cats);
+   console.log('initializing cats:', selected);
+     if (!selected || selected.length < 1) {
+      setCatsArr(cats.filter(function( obj ) {
+           return obj.cat_id !== 12;
+        }));
+    } else {
+      setCatsArr(cats);
+    }
     setCatId(0);
-};
+}
 
 function resetCatsArr(groupedData) {
     if (groupedData && typeof groupedData === 'object') {
@@ -82,7 +89,7 @@ function resetCatsArr(groupedData) {
 }
 
 async function fetchIngredients(catId, itemId) {
-  if (catId !== 12) return;
+  if (catId !== 12 || catId !== 13) return;
      const ingreds = await APICalls.getIngredients(itemId);
      console.log('ingeds:', ingreds);
      return ingreds;
@@ -119,11 +126,15 @@ useEffect(() => {
      const cid = parseInt(catId);
 
      // console.log('cid:', catId );
-    if (cid === 12) {
+    if (cid === 12 || cid === 13) {
      fetchIngredients(cid, id)
        .then(data => {
-         // console.log('data fetched:', data)
+         if (!data) {
+          onSelect({id: id, name: name});
+         } else {
+          console.log('data fetched:', data)
           onSelect(data);
+        }
       });
     } else {
      onSelect({id: id, name: name}); //sends back to parent
@@ -139,7 +150,8 @@ useEffect(() => {
         let cl = "listitem";
         cl =  cl + (i.is_parent ? " parent" : "");
         cl =  cl + (i.is_child ? " child" : "");
-         cl =  cl + (i.hide_children ? " hiddenchildren" : "");
+        cl =  cl + (i.hide_children ? " hiddenchildren" : "");
+        cl = cl + (i.friend_type===5 ? " ingred" : "");
         return    <li  className="friend" 
                  onClick={selectItem} 
                  key={idx}
@@ -190,6 +202,7 @@ const onCatClick = (e) => {
 const renderCats = () => {
     const result = catsArr.map((cat, idx) => {
       let id = parseInt(cat.cat_id);
+
       //console.log('rendering cat', id);
       let cl = "accordion-collapse collapse";
       let btncl = "accordion-button";

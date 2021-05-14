@@ -61,7 +61,6 @@ const Editor = ({dispatch, items, cats, friends, selectedMain, selectedFriend, a
     const filterRef = useRef();
 
     const [catId, setCatId] = useState();
-    // const [friendId, setFriendId] = useState();
 
     const [inputText, setInputText] = useState("");
    
@@ -193,15 +192,16 @@ const confirmDelete = () => {
 
 const confirmUpdateCombo = () => {
    let item = selectedMain;
-   if(!item || item.cat_id !== 12)  {
-    dispatch(showModal({content: 'Must have Combo selected as Main Item'}));
-    return;
-   } 
+   if (item.cat_id === 12 || item.cat_id === 13) {
    const payload = {
      action: callUpdateCombo,
-     content: `This will ensure that all ingredients of the combo <b>${item.name} (${item.id})</b> will be friends. Click OK to continue.`
+     content: `This will ensure that all ingredients of the combo <b>${item.name} (${item.id})</b> will be friends with eachother. Click OK to continue.`
    };
-   dispatch(openConfirmModal(payload));
+    dispatch(openConfirmModal(payload));
+  } else {
+    dispatch(showModal({content: 'Must have Combo or Sauce selected as Main Item'}));
+    return;
+  } 
 };
 
 const confirmParentUpdate = () => {
@@ -356,7 +356,7 @@ return (
                       onClick={confirmUpdateCombo}
                       tabIndex="-1"
                       >
-                      Update Combo
+                      Interrelate
                      </button>
                       <button
                         type="button"
@@ -374,7 +374,7 @@ return (
                         onClick={confirmParentUpdate}
                         tabIndex="-1"
                         >
-                        Update Parent
+                        Rollup
                     </button>
                   <button tabIndex="-1" 
                           ref={filterRef}
