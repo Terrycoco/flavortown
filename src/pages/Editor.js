@@ -38,7 +38,8 @@ import "../styles/editor.css";
     "-1": "enemy",
     "5": "ingred",
     "0": "child",
-    "6": "child-friend"
+    "6": "child-friend",
+    "7": "sauce"
   };
 
 const nextElem = {
