@@ -41,7 +41,6 @@ const TagsBox = ({selectedItems, onSelect, onRemove, thisRef}) => {
                  data-id={it.id}
                  data-name={it.name}
                  onClick={handleRemove}
-
               >
                   {it.name}
               </span>

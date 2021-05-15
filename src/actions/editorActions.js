@@ -28,16 +28,14 @@ export function addItem(text, catId, itemType) {
     }
 }}
 
-export function addPairing(mainId, friendId, affinityId) {
+export function addPairing(mainId, catId, friendId, affinityId) {
   return async (dispatch) => {
-    dispatch(loading());
-    try {
-       await APICalls.addNewPairing(mainId, friendId, affinityId);
-       //refresh friends
-       dispatch(getFriends(mainId));
-    } catch(error) {
-       dispatch(fetchFailure("addPairing ", error.message))
-    }
+     dispatch(loading());
+     let res = await APICalls.addNewPairing(mainId, catId, friendId, affinityId);
+     //refresh friends
+     if (res) {
+      dispatch(getFriends(mainId));
+     }
   }
 }
 

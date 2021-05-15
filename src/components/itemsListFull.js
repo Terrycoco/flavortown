@@ -144,7 +144,7 @@ useEffect(() => {
 
 
 
-  const renderItems = () => {
+const renderItems = () => {
     if (itemsObj && itemsObj[catId]) {
       return itemsObj[catId].map((i,idx) => {
         let cl = "listitem";
@@ -169,7 +169,7 @@ useEffect(() => {
             </li>     
        })
      }
-  };
+};
 
 const loaderOrList = () => {
       if (isLoading) {

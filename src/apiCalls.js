@@ -18,20 +18,21 @@ function addNewItem(newItemText, catId) {
   });
 }
 
-
-const addNewPairing = async(mainId, friendId, affinityId) => {
-   try{
-       const body = {item1_id: mainId, item2_id: friendId, level: affinityId};
-       // console.log(body);
-        await fetch(API + "/pairing/new", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(body)
-        });
-        return;
-      } catch(err) {
-        console.error('error adding pairing: ',  err.message);
-      }
+const addNewPairing = async(mainId, catId, friendId, affinityId) => {
+  return new Promise(function(resolve, reject) {
+      const body = {item1_id: mainId, catId: catId, item2_id: friendId, level: affinityId};
+      axios.post(API + "/pairing/new", body)
+      .then(function(response) {
+        if(response.status === 200) {
+           resolve(true);
+         }
+      })
+      .catch(function(error) {
+        console.log('APICALL ERROR', error.response.data);
+        store.dispatch(modals.showErrorModal({content: error.response.data.message}));
+        reject();
+      });
+  });
 };
 
 const deleteItem = async(mainId) => {

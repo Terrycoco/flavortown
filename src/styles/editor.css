@@ -135,7 +135,13 @@ button {
    margin-bottom: 5px;
 }
 
-
+.indirect, .member-of {
+   color: gray;
+   line-height: 1.2rem;
+   padding:  5px;
+   font-size: .8rem;
+   margin-bottom: 5px;
+}
 
 #collapse12 .listitem {
   font-size: .7rem;

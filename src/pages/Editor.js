@@ -8,7 +8,8 @@ import {openConfirmModal,
         showModal,
         showFormModal,
         loadParamObject,
-        changeParamObject
+        changeParamObject,
+        showErrorModal
        } from '../actions/modalActions.js';
 
 //for editor
@@ -39,7 +40,8 @@ import "../styles/editor.css";
     "5": "ingred",
     "0": "child",
     "6": "child-friend",
-    "7": "sauce"
+    "7": "member-of",
+    "8": "indirect"
   };
 
 const nextElem = {
@@ -112,7 +114,11 @@ useEffect(() => {
 
 
 const addEditPairing = async () => {
-  dispatch(addPairing(selectedMain.id, selectedFriend.id, affinityId));
+  if ([6,7,8].includes(affinityId)) {
+    dispatch(showErrorModal({content: 'Cannot add indirect friendship'}));
+    return;
+  }
+  dispatch(addPairing(selectedMain.id, selectedMain.cat_id, selectedFriend.id, affinityId));
   //friendRef.current.focus();
 };
 
@@ -144,13 +150,13 @@ function callMerge() {
   dispatch(mergeItems(callMerge.keepId, callMerge.loseId));
 };
 
- const callUpdateCombo = () => {
-   dispatch(updateCombo(selectedMain.id));
- };
+//  const callUpdateCombo = () => {
+//    dispatch(updateCombo(selectedMain.id));
+//  };
 
-const callUpdateParent = () => {
-   dispatch(updateParent(callUpdateParent.item_id));
- };
+// const callUpdateParent = () => {
+//    dispatch(updateParent(callUpdateParent.item_id));
+//  };
 
 const changeCat = (e) => {
   setCatId(e.target.value);
@@ -191,35 +197,35 @@ const confirmDelete = () => {
    dispatch(openConfirmModal(payload));
 };
 
-const confirmUpdateCombo = () => {
-   let item = selectedMain;
-   if (item.cat_id === 12 || item.cat_id === 13) {
-   const payload = {
-     action: callUpdateCombo,
-     content: `This will ensure that all ingredients of the combo <b>${item.name} (${item.id})</b> will be friends with eachother. Click OK to continue.`
-   };
-    dispatch(openConfirmModal(payload));
-  } else {
-    dispatch(showModal({content: 'Must have Combo or Sauce selected as Main Item'}));
-    return;
-  } 
-};
+// const confirmUpdateCombo = () => {
+//    let item = selectedMain;
+//    if (item.cat_id === 12 || item.cat_id === 13) {
+//    const payload = {
+//      action: callUpdateCombo,
+//      content: `This will ensure that all ingredients of the combo <b>${item.name} (${item.id})</b> will be friends with eachother. Click OK to continue.`
+//    };
+//     dispatch(openConfirmModal(payload));
+//   } else {
+//     dispatch(showModal({content: 'Must have Combo or Sauce selected as Main Item'}));
+//     return;
+//   } 
+// };
 
-const confirmParentUpdate = () => {
-   let item = selectedMain;
-   if(item.id === undefined)  {
-    dispatch(showModal({content: 'Must have Parent with children selected as Main Item'}));
-    return;
-   } else {
-     callUpdateParent.item_id = item.id;
+// const confirmParentUpdate = () => {
+//    let item = selectedMain;
+//    if(item.id === undefined)  {
+//     dispatch(showModal({content: 'Must have Parent with children selected as Main Item'}));
+//     return;
+//    } else {
+//      callUpdateParent.item_id = item.id;
      
-     const payload = {
-       action: callUpdateParent,
-       content: `This will rollup all the children's friends (if any) up to the Parent <b>${item.name} (${item.id})</b>. Click OK to continue.`
-     };
-     dispatch(openConfirmModal(payload));
-   }
-};
+//      const payload = {
+//        action: callUpdateParent,
+//        content: `This will rollup all the children's friends (if any) up to the Parent <b>${item.name} (${item.id})</b>. Click OK to continue.`
+//      };
+//      dispatch(openConfirmModal(payload));
+//    }
+// };
 
 const confirmMerge = () => {
    if(selectedMain.id === undefined || selectedFriend.id === undefined)  {
@@ -350,15 +356,15 @@ return (
                         >
                         Delete
                     </button>
-                     <button
+{/*                     <button
                       type="button"
                       className="btn btn-sm btn-primary"
                       id="updateComboBtn"
                       onClick={confirmUpdateCombo}
                       tabIndex="-1"
-                      >
-                      Interrelate
-                     </button>
+                      >*/}
+{/*                      Interrelate
+                     </button>*/}
                       <button
                         type="button"
                         className="btn btn-sm btn-primary"
@@ -368,7 +374,7 @@ return (
                         >
                         Merge
                     </button>
-                     <button
+{/*                     <button
                         type="button"
                         className="btn btn-sm btn-primary"
                         id="mergeBtn"
@@ -376,7 +382,7 @@ return (
                         tabIndex="-1"
                         >
                         Rollup
-                    </button>
+                    </button>*/}
                   <button tabIndex="-1" 
                           ref={filterRef}
                           type="button" 
