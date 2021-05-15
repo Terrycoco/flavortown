@@ -65,13 +65,11 @@ export function deleteItem(itemId) {
 export function deletePairing(mainId, friendId) {
   return async(dispatch) => {
     dispatch(loading());
-     try {
-      await APICalls.deletePairing(mainId, friendId);
+      let res = await APICalls.deletePairing(mainId, friendId);
       //refresh friends
-      dispatch(getFriends(mainId));
-    } catch(error) {
-      dispatch(fetchFailure("deleteItem ", error.message))
-    }
+      if (res) {
+        dispatch(getFriends(mainId));
+      }
   }
 }
 

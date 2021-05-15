@@ -90,8 +90,19 @@ button {
  padding-bottom: 6px;
  font-size: 1rem;
  width: 100%;
-}
+} 
 
+
+ .parent {
+  font-weight: normal;
+  color: var(--darkblue);
+ }
+
+.parent::after {
+  content: " ________";
+  font-weight: normal;
+  font-style: italic;
+}
 
 .friend {
   font-weight: normal;
@@ -142,6 +153,8 @@ button {
    font-size: .8rem;
    margin-bottom: 5px;
 }
+
+
 
 #collapse12 .listitem {
   font-size: .7rem;

@@ -139,6 +139,10 @@ const afterAffinitySelect = (e) => {
 
 
 const callDeletePairing = (e) => {
+  if (([6, 7, 8]).includes(affinityId)) {
+    dispatch(showErrorModal({content: "You can't delete an indirect friend.  Go to parent to delete this pairing"}))
+    return;
+  }
   dispatch(deletePairing(selectedMain.id, selectedFriend.id));
 };
 

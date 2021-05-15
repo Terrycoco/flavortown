@@ -53,18 +53,22 @@ const deleteItem = async(mainId) => {
 
 const deletePairing = async(mainId, friendId) => {
   if (!mainId || !friendId) return;
-   try{
-       const body = {item1_id: mainId, item2_id: friendId};
-       // console.log(body);
-        await fetch(API + "/pairing/delete", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify(body)
-        });
-        return true;
-      } catch(err) {
-        console.error('error adding pairing: ',  err.message);
-      }
+
+   return new Promise(function(resolve, reject) {
+      const body = {item1_id: mainId, item2_id: friendId};
+      axios.post(API + "/pairing/delete", body)
+      .then(function(response) {
+        if(response.status === 200) {
+           resolve(true);
+         }
+      })
+      .catch(function(error) {
+        console.log('API CALL ERROR', error.response.data);
+        store.dispatch(modals.showErrorModal({content: error.response.data.message}));
+        reject();
+      });
+  })
+
 };
 
 const getAllItems = async () => {
