@@ -14,17 +14,12 @@ export const CHANGE_EXCLUDED_CATS = 'CHANGE_EXCLUDED_CATS';
 export function addItem(text, catId, itemType) {
   return async (dispatch) => {
     dispatch(loading())
-    try {
-      const newItem = await APICalls.addNewItem(text, catId);
-      //if catID is in the normal exclude list don't exclude it
-      let excludeArr = [11, 12];
-      if (excludeArr.includes(catId)) {
-        excludeArr.splice(excludeArr.indexOf(catId), 1);
-      }
-      dispatch(getItemsFiltered(excludeArr)); //refresh list
-      dispatch(selectItem(newItem, itemType));
-    } catch(error) {
-       dispatch(fetchFailure("addItem ", error.message))
+    const newItem = await APICalls.addNewItem(text, catId);
+    console.log('action receives:', newItem);
+    if (newItem && newItem.id > 0) {
+      await dispatch(getItems()); //ref
+      await dispatch(selectItem(newItem, itemType));
+      dispatch(modal.showSuccessModal({content: "Item added"}));
     }
 }}
 
@@ -118,7 +113,6 @@ export const gotFriends = (friends) => ({
 });
 
 export function getItems() {
-  console.log('got to get items');
    return async (dispatch) => {
       dispatch(loading()) //turn on loader TODO
       try {

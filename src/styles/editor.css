@@ -87,7 +87,6 @@ button {
 /*friends lists */
 .listitem {
  display: inline-block;
- padding-bottom: 6px;
  font-size: 1rem;
  width: 100%;
 } 
@@ -96,13 +95,26 @@ button {
  .parent {
   font-weight: normal;
   color: var(--darkblue);
+  /*border-bottom: 2px solid var(--darkblue);*/
+  line-height: .8em;
+  padding-bottom: 0;
+  margin-bottom: 0;
  }
 
 .parent::after {
-  content: " ________";
+/*  content: " (in general)";*/
   font-weight: normal;
   font-style: italic;
+  font-size: smaller;
 }
+
+.parent + .child {
+  background:red;
+}
+/*.child::before {
+  content: " • ";
+  color: var(--darkblue);
+}*/
 
 .friend {
   font-weight: normal;

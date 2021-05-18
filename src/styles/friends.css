@@ -48,11 +48,6 @@
   margin-top: 0;
 }
 */
-.listitem {
- display: inline-block;
- padding-bottom: 6px;
- font-size: 1rem;
-}
 
 .parent {
   font-weight: bold;
@@ -117,9 +112,7 @@
   .friends-group {
     column-count: 1;
   }
-  .listitem {
-    line-height: .7em;
-  }
+
 
   .accordion-button {
     font-size: 1rem;

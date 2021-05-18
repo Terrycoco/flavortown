@@ -1,5 +1,5 @@
 import React, { Fragment, useState,  useRef} from 'react';
-import ItemsListFull from '../components/itemsListFull';
+import FlavorFinderList from '../components/FlavorFinderList';
 import "../styles/friends.css";
 import TagsBox from '../components/TagsBox';
 
@@ -53,7 +53,7 @@ const removeFromTags = (remainingList) => {
 
 const loaderOrList = () => {
         return (
-        <ItemsListFull 
+        <FlavorFinderList 
             onSelect={selectFromList}
             selected={selectedObjs}
         />

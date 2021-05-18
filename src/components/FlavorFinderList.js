@@ -2,7 +2,7 @@ import React, {Fragment, useState, useEffect, useCallback} from 'react';
 import APICalls from '../apiCalls';
 import "../styles/friends.css";
 import cats from '../utilities/cats';
-import {groupDataByFieldname} from '../utilities/data';
+import {groupDataByFieldname, nestChildren} from '../utilities/data';
 
 const ItemsListFull = ({selected, onSelect}) => {
    const [catsArr, setCatsArr] = useState([]); ///hard code for speed?
@@ -10,6 +10,8 @@ const ItemsListFull = ({selected, onSelect}) => {
    const [itemsObj, setItemsObj] = useState({});
    const [isLoading, setIsLoading] = useState(true);
 
+
+//initial call - no items selected yet
 const fetchItemsByCat = useCallback(
   async() => {
     if (!catId || catId === 0) return;
@@ -17,10 +19,11 @@ const fetchItemsByCat = useCallback(
       return;
     }
     const items = await APICalls.getItemsByCat(catId);
+    const nested = nestChildren(items);
    // console.log('items received:', items);
     let thisObj = {};
     let newObj;
-    thisObj[catId] = items;
+    thisObj[catId] = nested;
     if (itemsObj === undefined) {
        newObj = {
       ...itemsObj,
@@ -40,10 +43,12 @@ useEffect(() =>  {
     }
   }, [selected.length]); 
 
+
+//mutual friends list
 const fetchFriends = useCallback(
   async() => {
     let selectedIds = [];
-    console.log('fetchFriends called, selectedObs:', selected);
+   // console.log('fetchFriends called, selectedObs:', selected);
      if (!selected || selected.length === 0) {
       //return all
        selectedIds = [];
@@ -52,16 +57,17 @@ const fetchFriends = useCallback(
           return selectedIds.push(parseInt(i.id));
         });
      }
-     console.log('selectedIds:', selectedIds);
-     const ungrouped = await APICalls.getMutual(selectedIds);
+   //  console.log('selectedIds:', selectedIds);
+     const ungrouped = await APICalls.getMutual(selectedIds); 
      const grouped = groupDataByFieldname(ungrouped, "cat_id", true);
      return {ungrouped, grouped}
  // eslint-disable-next-line     
   }, [selected.length]); //every time ids change reload friends
 
 
+
+//cat list - no combos when nothing selected
 function initCats() {
-   console.log('initializing cats:', selected);
      if (!selected || selected.length < 1) {
       setCatsArr(cats.filter(function( obj ) {
            return obj.cat_id !== 12;
@@ -72,10 +78,12 @@ function initCats() {
     setCatId(0);
 }
 
+
+
 function resetCatsArr(groupedData) {
     if (groupedData && typeof groupedData === 'object') {
       let keys = Object.keys(groupedData).map(Number);
-      console.log('keys', keys);
+      //console.log('keys', keys);
       function filterCats(cat) {
         return keys.includes(cat.cat_id);
       }
@@ -88,10 +96,11 @@ function resetCatsArr(groupedData) {
     }
 }
 
+
 async function fetchIngredients(catId, itemId) {
   if (catId !== 12 || catId !== 13) return;
      const ingreds = await APICalls.getIngredients(itemId);
-     console.log('ingeds:', ingreds);
+   //  console.log('ingeds:', ingreds);
      return ingreds;
 }
 
@@ -102,16 +111,18 @@ useEffect(() => {
 
   //when user selects different catid
 useEffect(() => {
+  //all items
     if (selected.length === 0) {
-      fetchItemsByCat(catId)
+      fetchItemsByCat(catId) 
       .then(data => {
-        console.log('cat items returned: ', data);
+      //  console.log('cat items returned: ', data);
         setItemsObj({...data});
       })
+    //by cat
     } else {
       fetchFriends()
       .then(data => {
-        console.log('grouped data returned: ', data.grouped);
+      //  console.log('grouped data returned: ', data.grouped);
         setItemsObj({...data.grouped});
         resetCatsArr(data.grouped);
       })
@@ -132,7 +143,7 @@ useEffect(() => {
          if (!data) {
           onSelect({id: id, name: name});
          } else {
-          console.log('data fetched:', data)
+         // console.log('data fetched:', data)
           onSelect(data);
         }
       });
@@ -141,35 +152,64 @@ useEffect(() => {
     }
    };
 
+const toggleNested = (e) => {
+  e.target.classList.toggle("caret-down");
+  e.target.nextSibling.classList.toggle("active");
+}
 
+
+const renderParent = (parent) => {
+  return  (
+    <Fragment>
+      <div className="listitem caret" key={parent.id} onClick={toggleNested}>{parent.parent}</div>
+      <ul className="nested" id={parent.id + '-ul'}>
+        {parent.children.map(c => (
+           <li className="listitem" key={c.id}>{c.name}</li>
+        ))}
+      </ul>
+    </Fragment>
+  )
+}
 
 
 const renderItems = () => {
-    if (itemsObj && itemsObj[catId]) {
-      return itemsObj[catId].map((i,idx) => {
-        let cl = "listitem";
-        cl =  cl + (i.is_parent ? " parent" : "");
-        cl =  cl + (i.is_child ? " child" : "");
-        cl =  cl + (i.hide_children ? " hiddenchildren" : "");
-        cl = cl + (i.friend_type===5 ? " ingred" : "");
-        return    <li  className="friend" 
-                 onClick={selectItem} 
-                 key={idx}
-                 data-id={i.id}
-                 data-name={i.name}
-              >
-                 <span 
-                     className={cl}
-                     key={`s{id}`}
-                     data-id={i.id}
-                     data-name={i.name}
-                  >
-                     {i.name}
-                  </span>
-            </li>     
-       })
-     }
+ if (itemsObj && itemsObj[catId]) {
+   return itemsObj[catId].map(n => (
+     <>
+       {(n.is_parent ? renderParent(n) : <div className="listitem" key={n.id}>{n.name}</div>)}
+     </>
+   ))
+ }
 };
+
+
+
+// const renderItems = () => {
+//     if (itemsObj && itemsObj[catId]) {
+//       return itemsObj[catId].map((i,idx) => {
+//         let cl = "listitem";
+//         cl =  cl + (i.is_parent ? " parent" : "");
+//         cl =  cl + (i.is_child ? " child" : "");
+//         cl =  cl + (i.hide_children ? " hiddenchildren" : "");
+//         cl = cl + (i.friend_type===5 ? " ingred" : "");
+//         return    <li  className="friend" 
+//                  onClick={selectItem} 
+//                  key={idx}
+//                  data-id={i.id}
+//                  data-name={i.name}
+//               >
+//                  <span 
+//                      className={cl}
+//                      key={`s{id}`}
+//                      data-id={i.id}
+//                      data-name={i.name}
+//                   >
+//                      {i.name}
+//                   </span>
+//             </li>     
+//        })
+//      }
+// };
 
 const loaderOrList = () => {
       if (isLoading) {

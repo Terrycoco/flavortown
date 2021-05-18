@@ -10,7 +10,7 @@ import { addItem,
 
 const NewItem = ({dispatch, cats, text, onAdd, onClose, isOpen, itemType}) => {
   const [newText, setNewText] = useState("");
-  const [catId, setCatId] = useState(3);
+  const [catId, setCatId] = useState();
 
   useEffect(() => {
     console.log('text is:', text);
@@ -21,7 +21,7 @@ const NewItem = ({dispatch, cats, text, onAdd, onClose, isOpen, itemType}) => {
   const onSubmitForm = async(e) => {
       e.preventDefault();
       try {
-         dispatch(addItem(newText, catId, itemType)) 
+         await dispatch(addItem(newText, catId, itemType)) 
          //auto refreshes items
          //selects new item in store
          onClose(catId); //to update filter

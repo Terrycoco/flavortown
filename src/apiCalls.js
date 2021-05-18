@@ -6,16 +6,24 @@ const API = (process.env.NODE_ENV === 'production') ?  process.env.REACT_APP_API
 
 //store.dispatch(someAction)
 
-function addNewItem(newItemText, catId) {
+function addNewItem(newItemText, catId, itemType) {
   const body = {item: newItemText, cat_id: catId};
-  console.log('trying to add: ', body);
-  axios.post(API + "/items/new", body)
-  .then(function(response) {
-    console.log(response);
+
+    return new Promise(function(resolve, reject) {
+       axios.post(API + "/items/new", body)
+      .then(function(response) {
+        console.log('api status:', response.status);
+        if(response.status === 200) {
+          console.log('res', response.data)
+           resolve(response.data);
+         }
+      })
+      .catch(function(error) {
+        console.log('APICALL ERROR', error.response.data);
+        store.dispatch(modals.showErrorModal({content: error.response.data.message}));
+        reject();
+      });
   })
-  .catch(function(error) {
-    console.log(error);
-  });
 }
 
 const addNewPairing = async(mainId, catId, friendId, affinityId) => {
@@ -68,7 +76,6 @@ const deletePairing = async(mainId, friendId) => {
         reject();
       });
   })
-
 };
 
 const getAllItems = async () => {

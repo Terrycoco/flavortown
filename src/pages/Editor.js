@@ -122,8 +122,13 @@ const addEditPairing = async () => {
   //friendRef.current.focus();
 };
 
-const afterItemAdded = (catid) => {
+const afterItemAdded = (itemType) => {
    setNewIsOpen(false);
+   if (itemType === "maim") {
+    document.getElementById("mainselect").focus();
+   } else {
+    document.getElementById("friendselect").focus();
+   }
 };
 
 const afterItemEdited = () => {
