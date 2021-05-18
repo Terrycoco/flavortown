@@ -4,7 +4,7 @@ import "../styles/friends.css";
 import cats from '../utilities/cats';
 import {groupDataByFieldname, nestChildren} from '../utilities/data';
 
-const ItemsListFull = ({selected, onSelect}) => {
+const FlavorFinderList = ({selected, onSelect}) => {
    const [catsArr, setCatsArr] = useState([]); ///hard code for speed?
    const [catId, setCatId] = useState(0);
    const [itemsObj, setItemsObj] = useState({});
@@ -97,12 +97,12 @@ function resetCatsArr(groupedData) {
 }
 
 
-async function fetchIngredients(catId, itemId) {
-  if (catId !== 12 || catId !== 13) return;
-     const ingreds = await APICalls.getIngredients(itemId);
-   //  console.log('ingeds:', ingreds);
-     return ingreds;
-}
+// async function fetchIngredients(catId, itemId) {
+//   if (catId !== 12 || catId !== 13) return;
+//     // const ingreds = await APICalls.getIngredients(itemId);
+//    //  console.log('ingeds:', ingreds);
+//      return ingreds;
+// }
 
 //on initial load at least get the cats
 useEffect(() => {
@@ -130,27 +130,27 @@ useEffect(() => {
 }, [catId, fetchItemsByCat, selected.length, fetchFriends]);
 
 
-   const selectItem = (e) => {
-  // console.log(e.target.attributes);
+const selectItem = (e) => {
+  //  console.log(e.target.attributes);
      const id = parseInt(e.target.attributes["data-id"].value);
      const name = e.target.attributes["data-name"].value;
      const cid = parseInt(catId);
 
      // console.log('cid:', catId );
-    if (cid === 12 || cid === 13) {
-     fetchIngredients(cid, id)
-       .then(data => {
-         if (!data) {
-          onSelect({id: id, name: name});
-         } else {
-         // console.log('data fetched:', data)
-          onSelect(data);
-        }
-      });
-    } else {
+    // if (cid === 12 || cid === 13) {
+    //  fetchIngredients(cid, id)
+    //    .then(data => {
+    //      if (!data) {
+    //       onSelect({id: id, name: name});
+    //      } else {
+    //      // console.log('data fetched:', data)
+    //       onSelect(data);
+    //     }
+    //   });
+    // } else {
      onSelect({id: id, name: name}); //sends back to parent
-    }
-   };
+   // }
+};
 
 const toggleNested = (e) => {
   e.target.classList.toggle("caret-down");
@@ -161,12 +161,20 @@ const toggleNested = (e) => {
 const renderParent = (parent) => {
   return  (
     <Fragment>
-      <div className="listitem caret" key={parent.id} onClick={toggleNested}>{parent.parent}</div>
-      <ul className="nested" id={parent.id + '-ul'}>
-        {parent.children.map(c => (
-           <li className="listitem" key={c.id}>{c.name}</li>
-        ))}
-      </ul>
+      <div className="listitem caret" 
+           key={parent.id} 
+           onClick={toggleNested}
+      >{parent.parent}</div>
+          <ul className="nested" id={parent.id + '-ul'}>
+            {parent.children.map(c => (
+               <li className="listitem" 
+                   key={c.id} 
+                   data-id={c.id}
+                   data-name={c.name}
+                   onClick={selectItem}
+                >{c.name}</li>
+            ))}
+          </ul>
     </Fragment>
   )
 }
@@ -176,7 +184,7 @@ const renderItems = () => {
  if (itemsObj && itemsObj[catId]) {
    return itemsObj[catId].map(n => (
      <>
-       {(n.is_parent ? renderParent(n) : <div className="listitem" key={n.id}>{n.name}</div>)}
+       {(n.is_parent ? renderParent(n) : <span className="listitem" data-id={n.id} data-name={n.name} onClick={selectItem} key={n.id}>{n.name}</span>)}
      </>
    ))
  }
@@ -228,7 +236,7 @@ const loaderOrList = () => {
 
 const onCatClick = (e) => {
     const thisCatId = parseInt(e.target.attributes["data-cat-id"].value);
-    console.log('thiscatid:', thisCatId);
+    //console.log('thiscatid:', thisCatId);
     if (catId !== thisCatId) {
        setCatId(thisCatId);
         if (!(thisCatId in itemsObj)) {
@@ -299,4 +307,4 @@ const renderCats = () => {
     </Fragment>
 )};
 
-export default ItemsListFull;
+export default FlavorFinderList;

@@ -445,6 +445,8 @@ return (
                   </select>
                </div>
       </div>
+
+      
       {/* Friend Row */}
       <div className="friend-row row w-100 input-group d-flex">
         <div className="col-md-6 gx-0 d-flex align-items-end">
