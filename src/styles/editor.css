@@ -84,33 +84,33 @@ button {
 
 
 
-/*friends lists */
-.listitem {
+/*/*friends lists */
+/*.listitem {
  display: inline-block;
  font-size: 1rem;
  width: 100%;
-} 
+} */
 
-
+/*
  .parent {
   font-weight: normal;
   color: var(--darkblue);
-  /*border-bottom: 2px solid var(--darkblue);*/
+  border-bottom: 2px solid var(--darkblue);
   line-height: .8em;
   padding-bottom: 0;
   margin-bottom: 0;
  }
-
-.parent::after {
-/*  content: " (in general)";*/
-  font-weight: normal;
+*/
+/*.parent::after {
+content: " (in general)";*/
+/*  font-weight: normal;
   font-style: italic;
   font-size: smaller;
-}
+}*/
 
-.parent + .child {
+/*.parent + .child {
   background:red;
-}
+}*/
 /*.child::before {
   content: " • ";
   color: var(--darkblue);
@@ -241,9 +241,9 @@ button {
   .friends-group {
     column-count: 1;
   }
-  .listitem {
+/*  .listitem {
     line-height: .7rem;
-  }
+  }*/
 
   .accordion-button {
     font-size: 1rem;

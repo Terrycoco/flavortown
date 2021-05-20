@@ -7,9 +7,9 @@ import {getCats,
         } from '../actions/editorActions';
 
 import APICalls from '../apiCalls';
-import "../styles/test.css";
-import {nestChildren} from '../utilities/data';
+import "../styles/friends.css";
 
+import Item from '../components/Item';
 
 
 const TestPage = ({dispatch, cats, selectedMain}) => {
@@ -19,7 +19,6 @@ const TestPage = ({dispatch, cats, selectedMain}) => {
    const getTestItems = useCallback(
     async() => {
       let data = await APICalls.getItemsByCat(13);
-      console.log('items from server:', data)
       setTestItems(data);
     },[]);
 
@@ -29,13 +28,13 @@ const TestPage = ({dispatch, cats, selectedMain}) => {
     getTestItems();
   }, [dispatch]);
 
- const styles = {
-   parent: {
-     fontWeight: 'bold'
-   },
-   child: {
-   }
- };
+ // const styles = {
+ //   parent: {
+ //     fontWeight: 'bold'
+ //   },
+ //   child: {
+ //   }
+ // };
 
 
   const runThis = () => {
@@ -45,39 +44,49 @@ const TestPage = ({dispatch, cats, selectedMain}) => {
 
 const toggleNested = (e) => {
   e.target.classList.toggle("caret-down");
-  e.target.nextSibling.classList.toggle("active");
+  var parentId = e.target.getAttribute('data-id');
+  var container = document.getElementById("item-list");
+  var matches = container.querySelectorAll(`div[data-parent-id='${parentId}']`);
+   matches.forEach(function(item) {
+     item.classList.toggle("active")
+   });
 }
 
-const renderParent = (parent) => {
-  return  (
-    <Fragment>
-      <div className="caret" key={parent.id} onClick={toggleNested}>{parent.parent}</div>
-      <ul className="nested" id={parent.id + '-ul'}>
-        {parent.children.map(c => (
-           <li key={c.id}>{c.name}</li>
-        ))}
-      </ul>
-    </Fragment>
-  )
-}
+
+// const renderParent = (parent) => {
+//   return  (
+//     <Fragment>
+//       <div className="caret" key={parent.id} onClick={toggleNested}>{parent.parent}</div>
+//       <ul className="nested" id={parent.id + '-ul'}>
+//         {parent.children.map(c => (
+//            <li key={c.id}>{c.name}</li>
+//         ))}
+//       </ul>
+//     </Fragment>
+//   )
+// }
 
 
 const renderItems = () => {
-
-   let nested = nestChildren(testItems);
-   console.log('nested:', nested);
-
-   return nested.map(n => (
-     <>
-       {(n.is_parent ? renderParent(n) : <div className="item" key={n.id}>{n.name}</div>)}
-     </>
-   ))
+  return testItems.map(i => {
+    if (i.is_parent && i.hide_children) {
+      return <div className="listitem parent caret" onClick={toggleNested} key={i.id} data-id={i.id}>{i.parent}</div>
+    } else if (i.is_parent && i.hide_children === 0) {
+      return <div className="listitem parent" key={i.id} data-parent-id={i.parent_id}>{i.parent}</div>
+    } else if (i.is_child && i.hide_children) {
+      return <div className="listitem child nested" key={i.id} data-parent-id={i.parent_id}>{i.name}</div>
+    } else if (i.is_child && i.hide_children === 0) {
+      return <div className="listitem child active" key={i.id} data-parent-id={i.parent_id}>{i.name}</div>
+    } else {
+      return <div className="listitem" key={i.id}>{i.name}</div>
+    }
+  });
 };
 
 
 return (
     <Fragment>
-     <div>{renderItems()}</div>
+     <div id="item-list">{renderItems()}</div>
      </Fragment>
   )
 };

@@ -6,9 +6,12 @@ import React, {Fragment} from 'react';
 const ItemCard  = ({item}) => {
  
 return (
-     <Fragment>
-     <div key={item.id}>{item.name}</div>
-     </Fragment>
+<div class="card" key={item.parent_id}>
+  <h5 class="card-title">{item.parent}</h5>
+  <div class="card-body">
+    Something interesting about this recipe
+  </div>
+</div>
   );
 
 };

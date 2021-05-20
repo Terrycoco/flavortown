@@ -42,10 +42,17 @@
 /* LIST ITEMS------------------------------*/
 
 .listitem {
- display: inline-block;
  padding-bottom: 6px;
- font-size: 1em;
- line-height: 1.8em;
+ font-size: 1rem;
+ line-height: 2rem;
+}
+
+.parent {
+  font-weight: bold;
+}
+
+.child {
+
 }
 
 .caret {
@@ -73,27 +80,24 @@
 }
 
 .caret-down::before {
-/*  -ms-transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);*/
-  font-family: "Font Awesome 5 Free";
+   font-family: "Font Awesome 5 Free";
    font-weight: 900;
    content: "\f078";
    display: inline-block;
    padding-right: 11px;
+   color: var(--darkblue);
 }
 
 
-.nested {
+.listitem.nested {
   display: none;
 }
 
 
-.active {
+.listitem.active {
   display: block;
   padding-left: .5em;
-  border-left: 3px solid #eee;
-  margin-bottom: 1em;
+  border-left: 3px solid var(--lightblue);
 }
 
 

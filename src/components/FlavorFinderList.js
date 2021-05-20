@@ -2,28 +2,38 @@ import React, {Fragment, useState, useEffect, useCallback} from 'react';
 import APICalls from '../apiCalls';
 import "../styles/friends.css";
 import cats from '../utilities/cats';
-import {groupDataByFieldname, nestChildren} from '../utilities/data';
+import ItemCard from '../components/itemCard';
+import {groupDataByFieldname, objectIsEmpty} from '../utilities/data';
+import Item from '../components/Item';
 
 const FlavorFinderList = ({selected, onSelect}) => {
    const [catsArr, setCatsArr] = useState([]); ///hard code for speed?
    const [catId, setCatId] = useState(0);
    const [itemsObj, setItemsObj] = useState({});
    const [isLoading, setIsLoading] = useState(true);
+   const [openParents, setOpenParents] = useState([]);
 
+//on initial load at least get the cats
+useEffect(() => {
+ initCats();
+}, []);
 
 //initial call - no items selected yet
 const fetchItemsByCat = useCallback(
-  async() => {
-    if (!catId || catId === 0) return;
-    if (catId in itemsObj) {
+  async(thisCatId) => {
+
+    console.log('got to fetchby cat', thisCatId, catId);
+    if (!thisCatId || thisCatId === 0) return;
+    setCatId(thisCatId);
+    if (thisCatId in itemsObj) {
       return;
     }
-    const items = await APICalls.getItemsByCat(catId);
-    const nested = nestChildren(items);
-   // console.log('items received:', items);
+    const items = await APICalls.getItemsByCat(thisCatId);
+    console.log('items received:', items);
+
     let thisObj = {};
     let newObj;
-    thisObj[catId] = nested;
+    thisObj[thisCatId] = items;
     if (itemsObj === undefined) {
        newObj = {
       ...itemsObj,
@@ -33,7 +43,7 @@ const fetchItemsByCat = useCallback(
        newObj = thisObj;
     }
     return newObj;
-},[catId, selected.length]);
+},[selected.length]);
 
 useEffect(() =>  {
     if (selected.length === 0){
@@ -42,7 +52,6 @@ useEffect(() =>  {
       setIsLoading(false);
     }
   }, [selected.length]); 
-
 
 //mutual friends list
 const fetchFriends = useCallback(
@@ -64,11 +73,9 @@ const fetchFriends = useCallback(
  // eslint-disable-next-line     
   }, [selected.length]); //every time ids change reload friends
 
-
-
 //cat list - no combos when nothing selected
 function initCats() {
-     if (!selected || selected.length < 1) {
+    if (!selected || selected.length < 1) {
       setCatsArr(cats.filter(function( obj ) {
            return obj.cat_id !== 12;
         }));
@@ -77,8 +84,6 @@ function initCats() {
     }
     setCatId(0);
 }
-
-
 
 function resetCatsArr(groupedData) {
     if (groupedData && typeof groupedData === 'object') {
@@ -97,6 +102,8 @@ function resetCatsArr(groupedData) {
 }
 
 
+
+
 // async function fetchIngredients(catId, itemId) {
 //   if (catId !== 12 || catId !== 13) return;
 //     // const ingreds = await APICalls.getIngredients(itemId);
@@ -104,10 +111,7 @@ function resetCatsArr(groupedData) {
 //      return ingreds;
 // }
 
-//on initial load at least get the cats
-useEffect(() => {
- initCats();
-}, []);
+
 
   //when user selects different catid
 useEffect(() => {
@@ -152,75 +156,47 @@ const selectItem = (e) => {
    // }
 };
 
-const toggleNested = (e) => {
-  e.target.classList.toggle("caret-down");
-  e.target.nextSibling.classList.toggle("active");
+const toggleNested = (parentId) => {
+  const index = openParents.indexOf(parentId);
+  let arr = openParents.splice();
+
+  //its there remove it
+  if (index > -1) {
+    arr = arr.filter(function(item) {
+    return item !== parentId;
+  })
+  } else {
+    arr.push(parentId);
+  }
+
+  setOpenParents(old => arr);
+
+  // e.target.classList.toggle("caret-down");
+  // var parentId = e.target.getAttribute('data-id');
+  // var container = document.getElementById(`item-list-${catId}`);
+  // var matches = container.querySelectorAll(`div[data-parent-id="${parentId}"]`);
+  // console.log('matches:', matches);
+
+  //  matches.forEach(function(item) {
+  //    item.classList.add("active");
+  //    item.classList.remove("nested");
+  //  });
 }
-
-
-const renderParent = (parent) => {
-  return  (
-    <Fragment>
-      <div className="listitem caret" 
-           key={parent.id} 
-           onClick={toggleNested}
-      >{parent.parent}</div>
-          <ul className="nested" id={parent.id + '-ul'}>
-            {parent.children.map(c => (
-               <li className="listitem" 
-                   key={c.id} 
-                   data-id={c.id}
-                   data-name={c.name}
-                   onClick={selectItem}
-                >{c.name}</li>
-            ))}
-          </ul>
-    </Fragment>
-  )
-}
-
 
 const renderItems = () => {
- if (itemsObj && itemsObj[catId]) {
-   return itemsObj[catId].map(n => (
-     <>
-       {(n.is_parent ? renderParent(n) : <span className="listitem" data-id={n.id} data-name={n.name} onClick={selectItem} key={n.id}>{n.name}</span>)}
-     </>
-   ))
- }
+  if (objectIsEmpty(itemsObj) || !itemsObj.hasOwnProperty(catId)) return null;
+  //console.log('itemsObj:', itemsObj, 'catId:', catId);
+  return itemsObj[catId].map(i => {
+    return <Item 
+            item={i} 
+            onSelect={selectItem} 
+            onOpen={toggleNested} 
+            openParents={openParents} />
+  });
 };
 
-
-
-// const renderItems = () => {
-//     if (itemsObj && itemsObj[catId]) {
-//       return itemsObj[catId].map((i,idx) => {
-//         let cl = "listitem";
-//         cl =  cl + (i.is_parent ? " parent" : "");
-//         cl =  cl + (i.is_child ? " child" : "");
-//         cl =  cl + (i.hide_children ? " hiddenchildren" : "");
-//         cl = cl + (i.friend_type===5 ? " ingred" : "");
-//         return    <li  className="friend" 
-//                  onClick={selectItem} 
-//                  key={idx}
-//                  data-id={i.id}
-//                  data-name={i.name}
-//               >
-//                  <span 
-//                      className={cl}
-//                      key={`s{id}`}
-//                      data-id={i.id}
-//                      data-name={i.name}
-//                   >
-//                      {i.name}
-//                   </span>
-//             </li>     
-//        })
-//      }
-// };
-
 const loaderOrList = () => {
-      if (isLoading) {
+      if (isLoading || !catId|| !itemsObj) {
           return (
             <div className="h-75 d-flex justify-content-center align-items-center">
               <div className="spinner-border d-flex text-info" role="status">
@@ -283,7 +259,7 @@ const renderCats = () => {
                      data-bs-parent="#item-accordion"
                 >
                     <div className="accordion-body">
-                      <ul className="friends-group">
+                      <ul className="friends-group" id={`item-list-${catId}`}>
                         {loaderOrList()}
                       </ul>
                     </div>

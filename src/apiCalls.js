@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {store} from './index';
 import * as modals from './actions/modalActions';
+import {nestChildren, childrenToArray} from './utilities/data';
 
 const API = (process.env.NODE_ENV === 'production') ?  process.env.REACT_APP_API : "http://localhost:5000";
 
@@ -132,10 +133,12 @@ const getIngredients = async(itemId) => {
 const getItemsByCat = async(catId) => {
   if (!catId) return;
   try {
-     
+      console.log('getItemsByCat called:', catId);
       const response = await fetch(API + "/itemsbycat/" + catId);
       const jsonData = await response.json();
-      //console.log('data returned: ', jsonData);
+   
+      // let nested = await nestChildren(jsonData);
+      // console.log('nested', nested);
       return jsonData;
     } catch(err) {
       console.error(err.message);
@@ -174,7 +177,7 @@ const getMutual = async(idArray) => {
       console.log('fetching mutual friends ', idArray);
       const response = await fetch(API + "/mutual/" + JSON.stringify(idArray));
       const jsonData = await response.json();
-     // console.log("jsondata: ", jsonData);
+    //  console.log('from server:', jsonData);
       return jsonData;
     } catch(err) {
       console.error(err.message);
@@ -183,7 +186,6 @@ const getMutual = async(idArray) => {
     try {
       const response = await fetch(API + "/mutual/[]");
       const jsonData = await response.json();
-     // console.log("jsondata: ", jsonData);
       return jsonData;
 
     } catch(err) {
