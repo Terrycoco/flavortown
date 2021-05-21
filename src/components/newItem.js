@@ -21,6 +21,7 @@ const NewItem = ({dispatch, cats, text, onAdd, onClose, isOpen, itemType}) => {
   const onSubmitForm = async(e) => {
       e.preventDefault();
       try {
+        if (!catId) {setCatId(3);}
          await dispatch(addItem(newText, catId, itemType)) 
          //auto refreshes items
          //selects new item in store

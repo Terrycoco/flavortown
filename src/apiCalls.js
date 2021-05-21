@@ -7,7 +7,7 @@ const API = (process.env.NODE_ENV === 'production') ?  process.env.REACT_APP_API
 
 //store.dispatch(someAction)
 
-function addNewItem(newItemText, catId, itemType) {
+function addNewItem(newItemText, catId=3, itemType) {
   const body = {item: newItemText, cat_id: catId};
 
     return new Promise(function(resolve, reject) {
@@ -177,14 +177,14 @@ const getMutual = async(idArray) => {
       console.log('fetching mutual friends ', idArray);
       const response = await fetch(API + "/mutual/" + JSON.stringify(idArray));
       const jsonData = await response.json();
-    //  console.log('from server:', jsonData);
+     console.log('from server:', jsonData);
       return jsonData;
     } catch(err) {
       console.error(err.message);
     } 
   } else {
     try {
-      const response = await fetch(API + "/mutual/[]");
+      const response = await fetch(API + "/cats");
       const jsonData = await response.json();
       return jsonData;
 

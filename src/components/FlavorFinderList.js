@@ -2,9 +2,10 @@ import React, {Fragment, useState, useEffect, useCallback} from 'react';
 import APICalls from '../apiCalls';
 import "../styles/friends.css";
 import cats from '../utilities/cats';
-import ItemCard from '../components/itemCard';
 import {groupDataByFieldname, objectIsEmpty} from '../utilities/data';
 import Item from '../components/Item';
+const bootstrap = require('bootstrap');
+
 
 const FlavorFinderList = ({selected, onSelect}) => {
    const [catsArr, setCatsArr] = useState([]); ///hard code for speed?
@@ -21,9 +22,13 @@ useEffect(() => {
 //initial call - no items selected yet
 const fetchItemsByCat = useCallback(
   async(thisCatId) => {
-
     console.log('got to fetchby cat', thisCatId, catId);
-    if (!thisCatId || thisCatId === 0) return;
+     let keys = Object.keys(itemsObj).map(Number);
+      console.log('keys in data', keys);
+    // if (!thisCatId || thisCatId === 0){
+    //   initCats();
+    //   return;
+    // }
     setCatId(thisCatId);
     if (thisCatId in itemsObj) {
       return;
@@ -49,7 +54,11 @@ useEffect(() =>  {
     if (selected.length === 0){
       setIsLoading(true);
       initCats();
+      resetCatsArr();
+      setItemsObj(prev => {});
       setIsLoading(false);
+    } else {
+      resetCatsArr();
     }
   }, [selected.length]); 
 
@@ -78,6 +87,7 @@ function initCats() {
     if (!selected || selected.length < 1) {
       setCatsArr(cats.filter(function( obj ) {
            return obj.cat_id !== 12;
+           setItemsObj({});
         }));
     } else {
       setCatsArr(cats);
@@ -96,8 +106,10 @@ function resetCatsArr(groupedData) {
       let newcats = cats.filter(filterCats);
       console.log('newcats:', newcats);
       setCatsArr(newcats);
+     // setCatId(0);
     } else {
       setCatsArr(cats);
+    //  setCatId(0);
     }
 }
 
@@ -135,25 +147,14 @@ useEffect(() => {
 
 
 const selectItem = (e) => {
-  //  console.log(e.target.attributes);
      const id = parseInt(e.target.attributes["data-id"].value);
      const name = e.target.attributes["data-name"].value;
      const cid = parseInt(catId);
 
-     // console.log('cid:', catId );
-    // if (cid === 12 || cid === 13) {
-    //  fetchIngredients(cid, id)
-    //    .then(data => {
-    //      if (!data) {
-    //       onSelect({id: id, name: name});
-    //      } else {
-    //      // console.log('data fetched:', data)
-    //       onSelect(data);
-    //     }
-    //   });
-    // } else {
+     //change catId to close everything
+     setCatId(0);
+
      onSelect({id: id, name: name}); //sends back to parent
-   // }
 };
 
 const toggleNested = (parentId) => {
@@ -162,9 +163,7 @@ const toggleNested = (parentId) => {
 
   //its there remove it
   if (index > -1) {
-    arr = arr.filter(function(item) {
-    return item !== parentId;
-  })
+     arr.splice(index, 1);
   } else {
     arr.push(parentId);
   }
@@ -183,6 +182,10 @@ const toggleNested = (parentId) => {
   //  });
 }
 
+function showParent() {
+  return (!selected || selected.length === 0);
+}
+
 const renderItems = () => {
   if (objectIsEmpty(itemsObj) || !itemsObj.hasOwnProperty(catId)) return null;
   //console.log('itemsObj:', itemsObj, 'catId:', catId);
@@ -191,7 +194,8 @@ const renderItems = () => {
             item={i} 
             onSelect={selectItem} 
             onOpen={toggleNested} 
-            openParents={openParents} />
+            openParents={openParents}
+            showParent={showParent()} />
   });
 };
 
@@ -212,16 +216,17 @@ const loaderOrList = () => {
 
 const onCatClick = (e) => {
     const thisCatId = parseInt(e.target.attributes["data-cat-id"].value);
-    //console.log('thiscatid:', thisCatId);
-    if (catId !== thisCatId) {
-       setCatId(thisCatId);
-        if (!(thisCatId in itemsObj)) {
-          fetchItemsByCat(thisCatId);
-       } 
-    } else {
+    setCatId(thisCatId);
+    console.log('thiscatid:', thisCatId);
+    console.log('catId:', catId);
+    if (!(thisCatId in itemsObj)) {
+        fetchItemsByCat(thisCatId);
+        setCatId(thisCatId);
+    } else if (thisCatId === catId) {
+      //close cat
       setCatId(0);
     }
-  };
+};
 
 const renderCats = () => {
     const result = catsArr.map((cat, idx) => {
@@ -241,16 +246,17 @@ const renderCats = () => {
         >
                  <div className="accordion-header catheader " 
                       key={`header${id}`} 
-                      id={`heading${id}`}
-                      onClick={onCatClick}
+                     
 
                       >
-                  <div className={btncl}
-                      key={`button${id}`}
-                      data-cat-id={id}
-                      >
-                    {cat.cat}
-                  </div>
+                    <div className={btncl}
+                        key={`button${id}`}
+                        data-cat-id={id}
+                         id={`heading${id}`}
+                        onClick={onCatClick}
+                        >
+                      {cat.cat}
+                    </div>
                 </div>
                 <div id={`collapse${id}`}
                      key={`arrow${id}`}
