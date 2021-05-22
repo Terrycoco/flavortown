@@ -4,10 +4,13 @@ import find from 'lodash.find';
 
 const groupDataByFieldname = (data, fieldname, isSorted) => {
   if (!data) return [];
+  return new Promise (function(resolve, reject) {
   let grouped = groupBy(data, function(item) {
        return item[fieldname];
    });
-  return grouped;
+  resolve ( grouped );
+  })
+
 };
 
 

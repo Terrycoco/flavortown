@@ -55,7 +55,7 @@ const loaderOrList = () => {
         return (
         <FlavorFinderList 
             onSelect={selectFromList}
-            selected={selectedObjs}
+            selected={selectedObjs} //array of objects
         />
         )
 };

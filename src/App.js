@@ -16,7 +16,7 @@ import TestPage from './pages/testPage';
 import Editor from "./pages/Editor";
 import FlavorFinder from './pages/FlavorFinder';
 
-const bootstrap = require('bootstrap');
+//const bootstrap = require('bootstrap');
 
 
 const App = () => {

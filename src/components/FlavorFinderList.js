@@ -8,90 +8,93 @@ const bootstrap = require('bootstrap');
 
 
 const FlavorFinderList = ({selected, onSelect}) => {
-   const [catsArr, setCatsArr] = useState([]); ///hard code for speed?
+   const [catsArr, setCatsArr] = useState(cats); ///hard code for speed?
    const [catId, setCatId] = useState(0);
    const [itemsObj, setItemsObj] = useState({});
    const [isLoading, setIsLoading] = useState(true);
    const [openParents, setOpenParents] = useState([]);
 
-//on initial load at least get the cats
-useEffect(() => {
- initCats();
-}, []);
 
 //initial call - no items selected yet
 const fetchItemsByCat = useCallback(
   async(thisCatId) => {
-    console.log('got to fetchby cat', thisCatId, catId);
-     let keys = Object.keys(itemsObj).map(Number);
-      console.log('keys in data', keys);
-    // if (!thisCatId || thisCatId === 0){
-    //   initCats();
-    //   return;
-    // }
-    setCatId(thisCatId);
-    if (thisCatId in itemsObj) {
-      return;
-    }
+    console.log('fetchy cat', thisCatId, catId);
     const items = await APICalls.getItemsByCat(thisCatId);
     console.log('items received:', items);
+    return(items);
+  },[catId]);
 
-    let thisObj = {};
-    let newObj;
-    thisObj[thisCatId] = items;
-    if (itemsObj === undefined) {
-       newObj = {
-      ...itemsObj,
-      ...thisObj
-      };
-    } else {
-       newObj = thisObj;
-    }
-    return newObj;
-},[selected.length]);
-
-useEffect(() =>  {
-    if (selected.length === 0){
-      setIsLoading(true);
-      initCats();
-      resetCatsArr();
-      setItemsObj(prev => {});
-      setIsLoading(false);
-    } else {
-      resetCatsArr();
-    }
-  }, [selected.length]); 
 
 //mutual friends list
-const fetchFriends = useCallback(
-  async() => {
-    let selectedIds = [];
-   // console.log('fetchFriends called, selectedObs:', selected);
-     if (!selected || selected.length === 0) {
-      //return all
-       selectedIds = [];
-     } else {
-       selected.map(i => {
-          return selectedIds.push(parseInt(i.id));
-        });
-     }
-   //  console.log('selectedIds:', selectedIds);
-     const ungrouped = await APICalls.getMutual(selectedIds); 
-     const grouped = groupDataByFieldname(ungrouped, "cat_id", true);
-     return {ungrouped, grouped}
- // eslint-disable-next-line     
-  }, [selected.length]); //every time ids change reload friends
+const fetchMutual = () => {
+  return new Promise( async(resolve,reject)=> {
+   let selectedIds = [];
 
-//cat list - no combos when nothing selected
-function initCats() {
-    if (!selected || selected.length < 1) {
-      setCatsArr(cats.filter(function( obj ) {
-           return obj.cat_id !== 12;
-           setItemsObj({});
-        }));
-    } else {
-      setCatsArr(cats);
-    }
+ // parse out selected Ids from their object array);
+   if (!selected || selected.length === 0) {
+    //return all
+     selectedIds = [];
+   } else {
+     selected.map(i => {
+        return selectedIds.push(parseInt(i.id));
+      });
+   }
+ //  console.log('selectedIds:', selectedIds);
+   const ungrouped = await APICalls.getMutual(selectedIds); 
+   //console.log('ungrouped', ungrouped);
+   groupDataByFieldname(ungrouped, "cat_id", true)
+   .then(grouped => {
+     console.log('grouped', grouped);
+     resolve(grouped);
+   });
+  });//end promise
+};
+
+
+
+//when catId changes
+useEffect(() => {
+      //ignore if just shutting drawer
+      if (catId === 0) {
+         return;
+      //only refetch if nothing selected
+      } else if (selected.length === 0) {
+          //and not already in dataset
+          if (!itemsObj.hasOwnProperty(catId)) {
+            setIsLoading(true);
+            fetchItemsByCat(catId)
+            .then(arr => {
+              setItemsObj(prev => ({...prev, [catId]: arr}));
+              setIsLoading(false);
+            });
+           ;
+          }
+      }
+}, [catId, selected.length]);
+
+
+//when user selects or clears a tag
+useEffect(() => {
+  if (selected.length === 0) {
+     resetAll();
+   } else {
+    //something selected whole dataset changes
+    setIsLoading(true);
+    fetchMutual()
+    .then(grouped => {
+      console.log('grouped:', grouped);
+      resetCatsArr(grouped);
+      setItemsObj(grouped);
+      setCatId(0); //will call above side effect
+      setIsLoading(false);
+    });
+  }
+}, [selected.length])
+
+//no combos when nothing selected
+function resetAll() {
+    setCatsArr(cats);
+    setItemsObj({});
     setCatId(0);
 }
 
@@ -114,38 +117,6 @@ function resetCatsArr(groupedData) {
 }
 
 
-
-
-// async function fetchIngredients(catId, itemId) {
-//   if (catId !== 12 || catId !== 13) return;
-//     // const ingreds = await APICalls.getIngredients(itemId);
-//    //  console.log('ingeds:', ingreds);
-//      return ingreds;
-// }
-
-
-
-  //when user selects different catid
-useEffect(() => {
-  //all items
-    if (selected.length === 0) {
-      fetchItemsByCat(catId) 
-      .then(data => {
-      //  console.log('cat items returned: ', data);
-        setItemsObj({...data});
-      })
-    //by cat
-    } else {
-      fetchFriends()
-      .then(data => {
-      //  console.log('grouped data returned: ', data.grouped);
-        setItemsObj({...data.grouped});
-        resetCatsArr(data.grouped);
-      })
-   }
-}, [catId, fetchItemsByCat, selected.length, fetchFriends]);
-
-
 const selectItem = (e) => {
      const id = parseInt(e.target.attributes["data-id"].value);
      const name = e.target.attributes["data-name"].value;
@@ -154,7 +125,7 @@ const selectItem = (e) => {
      //change catId to close everything
      setCatId(0);
 
-     onSelect({id: id, name: name}); //sends back to parent
+     onSelect({id: id, name: name}); //will trigger the select change
 };
 
 const toggleNested = (parentId) => {
@@ -188,7 +159,7 @@ function showParent() {
 
 const renderItems = () => {
   if (objectIsEmpty(itemsObj) || !itemsObj.hasOwnProperty(catId)) return null;
-  //console.log('itemsObj:', itemsObj, 'catId:', catId);
+   console.log('got to renderItems itemsObj:', itemsObj, 'catId:', catId);
   return itemsObj[catId].map(i => {
     return <Item 
             item={i} 
@@ -200,6 +171,7 @@ const renderItems = () => {
 };
 
 const loaderOrList = () => {
+  console.log('isloading:', isLoading, 'catID:', catId, 'itemsObj:', itemsObj)
       if (isLoading || !catId|| !itemsObj) {
           return (
             <div className="h-75 d-flex justify-content-center align-items-center">
@@ -214,17 +186,14 @@ const loaderOrList = () => {
 };
 
 
-const onCatClick = (e) => {
+const onCatClick = async(e) => {
     const thisCatId = parseInt(e.target.attributes["data-cat-id"].value);
-    setCatId(thisCatId);
     console.log('thiscatid:', thisCatId);
     console.log('catId:', catId);
-    if (!(thisCatId in itemsObj)) {
-        fetchItemsByCat(thisCatId);
-        setCatId(thisCatId);
-    } else if (thisCatId === catId) {
-      //close cat
+    if (thisCatId === catId) {
       setCatId(0);
+    } else {
+      setCatId(thisCatId);
     }
 };
 
